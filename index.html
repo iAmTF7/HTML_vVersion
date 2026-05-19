@@ -11,13 +11,41 @@
     <header>
         <h1>Hệ thống quản lý sự kiện và bán vé Liveshow</h1>
 
+        <!-- NAV 2 CẤP -->
         <nav>
             <ul>
-                <li><a href="#home">Trang chủ</a></li>
-                <li><a href="#events">Sự kiện</a></li>
-                <li><a href="#ticket">Vé của tôi</a></li>
-                <li><a href="#checkin">Xác thực vé</a></li>
-                <li><a href="#admin">Quản trị</a></li>
+                <li>
+                    <a href="#home">Trang chủ</a>
+                </li>
+
+                <li>
+                    <a href="#events">Sự kiện</a>
+                    <ul>
+                        <li><a href="#events">Danh sách sự kiện</a></li>
+                        <li><a href="#booking">Đặt vé</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#ticket">Vé của bạn</a>
+                    <ul>
+                        <li><a href="#ticket">Vé của tôi</a></li>
+                        <li><a href="#payment">Thông tin thanh toán</a></li>
+                        <li><a href="#checkin">Xác thực vé</a></li>
+                        <li><a href="#checkin-history">Lịch sử check-in</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#admin">Quản trị</a>
+                    <ul>
+                        <li><a href="#admin">Chức năng quản trị</a></li>
+                        <li><a href="#admin-events">Danh sách sự kiện quản trị</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href ="#vechungtoi">Về chúng tôi</a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -53,9 +81,13 @@
                 <p><strong>Thời gian:</strong> 20/06/2026</p>
                 <p><strong>Địa điểm:</strong> Sân vận động trung tâm</p>
                 <p><strong>Giá vé:</strong> Từ 300.000 VNĐ</p>
-                <button type="button">Xem chi tiết</button>
-                <button type="button">Mua vé</button>
+
+                <a href="#event-detail">Xem chi tiết</a>
+                <br>
+                <a href="#booking">Mua vé</a>
             </article>
+
+            <br>
 
             <article>
                 <h3>Đêm nhạc Acoustic</h3>
@@ -63,8 +95,10 @@
                 <p><strong>Thời gian:</strong> 15/07/2026</p>
                 <p><strong>Địa điểm:</strong> Nhà hát thành phố</p>
                 <p><strong>Giá vé:</strong> Từ 250.000 VNĐ</p>
-                <button type="button">Xem chi tiết</button>
-                <button type="button">Mua vé</button>
+
+                <a href="#event-detail">Xem chi tiết</a>
+                <br>
+                <a href="#booking">Mua vé</a>
             </article>
         </section>
 
@@ -80,6 +114,8 @@
                 <p><strong>Thời gian:</strong> 20/06/2026 - 19:30</p>
                 <p><strong>Địa điểm:</strong> Sân vận động trung tâm</p>
                 <p><strong>Số lượng vé còn:</strong> 500 vé</p>
+
+                <a href="#booking">Đặt vé ngay</a>
             </article>
         </section>
 
@@ -120,7 +156,7 @@
 
                 <br><br>
 
-                <button type="button">Tiếp tục thanh toán</button>
+                <a href="#payment">Tiếp tục thanh toán</a>
             </form>
         </section>
 
@@ -160,7 +196,7 @@
 
                 <br><br>
 
-                <button type="button">Xác nhận đặt vé</button>
+                <a href="#ticket">Xác nhận đặt vé</a>
             </form>
         </section>
 
@@ -292,7 +328,8 @@
                 <li>Quản lý xác thực vé vào cổng</li>
                 <li>Thống kê doanh thu</li>
             </ul>
-
+        </section>
+        <section id="admin-events">
             <h3>Danh sách sự kiện quản trị</h3>
 
             <table border="1">
@@ -328,9 +365,55 @@
     <hr>
 
     <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 - Hệ thống quản lý sự kiện và bán vé Liveshow</p>
-    </footer>
+<!-- FOOTER -->
+<footer>
+    <section id="vechungtoi">
+    <hr>
 
+    <table width="100%" cellpadding="20">
+        <tr>
+            <!-- CỘT 1: LOGO + MÔ TẢ -->
+            <td width="35%" valign="top">
+                <h2>
+                    <small>LIVE</small> TICKET
+                </h2>
+
+                <p>
+                    Hệ thống quản lý sự kiện và bán vé liveshow.
+                    Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
+                </p>
+            </td>
+
+            <!-- CỘT 2: LIÊN KẾT NHANH -->
+            <td width="30%" valign="top">
+                <h3>Liên kết nhanh</h3>
+
+                <p><a href="#home">Trang chủ</a></p>
+                <p><a href="#events">Sự kiện</a></p>
+                <p><a href="#booking">Đặt vé</a></p>
+                <p><a href="#ticket">Vé của tôi</a></p>
+                <p><a href="#checkin">Xác thực vé</a></p>
+                <p><a href="#admin">Quản trị</a></p>
+            </td>
+
+            <!-- CỘT 3: LIÊN HỆ -->
+            <td width="35%" valign="top">
+                <h3>Liên hệ</h3>
+
+                <p> 0123 456 789</p>
+                <p> support@liveshowticket.vn</p>
+                <p> Việt Nam</p>
+                <p> Hỗ trợ 24/7</p>
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <p align="center">
+        &copy; 2026 by sheep
+    </p>
+</section>
+</footer>
 </body>
 </html>
