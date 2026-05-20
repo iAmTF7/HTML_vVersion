@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Hệ thống bán vé Liveshow</title>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>Đăng nhập hệ thống</h1>
+
+        <!-- NAV -->
+        <nav>
+            <ul>
+                <li><a href="index.html#home">Trang chủ</a></li>
+
+                <li>
+                    <a href="index.html#events">Sự kiện</a>
+                    <ul>
+                        <li><a href="index.html#events">Danh sách sự kiện</a></li>
+                        <li><a href="events-details.html?id=1">Chi tiết sự kiện</a></li>
+                        <li><a href="payment-page.html?id=EVT001">Đặt vé</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    my-tickets.html#ticketVé của bạn</a>
+                    <ul>
+                        <li>my-tickets.html#ticketVé của tôi</a></li>
+                        <li>my-tickets.html#checkinXác thực vé</a></li>
+                        <li>my-tickets.html#checkin-historyLịch sử check-in</a></li>
+                    </ul>
+                </li>
+
+                <li>index.html#vechungtoiVề chúng tôi</a></li>
+                <li>login.htmlĐăng nhập</a></li>
+                <li>register.htmlĐăng ký</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <hr>
+
+    <!-- MAIN -->
+    <main>
+
+        <!-- FORM ĐĂNG NHẬP -->
+        <section id="login">
+            <h2>Form đăng nhập</h2>
+
+            <!-- 
+                Web tĩnh:
+                - Form này chỉ mô phỏng giao diện đăng nhập.
+                - Chưa kiểm tra tài khoản thật.
+                - Khi bấm Đăng nhập, form sẽ chuyển về index.html.
+                - Logic kiểm tra sẽ xử lý bằng JavaScript/backend sau.
+            -->
+            <form action="index.html" method="get">
+                <label>
+                    Email hoặc tên đăng nhập:
+                    <input type="text" name="username" placeholder="Nhập email hoặc tên đăng nhập">
+                </label>
+
+                <br><br>
+
+                <label>
+                    Mật khẩu:
+                    <input type="password" name="password" placeholder="Nhập mật khẩu">
+                </label>
+
+                <br><br>
+
+                <label>
+                    <input type="checkbox" name="remember">
+                    Ghi nhớ đăng nhập
+                </label>
+
+                <br><br>
+
+                <button type="submit">Đăng nhập</button>
+                <button type="reset">Làm mới</button>
+            </form>
+
+            <p>
+                Chưa có tài khoản?
+                register.htmlĐăng ký tại đây</a>
+            </p>
+
+            <p>
+                <a href="index.html">Quay lại trang chủ</a>
+            </p>
+        </section>
+
+    </main>
+
+    <hr>
+
+    <!-- FOOTER -->
+    <footer>
+        <table width="100%" cellpadding="20">
+            <tr>
+                <!-- CỘT 1 -->
+                <td width="35%" valign="top">
+                    <h2>
+                        <small>LIVE</small> TICKET
+                    </h2>
+
+                    <p>
+                        Hệ thống quản lý sự kiện và bán vé liveshow.
+                        Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
+                    </p>
+                </td>
+
+                <!-- CỘT 2 -->
+                <td width="30%" valign="top">
+                    <h3>Liên kết nhanh</h3>
+
+                    <p><a href="index.html#home">Trang chủ</a></p>
+                    <p><a href="index.html#events">Sự kiện</a></p>
+                    <p><a href="events-details.html?id=1">Chi tiết sự kiện</a></p>
+                    <p><a href="payment-page.html?id=EVT001">Đặt vé</a></p>
+                    <p>my-tickets.html#ticketVé của tôi</a></p>
+                    <p>my-tickets.html#checkinXác thực vé</a></p>
+                    <p>my-tickets.html#checkin-historyLịch sử check-in</a></p>
+                </td>
+
+                <!-- CỘT 3 -->
+                <td width="35%" valign="top">
+                    <h3>Liên hệ</h3>
+
+                    <p>Điện thoại: 0123 456 789</p>
+                    <p>Email: support@liveshowticket.vn</p>
+                    <p>Địa chỉ: Việt Nam</p>
+                    <p>Hỗ trợ: 24/7</p>
+
+                    <h3>Tài khoản</h3>
+                    <p>login.htmlĐăng nhập</a></p>
+                    <p>register.htmlĐăng ký</a></p>
+                </td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <p align="center">
+            &copy; 2026 by sheep
+        </p>
+    </footer>
+
+</body>
+</html>

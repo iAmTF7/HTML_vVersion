@@ -15,36 +15,31 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#home">Trang chủ</a>
+                    <a href="index.html#home">Trang chủ</a>
                 </li>
 
                 <li>
-                    <a href="#events">Sự kiện</a>
+                    <a href="index.html#events">Sự kiện</a>
+
+                <li>
+                    <a href="my-tickets.html#ticket">Vé của bạn</a>
                     <ul>
-                        <li><a href="#events">Danh sách sự kiện</a></li>
-                        <li><a href="#booking">Đặt vé</a></li>
+                        <li><a href="my-tickets.html#ticket">Vé của tôi</a></li>
+                        <li><a href="my-tickets.html#checkin">Xác thực vé</a></li>
+                        <li><a href="my-tickets.html#checkin-history">Lịch sử check-in</a></li>
                     </ul>
                 </li>
 
                 <li>
-                    <a href="#ticket">Vé của bạn</a>
-                    <ul>
-                        <li><a href="#ticket">Vé của tôi</a></li>
-                        <li><a href="#payment">Thông tin thanh toán</a></li>
-                        <li><a href="#checkin">Xác thực vé</a></li>
-                        <li><a href="#checkin-history">Lịch sử check-in</a></li>
-                    </ul>
+                    <a href="index.html#vechungtoi">Về chúng tôi</a>
                 </li>
 
                 <li>
-                    <a href="#admin">Quản trị</a>
-                    <ul>
-                        <li><a href="#admin">Chức năng quản trị</a></li>
-                        <li><a href="#admin-events">Danh sách sự kiện quản trị</a></li>
-                    </ul>
+                    <a href="login.html">Đăng nhập</a>
                 </li>
+
                 <li>
-                    <a href ="#vechungtoi">Về chúng tôi</a>
+                    <a href="register.html">Đăng ký</a>
                 </li>
             </ul>
         </nav>
@@ -58,6 +53,7 @@
         <!-- TRANG CHỦ -->
         <section id="home">
             <h2>Trang chủ</h2>
+
             <p>
                 Website tĩnh mô phỏng hệ thống quản lý sự kiện, bán vé liveshow,
                 tạo QR code và xác thực vé vào cổng.
@@ -75,289 +71,54 @@
         <section id="events">
             <h2>Danh sách sự kiện</h2>
 
+            <!-- SỰ KIỆN 1 -->
             <article>
                 <h3>Liveshow Mùa Hè 2026</h3>
+
+                <p><strong>Mã sự kiện:</strong> EVT001</p>
                 <p><strong>Ca sĩ:</strong> Đang cập nhật</p>
                 <p><strong>Thời gian:</strong> 20/06/2026</p>
                 <p><strong>Địa điểm:</strong> Sân vận động trung tâm</p>
                 <p><strong>Giá vé:</strong> Từ 300.000 VNĐ</p>
 
-                <a href="#event-detail">Xem chi tiết</a>
+                <a href="events-details.html?id=1">Xem chi tiết</a>
                 <br>
-                <a href="#booking">Mua vé</a>
+                <a href="payment-page.html?id=EVT001">Mua vé</a>
             </article>
 
             <br>
 
+            <!-- SỰ KIỆN 2 -->
             <article>
                 <h3>Đêm nhạc Acoustic</h3>
+
+                <p><strong>Mã sự kiện:</strong> EVT002</p>
                 <p><strong>Ca sĩ:</strong> Đang cập nhật</p>
                 <p><strong>Thời gian:</strong> 15/07/2026</p>
                 <p><strong>Địa điểm:</strong> Nhà hát thành phố</p>
                 <p><strong>Giá vé:</strong> Từ 250.000 VNĐ</p>
 
-                <a href="#event-detail">Xem chi tiết</a>
+                <a href="events-details.html?id=2">Xem chi tiết</a>
                 <br>
-                <a href="#booking">Mua vé</a>
-            </article>
-        </section>
-
-        <hr>
-
-        <!-- CHI TIẾT SỰ KIỆN -->
-        <section id="event-detail">
-            <h2>Chi tiết sự kiện</h2>
-
-            <article>
-                <h3>Liveshow Mùa Hè 2026</h3>
-                <p><strong>Mô tả:</strong> Đây là phần mô tả chi tiết sự kiện liveshow.</p>
-                <p><strong>Thời gian:</strong> 20/06/2026 - 19:30</p>
-                <p><strong>Địa điểm:</strong> Sân vận động trung tâm</p>
-                <p><strong>Số lượng vé còn:</strong> 500 vé</p>
-
-                <a href="#booking">Đặt vé ngay</a>
-            </article>
-        </section>
-
-        <hr>
-
-        <!-- CHỌN VÉ -->
-        <section id="booking">
-            <h2>Đặt vé</h2>
-
-            <form>
-                <fieldset>
-                    <legend>Chọn loại vé</legend>
-
-                    <label>
-                        <input type="radio" name="ticket_type" value="standard">
-                        Vé thường - 300.000 VNĐ
-                    </label>
-                    <br>
-
-                    <label>
-                        <input type="radio" name="ticket_type" value="vip">
-                        Vé VIP - 700.000 VNĐ
-                    </label>
-                    <br>
-
-                    <label>
-                        <input type="radio" name="ticket_type" value="vvip">
-                        Vé VVIP - 1.500.000 VNĐ
-                    </label>
-                </fieldset>
-
-                <br>
-
-                <label>
-                    Số lượng:
-                    <input type="number" min="1" value="1">
-                </label>
-
-                <br><br>
-
-                <a href="#payment">Tiếp tục thanh toán</a>
-            </form>
-        </section>
-
-        <hr>
-
-        <!-- THÔNG TIN THANH TOÁN TĨNH -->
-        <section id="payment">
-            <h2>Thông tin thanh toán</h2>
-
-            <form>
-                <label>
-                    Họ tên:
-                    <input type="text" placeholder="Nhập họ tên">
-                </label>
-                <br><br>
-
-                <label>
-                    Email:
-                    <input type="email" placeholder="Nhập email">
-                </label>
-                <br><br>
-
-                <label>
-                    Số điện thoại:
-                    <input type="tel" placeholder="Nhập số điện thoại">
-                </label>
-                <br><br>
-
-                <label>
-                    Phương thức thanh toán:
-                    <select>
-                        <option>Chuyển khoản ngân hàng</option>
-                        <option>Ví điện tử</option>
-                        <option>Thanh toán tại quầy</option>
-                    </select>
-                </label>
-
-                <br><br>
-
-                <a href="#ticket">Xác nhận đặt vé</a>
-            </form>
-        </section>
-
-        <hr>
-
-        <!-- VÉ CỦA TÔI -->
-        <section id="ticket">
-            <h2>Vé của tôi</h2>
-
-            <article>
-                <h3>Thông tin vé</h3>
-
-                <p><strong>Mã vé:</strong> TICKET001</p>
-                <p><strong>Sự kiện:</strong> Liveshow Mùa Hè 2026</p>
-                <p><strong>Loại vé:</strong> VIP</p>
-                <p><strong>Khách hàng:</strong> Nguyễn Văn A</p>
-                <p><strong>Thời gian:</strong> 20/06/2026 - 19:30</p>
-                <p><strong>Trạng thái:</strong> Chưa sử dụng</p>
-
-                <h4>QR Code vé</h4>
-
-                <!-- QR giả cho web tĩnh -->
-                <div>
-                    <p>================</p>
-                    <p>|              |</p>
-                    <p>|   QR CODE    |</p>
-                    <p>|  TICKET001   |</p>
-                    <p>|              |</p>
-                    <p>================</p>
-                </div>
-
-                <button type="button">Tải vé</button>
-                <button type="button">In vé</button>
-            </article>
-        </section>
-
-        <hr>
-
-        <!-- XÁC THỰC VÉ VÀO CỔNG -->
-        <section id="checkin">
-            <h2>Xác thực vé vào cổng</h2>
-
-            <article>
-                <h3>Quét QR Code</h3>
-
-                <div>
-                    <p>[ Khu vực camera quét QR - mô phỏng web tĩnh ]</p>
-                </div>
-
-                <button type="button">Bắt đầu quét</button>
-                <button type="button">Dừng quét</button>
+                <a href="payment-page.html?id=EVT002">Mua vé</a>
             </article>
 
             <br>
 
+            <!-- SỰ KIỆN 3 -->
             <article>
-                <h3>Nhập mã vé thủ công</h3>
+                <h3>Music Night 2026</h3>
 
-                <form>
-                    <label>
-                        Mã vé:
-                        <input type="text" placeholder="Nhập mã vé">
-                    </label>
+                <p><strong>Mã sự kiện:</strong> EVT003</p>
+                <p><strong>Ca sĩ:</strong> Đang cập nhật</p>
+                <p><strong>Thời gian:</strong> 10/08/2026</p>
+                <p><strong>Địa điểm:</strong> Nhà thi đấu thành phố</p>
+                <p><strong>Giá vé:</strong> Từ 400.000 VNĐ</p>
 
-                    <button type="button">Kiểm tra vé</button>
-                </form>
+                <a href="events-details.html?id=3">Xem chi tiết</a>
+                <br>
+                <a href="payment-page.html?id=EVT003">Mua vé</a>
             </article>
-
-            <br>
-
-            <article>
-                <h3>Kết quả xác thực</h3>
-
-                <p><strong>Trạng thái:</strong> Chưa kiểm tra</p>
-                <p><strong>Mã vé:</strong> ---</p>
-                <p><strong>Tên khách hàng:</strong> ---</p>
-                <p><strong>Loại vé:</strong> ---</p>
-                <p><strong>Sự kiện:</strong> ---</p>
-                <p><strong>Thời gian check-in:</strong> ---</p>
-
-                <button type="button">Xác nhận cho vào cổng</button>
-                <button type="button">Từ chối</button>
-            </article>
-        </section>
-
-        <hr>
-
-        <!-- LỊCH SỬ CHECK-IN -->
-        <section id="checkin-history">
-            <h2>Lịch sử check-in</h2>
-
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Mã vé</th>
-                        <th>Khách hàng</th>
-                        <th>Loại vé</th>
-                        <th>Thời gian check-in</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>TICKET001</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>VIP</td>
-                        <td>20/06/2026 18:30</td>
-                        <td>Hợp lệ</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <hr>
-
-        <!-- QUẢN TRỊ -->
-        <section id="admin">
-            <h2>Khu vực quản trị</h2>
-
-            <h3>Chức năng quản trị</h3>
-            <ul>
-                <li>Quản lý sự kiện</li>
-                <li>Quản lý loại vé</li>
-                <li>Quản lý đơn đặt vé</li>
-                <li>Quản lý QR code vé</li>
-                <li>Quản lý xác thực vé vào cổng</li>
-                <li>Thống kê doanh thu</li>
-            </ul>
-        </section>
-        <section id="admin-events">
-            <h3>Danh sách sự kiện quản trị</h3>
-
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Mã sự kiện</th>
-                        <th>Tên sự kiện</th>
-                        <th>Thời gian</th>
-                        <th>Địa điểm</th>
-                        <th>Số vé</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>EVT001</td>
-                        <td>Liveshow Mùa Hè 2026</td>
-                        <td>20/06/2026</td>
-                        <td>Sân vận động trung tâm</td>
-                        <td>1000</td>
-                        <td>
-                            <button type="button">Sửa</button>
-                            <button type="button">Xóa</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
         </section>
 
     </main>
@@ -365,55 +126,56 @@
     <hr>
 
     <!-- FOOTER -->
-<!-- FOOTER -->
-<footer>
-    <section id="vechungtoi">
-    <hr>
+    <footer id="vechungtoi">
+        <table width="100%" cellpadding="20">
+            <tr>
+                <!-- CỘT 1: LOGO + MÔ TẢ -->
+                <td width="35%" valign="top">
+                    <h2>
+                        <small>LIVE</small> TICKET
+                    </h2>
 
-    <table width="100%" cellpadding="20">
-        <tr>
-            <!-- CỘT 1: LOGO + MÔ TẢ -->
-            <td width="35%" valign="top">
-                <h2>
-                    <small>LIVE</small> TICKET
-                </h2>
+                    <p>
+                        Hệ thống quản lý sự kiện và bán vé liveshow.
+                        Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
+                    </p>
+                </td>
 
-                <p>
-                    Hệ thống quản lý sự kiện và bán vé liveshow.
-                    Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
-                </p>
-            </td>
+                <!-- CỘT 2: LIÊN KẾT NHANH -->
+                <td width="30%" valign="top">
+                    <h3>Liên kết nhanh</h3>
 
-            <!-- CỘT 2: LIÊN KẾT NHANH -->
-            <td width="30%" valign="top">
-                <h3>Liên kết nhanh</h3>
+                    <p><a href="index.html#home">Trang chủ</a></p>
+                    <p><a href="index.html#events">Sự kiện</a></p>
+                    <p><a href="events-details.html?id=1">Chi tiết sự kiện</a></p>
+                    <p><a href="payment-page.html?id=EVT001">Đặt vé</a></p>
+                    <p><a href="my-tickets.html#ticket">Vé của tôi</a></p>
+                    <p><a href="my-tickets.html#checkin">Xác thực vé</a></p>
+                    <p><a href="my-tickets.html#checkin-history">Lịch sử check-in</a></p>
+                </td>
 
-                <p><a href="#home">Trang chủ</a></p>
-                <p><a href="#events">Sự kiện</a></p>
-                <p><a href="#booking">Đặt vé</a></p>
-                <p><a href="#ticket">Vé của tôi</a></p>
-                <p><a href="#checkin">Xác thực vé</a></p>
-                <p><a href="#admin">Quản trị</a></p>
-            </td>
+                <!-- CỘT 3: LIÊN HỆ -->
+                <td width="35%" valign="top">
+                    <h3>Liên hệ</h3>
 
-            <!-- CỘT 3: LIÊN HỆ -->
-            <td width="35%" valign="top">
-                <h3>Liên hệ</h3>
+                    <p>Điện thoại: 0123 456 789</p>
+                    <p>Email: support@liveshowticket.vn</p>
+                    <p>Địa chỉ: Việt Nam</p>
+                    <p>Hỗ trợ: 24/7</p>
 
-                <p> 0123 456 789</p>
-                <p> support@liveshowticket.vn</p>
-                <p> Việt Nam</p>
-                <p> Hỗ trợ 24/7</p>
-            </td>
-        </tr>
-    </table>
+                    <h3>Tài khoản</h3>
+                    <p><a href="login.html">Đăng nhập</a></p>
+                    <p><a href="register.html">Đăng ký</a></p>
+                </td>
+            </tr>
+        </table>
 
-    <hr>
+        <hr>
 
-    <p align="center">
-        &copy; 2026 by sheep
-    </p>
-</section>
-</footer>
+        <p align="center">
+            &copy; 2026 by sheep
+        </p>
+    </footer>
+
 </body>
 </html>
