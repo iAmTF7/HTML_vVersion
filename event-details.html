@@ -7,20 +7,40 @@
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <h1>Chi tiết sự kiện Liveshow</h1>
 
-        <nav>
+        <header>
+            <a href="index.html#home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+            <img src="image/logo_dark.png" alt="QRBOX Logo" width="60">
+            <span style="color: rgb(0, 0, 0); font-size: 24px;">QRBOX</span>
+            </a>
+
+            <nav>
             <ul>
-                <li><a href="index.html#home">Trang chủ</a></li>
-                <li><a href="index.html#events">Sự kiện</a></li>
+                <li>
+                    <form>
+                        <input type="text" placeholder="Tìm kiếm sự kiện...">
+                        <button type="button">Tìm kiếm</button>
+                    </form>
+                </li>
                 <li><a href="my-tickets.html#ticket">Vé của bạn</a></li>
-                <li><a href="event-details.html#vechungtoi">Về chúng tôi</a></li>
-                <li><a href="login.html">Đăng nhập</a></li>
-                <li><a href="register.html">Đăng ký</a></li>
+                <li><span>Tài khoản của bạn</span>
+                    <ul id ="account-menu">
+                    <li><a href="login.html">Đăng nhập</a></li>
+                    <li><a href="register.html">Đăng ký</a></li>
+                    </ul>
+                </li>
+                <hr>
+                <p>Nếu đã có tài khoản pls thay thê = này</p>
+                <ul id ="account-menu">
+                    <li><span>Tài Khoản</span>
+                        <ul>
+                            <li><a href="my-tickets.html#ticket">Vé của bạn</a></li>
+                            <li><a href="logout">Đăng xuất</a></li>
+                        </ul>
+                </ul>
             </ul>
         </nav>
+       
     </header>
 
     <hr>

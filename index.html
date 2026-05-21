@@ -7,63 +7,46 @@
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <h1>Hệ thống quản lý sự kiện và bán vé Liveshow</h1>
 
-        <!-- NAV 2 CẤP -->
-        <nav>
+        <header>
+            <a href="index.html#home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+            <img src="image/logo_dark.png" alt="QRBOX Logo" width="60">
+            <span style="color: rgb(0, 0, 0); font-size: 24px;">QRBOX</span>
+            </a>
+
+            <nav>
             <ul>
                 <li>
-                    <a href="index.html#home">Trang chủ</a>
+                    <form>
+                        <input type="text" placeholder="Tìm kiếm sự kiện...">
+                        <button type="button">Tìm kiếm</button>
+                    </form>
                 </li>
-
-                <li>
-                    <a href="index.html#events">Sự kiện</a>
-                <li>
-                    <span>Vé của bạn</span>
+                <li><a href="my-tickets.html#ticket">Vé của bạn</a></li>
+                <li><span>Tài khoản của bạn</span>
+                    <ul id ="account-menu">
+                    <li><a href="login.html">Đăng nhập</a></li>
+                    <li><a href="register.html">Đăng ký</a></li>
+                    </ul>
+                </li>
+                <hr>
+                <p>Nếu đã có tài khoản pls thay thê = này</p>
+                <ul id ="account-menu">
+                    <li><span>Tài Khoản</span>
                         <ul>
                             <li><a href="my-tickets.html#ticket">Vé của bạn</a></li>
-                            <li><a href="my-tickets.html">Thanh Toán</a></li>
+                            <li><a href="logout">Đăng xuất</a></li>
                         </ul>
-                </li>
-
-                <li>
-                    <a href="index.html#vechungtoi">Về chúng tôi</a>
-                </li>
-
-                <li>
-                    <a href="login.html">Đăng nhập</a>
-                </li>
-
-                <li>
-                    <a href="register.html">Đăng ký</a>
-                </li>
+                </ul>
             </ul>
         </nav>
+       
     </header>
 
     <hr>
 
     <!-- MAIN CONTENT -->
     <main>
-
-        <!-- TRANG CHỦ -->
-        <section id="home">
-            <h2>Trang chủ</h2>
-
-            <p>
-                Website tĩnh mô phỏng hệ thống quản lý sự kiện, bán vé liveshow,
-                tạo QR code và xác thực vé vào cổng.
-            </p>
-
-            <form>
-                <input type="text" placeholder="Tìm kiếm sự kiện...">
-                <button type="button">Tìm kiếm</button>
-            </form>
-        </section>
-
-        <hr>
 
         <!-- DANH SÁCH SỰ KIỆN -->
         <section id="events">
