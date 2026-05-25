@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán vé Liveshow</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+        <header>
+            <a href="index.html#home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+            <img src="image/logo_dark.png" alt="QRBOX Logo" width="60">
+            <span style="color: rgb(0, 0, 0); font-size: 24px;">QRBOX</span>
+            </a>
+
+            <nav>
+            <ul>
+                <li>
+                    <form>
+                        <input type="text" placeholder="Tìm kiếm sự kiện...">
+                        <button type="button">Tìm kiếm</button>
+                    </form>
+                </li>
+                <li><a href="my-tickets.html#ticket">Vé của bạn</a></li>
+                <li><span>Tài khoản của bạn</span>
+                    <ul id ="account-menu">
+                    <li><a href="login.html">Đăng nhập</a></li>
+                    <li><a href="register.html">Đăng ký</a></li>
+                    </ul>
+                </li>
+                <hr>
+                <p>Nếu đã có tài khoản pls thay thê = này</p>
+                <ul id ="account-menu">
+                    <li><span>Tài Khoản</span>
+                        <ul>
+                            <li><a href="my-tickets.html#ticket">Vé của bạn</a></li>
+                            <li><a href="logout">Đăng xuất</a></li>
+                        </ul>
+                </ul>
+            </ul>
+        </nav>
+       
+    </header>
+
+    <hr>
+
+    <!-- MAIN -->
+    <main>
+        <section id="payment-page">
+            <div id="payment-container">
+                <!-- JavaScript sẽ hiển thị nội dung thanh toán tại đây -->
+            </div>
+        </section>
+    </main>
+
+    <hr>
+
+    <!-- FOOTER -->
+    <footer id="vechungtoi">
+        <table width="100%" cellpadding="20">
+            <tr>
+                <td width="35%" valign="top">
+                    <h2>
+                        <small>LIVE</small> TICKET
+                    </h2>
+
+                    <p>
+                        Hệ thống quản lý sự kiện và bán vé liveshow.
+                        Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
+                    </p>
+                </td>
+
+                <td width="30%" valign="top">
+                    <h3>Liên kết nhanh</h3>
+
+                    <p><a href="index.html#home">Trang chủ</a></p>
+                    <p><a href="index.html#events">Sự kiện</a></p>
+                    <p><a href="my-tickets.html#ticket">Vé của tôi</a></p>
+                    <p><a href="index.html#vechungtoi">Về chúng tôi</a></p>
+                </td>
+
+                <td width="35%" valign="top">
+                    <h3>Liên hệ</h3>
+
+                    <p>Điện thoại: 0123 456 789</p>
+                    <p>Email: support@liveshowticket.vn</p>
+                    <p>Địa chỉ: Việt Nam</p>
+                    <p>Hỗ trợ: 24/7</p>
+
+                    <h3>Tài khoản</h3>
+                    <p><a href="login.html">Đăng nhập</a></p>
+                    <p><a href="register.html">Đăng ký</a></p>
+                </td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <p align="center">
+            &copy; 2026 by sheep
+        </p>
+    </footer>
+
+    <script>
+        // Database sự kiện giả lập
+        const events = {
+            EVT001: {
+                id: "EVT001",
+                title: "Liveshow Mùa Hè 2026",
+                singer: "Đang cập nhật",
+                date: "20/06/2026 - 19:30",
+                location: "Sân vận động trung tâm",
+                description: "Chương trình liveshow âm nhạc mùa hè với nhiều tiết mục đặc sắc.",
+                standardPrice: "300.000 VNĐ",
+                vipPrice: "700.000 VNĐ",
+                vvipPrice: "1.500.000 VNĐ",
+                orderCode: "ORDER-EVT001-001",
+                ticketCode: "TICKET-EVT001-001"
+            },
+
+            EVT002: {
+                id: "EVT002",
+                title: "Đêm nhạc Acoustic",
+                singer: "Đang cập nhật",
+                date: "15/07/2026 - 20:00",
+                location: "Nhà hát thành phố",
+                description: "Đêm nhạc acoustic nhẹ nhàng, gần gũi dành cho khán giả yêu nhạc.",
+                standardPrice: "250.000 VNĐ",
+                vipPrice: "600.000 VNĐ",
+                vvipPrice: "1.200.000 VNĐ",
+                orderCode: "ORDER-EVT002-001",
+                ticketCode: "TICKET-EVT002-001"
+            },
+
+            EVT003: {
+                id: "EVT003",
+                title: "Music Night 2026",
+                singer: "Đang cập nhật",
+                date: "10/08/2026 - 19:00",
+                location: "Nhà thi đấu thành phố",
+                description: "Sự kiện âm nhạc buổi tối với sân khấu ánh sáng và âm thanh hiện đại.",
+                standardPrice: "400.000 VNĐ",
+                vipPrice: "800.000 VNĐ",
+                vvipPrice: "1.600.000 VNĐ",
+                orderCode: "ORDER-EVT003-001",
+                ticketCode: "TICKET-EVT003-001"
+            }
+        };
+
+        // Đọc id từ URL
+        // Ví dụ: payment-page.html?id=EVT001
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get("id");
+
+        // Lấy sự kiện theo id
+        const event = events[eventId];
+
+        // Vị trí hiển thị nội dung
+        const container = document.getElementById("payment-container");
+
+        // Nếu tìm thấy sự kiện
+        if (event) {
+            container.innerHTML = `
+                <section>
+                    <div id="countdown-timer">Thời gian giữ vé còn: <span id="countdown-time-text">10:00</span></div>
+                    <h2>Thông tin sự kiện</h2>
+
+                    <article>
+                        <p><strong>Mã sự kiện:</strong> ${event.id}</p>
+                        <p><strong>Tên sự kiện:</strong> ${event.title}</p>
+                        <p><strong>Ca sĩ:</strong> ${event.singer}</p>
+                        <p><strong>Thời gian:</strong> ${event.date}</p>
+                        <p><strong>Địa điểm:</strong> ${event.location}</p>
+                        <p><strong>Mô tả:</strong> ${event.description}</p>
+                    </article>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>Chọn vé</h2>
+
+                    <form>
+                        <input type="hidden" name="event_id" value="${event.id}">
+
+                        <fieldset>
+                            <legend>Loại vé</legend>
+
+                            <label>
+                                <input type="radio" name="ticket_type" value="standard">
+                                Vé thường - ${event.standardPrice}
+                            </label>
+                            <br>
+
+                            <label>
+                                <input type="radio" name="ticket_type" value="vip">
+                                Vé VIP - ${event.vipPrice}
+                            </label>
+                            <br>
+
+                            <label>
+                                <input type="radio" name="ticket_type" value="vvip">
+                                Vé VVIP - ${event.vvipPrice}
+                            </label>
+                        </fieldset>
+
+                        <br>
+                        
+                        <fieldset>
+                            <legend>Sơ đồ ghế</legend>
+                            <div class="seat-map">
+                                <div class="seat" data-seat="A1">A1</div>
+                                <div class="seat" data-seat="A2">A2</div>
+                                <div class="seat" data-seat="A3">A3</div>
+                                <div class="seat" data-seat="A4">A4</div>
+                                <div class="seat" data-seat="A5">A5</div>
+                                <div class="seat" data-seat="B1">B1</div>
+                                <div class="seat" data-seat="B2">B2</div>
+                                <div class="seat" data-seat="B3">B3</div>
+                                <div class="seat" data-seat="B4">B4</div>
+                                <div class="seat" data-seat="B5">B5</div>
+                            </div>
+                            <p style="font-size: 0.9em; color: var(--text-muted);">* Nhấp vào ghế để chọn.</p>
+                        </fieldset>
+
+                        <br>
+
+                        <label>
+                            Số lượng vé:
+                            <input type="number" name="quantity" min="1" value="1">
+                        </label>
+                    </form>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>Thông tin khách hàng</h2>
+
+                    <form>
+                        <label>
+                            Họ và tên:
+                            <input type="text" name="customer_name" placeholder="Nhập họ tên">
+                        </label>
+
+                        <br><br>
+
+                        <label>
+                            Email:
+                            <input type="email" name="customer_email" placeholder="Nhập email">
+                        </label>
+
+                        <br><br>
+
+                        <label>
+                            Số điện thoại:
+                            <input type="tel" name="customer_phone" placeholder="Nhập số điện thoại">
+                        </label>
+                    </form>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>Phương thức thanh toán</h2>
+
+                    <form>
+                        <label>
+                            <input type="radio" name="payment_method" value="bank">
+                            Chuyển khoản ngân hàng
+                        </label>
+                        <br>
+
+                        <label>
+                            <input type="radio" name="payment_method" value="wallet">
+                            Ví điện tử
+                        </label>
+                        <br>
+
+                        <label>
+                            <input type="radio" name="payment_method" value="counter">
+                            Thanh toán tại quầy
+                        </label>
+                    </form>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>Tóm tắt đơn hàng</h2>
+
+                    <table border="1" cellpadding="8">
+                        <thead>
+                            <tr>
+                                <th>Nội dung</th>
+                                <th>Thông tin</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Mã sự kiện</td>
+                                <td>${event.id}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Tên sự kiện</td>
+                                <td>${event.title}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Mã đơn hàng</td>
+                                <td>${event.orderCode}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Mã vé mẫu</td>
+                                <td>${event.ticketCode}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Trạng thái</td>
+                                <td>Chờ thanh toán</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>QR thanh toán mô phỏng</h2>
+
+                    <div>
+                        <p>====================</p>
+                        <p>|                  |</p>
+                        <p>|   QR PAYMENT     |</p>
+                        <p>|   ${event.id}        |</p>
+                        <p>|   ${event.orderCode} |</p>
+                        <p>|                  |</p>
+                        <p>====================</p>
+                    </div>
+
+                    <p>
+                        Sau khi thanh toán thành công, hệ thống sẽ tạo mã vé và QR code vé.
+                        Phần này sẽ xử lý bằng JavaScript hoặc backend sau.
+                    </p>
+                </section>
+
+                <hr>
+
+                <section>
+                    <h2>Hoàn tất</h2>
+
+                    <button type="button">Xác nhận thanh toán</button>
+
+                    <br><br>
+
+                    <a href="my-tickets.html#ticket">Xem vé của tôi</a>
+                    <br>
+                    <a href="index.html#events">Quay lại danh sách sự kiện</a>
+                </section>
+            `;
+        } else {
+            container.innerHTML = `
+                <section>
+                    <h2>Không tìm thấy sự kiện</h2>
+                    <p>ID sự kiện không hợp lệ hoặc chưa được khai báo.</p>
+
+                    <a href="index.html#events">Quay lại danh sách sự kiện</a>
+                </section>
+            `;
+        }
+    </script>
+
+</body>
+<script src="script.js"></script>
+</html>
