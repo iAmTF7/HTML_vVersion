@@ -5,6 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initFormValidation();
 });
 
+/*
+    Sự kiện custom này dùng cho payment-page.js.
+    Vì payment-page.js render HTML động sau khi DOMContentLoaded,
+    nên script.js cần chạy lại phần chọn ghế + validation sau khi payment render xong.
+*/
+document.addEventListener('paymentPageRendered', () => {
+    initPaymentInteractions();
+    initFormValidation();
+});
+
 // ==========================================
 // 1. INSTANT SEARCH
 // ==========================================
@@ -14,10 +24,22 @@ function initInstantSearch() {
     );
 
     const searchDatabase = [
-        { title: 'Liveshow "Sáng Tối" - Hà Anh Tuấn', url: 'event-details.html?id=1' },
-        { title: 'Liveshow Mùa Hè 2026', url: 'event-details.html?id=1' },
-        { title: 'Đêm nhạc Acoustic', url: 'event-details.html?id=2' },
-        { title: 'Music Night 2026', url: 'event-details.html?id=3' }
+        {
+            title: 'Liveshow "Sáng Tối" - Hà Anh Tuấn',
+            url: 'event-details.html?id=1'
+        },
+        {
+            title: 'Liveshow Mùa Hè 2026',
+            url: 'event-details.html?id=1'
+        },
+        {
+            title: 'Đêm nhạc Acoustic',
+            url: 'event-details.html?id=2'
+        },
+        {
+            title: 'Music Night 2026',
+            url: 'event-details.html?id=3'
+        }
     ];
 
     searchInputs.forEach(input => {
@@ -137,30 +159,37 @@ function initHomeLoading() {
 }
 
 // ==========================================
-// 3. PAYMENT PAGE
+// 3. PAYMENT PAGE: GHẾ + COUNTDOWN
 // ==========================================
 function initPaymentInteractions() {
     const paymentContainer = document.getElementById('payment-container');
     if (!paymentContainer) return;
 
-    const seats = document.querySelectorAll('.seat');
-    const quantityInput = document.querySelector('input[name="quantity"]');
+    const seats = paymentContainer.querySelectorAll('.seat');
+    const quantityInput = paymentContainer.querySelector('input[name="quantity"]');
 
     seats.forEach(seat => {
+        if (seat.dataset.seatReady === 'true') return;
+
+        seat.dataset.seatReady = 'true';
+
         seat.addEventListener('click', () => {
             seat.classList.toggle('selected');
 
             if (quantityInput) {
-                const selectedCount = document.querySelectorAll('.seat.selected').length;
+                const selectedCount = paymentContainer.querySelectorAll('.seat.selected').length;
                 quantityInput.value = selectedCount;
             }
         });
     });
 
-    let timeLeft = 600;
     const timerSpan = document.getElementById('countdown-time-text');
 
-    if (timerSpan) {
+    if (timerSpan && timerSpan.dataset.timerReady !== 'true') {
+        timerSpan.dataset.timerReady = 'true';
+
+        let timeLeft = 600;
+
         const timerInterval = setInterval(() => {
             timeLeft--;
 
@@ -176,13 +205,14 @@ function initPaymentInteractions() {
 
             if (timeLeft <= 0) {
                 clearInterval(timerInterval);
+
                 timerSpan.parentElement.classList.remove('flashing-red');
                 timerSpan.parentElement.style.color = 'red';
                 timerSpan.textContent = '00:00 (Hết thời gian!)';
 
                 alert('Thời gian giữ vé đã hết. Vui lòng thử lại!');
 
-                const btnThanhToan = paymentContainer.querySelector('button[type="button"]');
+                const btnThanhToan = paymentContainer.querySelector('.js-pay-button');
 
                 if (btnThanhToan) {
                     btnThanhToan.disabled = true;
@@ -231,9 +261,12 @@ function initFormValidation() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^(0|\+84)[35789][0-9]{8}$/;
 
+    // LOGIN FORM
     const loginForm = document.getElementById('loginForm');
 
-    if (loginForm) {
+    if (loginForm && loginForm.dataset.validationReady !== 'true') {
+        loginForm.dataset.validationReady = 'true';
+
         loginForm.addEventListener('submit', e => {
             let isValid = true;
 
@@ -260,9 +293,12 @@ function initFormValidation() {
         });
     }
 
+    // REGISTER FORM
     const registerForm = document.getElementById('registerForm');
 
-    if (registerForm) {
+    if (registerForm && registerForm.dataset.validationReady !== 'true') {
+        registerForm.dataset.validationReady = 'true';
+
         registerForm.addEventListener('submit', e => {
             let isValid = true;
 
@@ -272,10 +308,15 @@ function initFormValidation() {
                 phone: registerForm.querySelector('input[name="phone"]'),
                 username: registerForm.querySelector('input[name="username"]'),
                 password: registerForm.querySelector('input[name="password"]'),
-                confirm_password: registerForm.querySelector('input[name="confirm_password"]')
+                confirm_password: registerForm.querySelector('input[name="confirm_password"]'),
+                agree: registerForm.querySelector('input[name="agree"]')
             };
 
-            Object.values(fields).forEach(clearError);
+            Object.values(fields).forEach(field => {
+                if (field && field.type !== 'checkbox') {
+                    clearError(field);
+                }
+            });
 
             if (!fields.fullname.value.trim()) {
                 showError(fields.fullname, 'Vui lòng nhập họ và tên.');
@@ -307,27 +348,35 @@ function initFormValidation() {
                 isValid = false;
             }
 
+            if (fields.agree && !fields.agree.checked) {
+                alert('Bạn cần đồng ý với điều khoản sử dụng.');
+                isValid = false;
+            }
+
             if (!isValid) e.preventDefault();
         });
     }
 
+    // PAYMENT FORM
     if (paymentContainer) {
-        const btnThanhToan = paymentContainer.querySelector('button[type="button"]');
+        const btnThanhToan = paymentContainer.querySelector('.js-pay-button');
 
-        if (btnThanhToan) {
+        if (btnThanhToan && btnThanhToan.dataset.paymentReady !== 'true') {
+            btnThanhToan.dataset.paymentReady = 'true';
+
             btnThanhToan.addEventListener('click', () => {
                 let isValid = true;
 
-                const selectedSeats = document.querySelectorAll('.seat.selected');
+                const selectedSeats = paymentContainer.querySelectorAll('.seat.selected');
 
                 if (selectedSeats.length === 0) {
                     alert('Bạn chưa chọn ghế nào trên sơ đồ!');
                     isValid = false;
                 }
 
-                const nameInput = document.querySelector('input[name="customer_name"]');
-                const emailInput = document.querySelector('input[name="customer_email"]');
-                const phoneInput = document.querySelector('input[name="customer_phone"]');
+                const nameInput = paymentContainer.querySelector('input[name="customer_name"]');
+                const emailInput = paymentContainer.querySelector('input[name="customer_email"]');
+                const phoneInput = paymentContainer.querySelector('input[name="customer_phone"]');
 
                 [nameInput, emailInput, phoneInput].forEach(clearError);
 
@@ -397,7 +446,7 @@ function showTicketDownloadUI(ticketCount) {
     const qrCodeMock = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${orderCode}`;
 
     paymentContainer.innerHTML = `
-        <section style="text-align: center; padding: 40px 0;">
+        <section class="payment-card payment-success-card">
             <h2 style="color: #10b981;">🎉 Mua vé thành công!</h2>
 
             <p>Mã đơn hàng của bạn: <strong>${orderCode}</strong></p>
@@ -411,11 +460,11 @@ function showTicketDownloadUI(ticketCount) {
             </div>
 
             <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;">
-                <button type="button" onclick="downloadTicketImage()" style="background-color: var(--primary);">
+                <button type="button" onclick="downloadTicketImage()" class="btn btn-primary">
                     Tải ảnh vé về máy (.png)
                 </button>
 
-                <button type="button" onclick="sendTicketEmail()" style="background-color: transparent; border: 1px solid var(--primary); color: var(--primary) !important;">
+                <button type="button" onclick="sendTicketEmail()" class="btn btn-outline-primary">
                     Gửi file PDF về Email
                 </button>
             </div>
