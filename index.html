@@ -6,27 +6,22 @@
 
   <title>Hệ thống quản lý sự kiện và bán vé Liveshow</title>
 
-  <!-- Bootstrap CSS đã tải về máy -->
   <link rel="stylesheet" href="bootstrap.min.css">
-
-  <!-- CSS tự viết -->
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <!-- HEADER / NAVBAR -->
-  <header id="home">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <header id="home" class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
       <div class="container">
 
-        <!-- LOGO -->
         <a class="navbar-brand d-flex align-items-center gap-2" href="index.html#home">
-          <img src="image/logo_dark.png" alt="QRBOX Logo" width="70">
-          <span class="fw-bold fs-4 text-dark">QRBOX</span>
+          <img src="image/logo_dark.png" alt="QRBOX Logo" width="48">
+          <span class="brand-text">QRBOX</span>
         </a>
 
-        <!-- NÚT MENU MOBILE -->
         <button
           class="navbar-toggler"
           type="button"
@@ -39,25 +34,22 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- MENU -->
         <div class="collapse navbar-collapse" id="navbarMenu">
 
-          <!-- FORM TÌM KIẾM -->
-          <form class="d-flex ms-lg-auto my-3 my-lg-0 me-lg-3" role="search">
+          <form class="search-form d-flex ms-lg-auto my-3 my-lg-0 me-lg-3" role="search">
             <input
-              class="form-control me-2"
+              class="form-control"
               type="search"
               placeholder="Tìm kiếm sự kiện..."
               aria-label="Tìm kiếm sự kiện"
             >
 
-            <button class="btn btn-outline-primary" type="button">
+            <button class="btn btn-primary" type="submit">
               Tìm kiếm
             </button>
           </form>
 
-          <!-- NAV LINKS -->
-          <ul class="navbar-nav mb-2 mb-lg-0">
+          <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
 
             <li class="nav-item">
               <a class="nav-link" href="my-tickets.html#ticket">
@@ -65,7 +57,6 @@
               </a>
             </li>
 
-            <!-- DROPDOWN TÀI KHOẢN -->
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -78,9 +69,7 @@
                 Tài khoản
               </a>
 
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
-
-                <!-- Khi chưa đăng nhập -->
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="accountDropdown">
                 <li>
                   <a class="dropdown-item" href="login.html">
                     Đăng nhập
@@ -97,7 +86,6 @@
                   <hr class="dropdown-divider">
                 </li>
 
-                <!-- Khi đã đăng nhập thì sau này có thể hiển thị nhóm này -->
                 <li>
                   <a class="dropdown-item" href="my-tickets.html#ticket">
                     Vé của bạn
@@ -109,7 +97,6 @@
                     Đăng xuất
                   </a>
                 </li>
-
               </ul>
             </li>
 
@@ -121,14 +108,14 @@
   </header>
 
   <!-- MAIN CONTENT -->
-  <main class="py-5">
+  <main class="site-main">
 
-    <!-- DANH SÁCH SỰ KIỆN -->
     <section id="events" class="container">
 
-      <div class="text-center mb-5">
-        <h1 class="fw-bold">Danh sách sự kiện</h1>
-        <p class="text-muted mb-0">
+      <div class="section-heading text-center">
+        <span class="section-badge">QRBOX EVENTS</span>
+        <h1>Danh sách sự kiện</h1>
+        <p>
           Khám phá các liveshow và đặt vé nhanh chóng cùng QRBOX
         </p>
       </div>
@@ -137,48 +124,33 @@
 
         <!-- SỰ KIỆN 1 -->
         <div class="col-12 col-md-6 col-lg-4">
-          <article class="card h-100 shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
+          <article class="event-card">
+            <div class="event-card-body">
 
-              <span class="badge bg-primary align-self-start mb-3">
+              <span class="event-badge bg-primary">
                 EVT001
               </span>
 
-              <h2 class="card-title h4">
+              <h2>
                 Liveshow Mùa Hè 2026
               </h2>
 
-              <p class="card-text mb-2">
-                <strong>Ca sĩ:</strong> Đang cập nhật
-              </p>
+              <ul class="event-info">
+                <li><strong>Ca sĩ:</strong> Đang cập nhật</li>
+                <li><strong>Thời gian:</strong> 20/06/2026</li>
+                <li><strong>Địa điểm:</strong> Sân vận động trung tâm</li>
+                <li>
+                  <strong>Giá vé:</strong>
+                  <span>Từ 300.000 VNĐ</span>
+                </li>
+              </ul>
 
-              <p class="card-text mb-2">
-                <strong>Thời gian:</strong> 20/06/2026
-              </p>
-
-              <p class="card-text mb-2">
-                <strong>Địa điểm:</strong> Sân vận động trung tâm
-              </p>
-
-              <p class="card-text mb-4">
-                <strong>Giá vé:</strong>
-                <span class="text-primary fw-semibold">
-                  Từ 300.000 VNĐ
-                </span>
-              </p>
-
-              <div class="mt-auto d-flex gap-2">
-                <a
-                  href="event-details.html?id=1"
-                  class="btn btn-outline-primary w-50"
-                >
+              <div class="event-actions">
+                <a href="event-details.html?id=1" class="btn btn-outline-primary">
                   Chi tiết
                 </a>
 
-                <a
-                  href="payment-page.html?id=EVT001"
-                  class="btn btn-primary w-50"
-                >
+                <a href="payment-page.html?id=EVT001" class="btn btn-primary">
                   Mua vé
                 </a>
               </div>
@@ -189,48 +161,33 @@
 
         <!-- SỰ KIỆN 2 -->
         <div class="col-12 col-md-6 col-lg-4">
-          <article class="card h-100 shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
+          <article class="event-card">
+            <div class="event-card-body">
 
-              <span class="badge bg-success align-self-start mb-3">
+              <span class="event-badge bg-success">
                 EVT002
               </span>
 
-              <h2 class="card-title h4">
+              <h2>
                 Đêm nhạc Acoustic
               </h2>
 
-              <p class="card-text mb-2">
-                <strong>Ca sĩ:</strong> Đang cập nhật
-              </p>
+              <ul class="event-info">
+                <li><strong>Ca sĩ:</strong> Đang cập nhật</li>
+                <li><strong>Thời gian:</strong> 15/07/2026</li>
+                <li><strong>Địa điểm:</strong> Nhà hát thành phố</li>
+                <li>
+                  <strong>Giá vé:</strong>
+                  <span>Từ 250.000 VNĐ</span>
+                </li>
+              </ul>
 
-              <p class="card-text mb-2">
-                <strong>Thời gian:</strong> 15/07/2026
-              </p>
-
-              <p class="card-text mb-2">
-                <strong>Địa điểm:</strong> Nhà hát thành phố
-              </p>
-
-              <p class="card-text mb-4">
-                <strong>Giá vé:</strong>
-                <span class="text-primary fw-semibold">
-                  Từ 250.000 VNĐ
-                </span>
-              </p>
-
-              <div class="mt-auto d-flex gap-2">
-                <a
-                  href="event-details.html?id=2"
-                  class="btn btn-outline-primary w-50"
-                >
+              <div class="event-actions">
+                <a href="event-details.html?id=2" class="btn btn-outline-primary">
                   Chi tiết
                 </a>
 
-                <a
-                  href="payment-page.html?id=EVT002"
-                  class="btn btn-primary w-50"
-                >
+                <a href="payment-page.html?id=EVT002" class="btn btn-primary">
                   Mua vé
                 </a>
               </div>
@@ -241,48 +198,33 @@
 
         <!-- SỰ KIỆN 3 -->
         <div class="col-12 col-md-6 col-lg-4">
-          <article class="card h-100 shadow-sm border-0">
-            <div class="card-body d-flex flex-column">
+          <article class="event-card">
+            <div class="event-card-body">
 
-              <span class="badge bg-warning text-dark align-self-start mb-3">
+              <span class="event-badge bg-warning text-dark">
                 EVT003
               </span>
 
-              <h2 class="card-title h4">
+              <h2>
                 Music Night 2026
               </h2>
 
-              <p class="card-text mb-2">
-                <strong>Ca sĩ:</strong> Đang cập nhật
-              </p>
+              <ul class="event-info">
+                <li><strong>Ca sĩ:</strong> Đang cập nhật</li>
+                <li><strong>Thời gian:</strong> 10/08/2026</li>
+                <li><strong>Địa điểm:</strong> Nhà thi đấu thành phố</li>
+                <li>
+                  <strong>Giá vé:</strong>
+                  <span>Từ 400.000 VNĐ</span>
+                </li>
+              </ul>
 
-              <p class="card-text mb-2">
-                <strong>Thời gian:</strong> 10/08/2026
-              </p>
-
-              <p class="card-text mb-2">
-                <strong>Địa điểm:</strong> Nhà thi đấu thành phố
-              </p>
-
-              <p class="card-text mb-4">
-                <strong>Giá vé:</strong>
-                <span class="text-primary fw-semibold">
-                  Từ 400.000 VNĐ
-                </span>
-              </p>
-
-              <div class="mt-auto d-flex gap-2">
-                <a
-                  href="event-details.html?id=3"
-                  class="btn btn-outline-primary w-50"
-                >
+              <div class="event-actions">
+                <a href="event-details.html?id=3" class="btn btn-outline-primary">
                   Chi tiết
                 </a>
 
-                <a
-                  href="payment-page.html?id=EVT003"
-                  class="btn btn-primary w-50"
-                >
+                <a href="payment-page.html?id=EVT003" class="btn btn-primary">
                   Mua vé
                 </a>
               </div>
@@ -297,81 +239,43 @@
   </main>
 
   <!-- FOOTER -->
-  <footer id="vechungtoi" class="bg-dark text-light pt-5 pb-3 mt-5">
+  <footer id="vechungtoi" class="site-footer">
     <div class="container">
 
       <div class="row g-4">
 
-        <!-- CỘT 1 -->
         <div class="col-12 col-md-4">
-          <h2 class="fw-bold">
-            <small class="text-primary">LIVE</small> TICKET
+          <h2>
+            <small>LIVE</small> TICKET
           </h2>
 
-          <p class="text-white-50">
+          <p>
             Hệ thống quản lý sự kiện và bán vé liveshow.
             Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
           </p>
         </div>
 
-        <!-- CỘT 2 -->
         <div class="col-12 col-md-4">
-          <h3 class="h5 mb-3">Liên kết nhanh</h3>
+          <h3>Liên kết nhanh</h3>
 
-          <ul class="list-unstyled">
-            <li class="mb-2">
-              <a class="text-light text-decoration-none" href="index.html#home">
-                Trang chủ
-              </a>
-            </li>
-
-            <li class="mb-2">
-              <a class="text-light text-decoration-none" href="index.html#events">
-                Sự kiện
-              </a>
-            </li>
-
-            <li class="mb-2">
-              <a class="text-light text-decoration-none" href="my-tickets.html#ticket">
-                Vé của tôi
-              </a>
-            </li>
-
-            <li class="mb-2">
-              <a class="text-light text-decoration-none" href="my-tickets.html#checkin">
-                Xác thực vé
-              </a>
-            </li>
-
-            <li class="mb-2">
-              <a class="text-light text-decoration-none" href="my-tickets.html#checkin-history">
-                Lịch sử check-in
-              </a>
-            </li>
+          <ul class="footer-links">
+            <li><a href="index.html#home">Trang chủ</a></li>
+            <li><a href="index.html#events">Sự kiện</a></li>
+            <li><a href="my-tickets.html#ticket">Vé của tôi</a></li>
+            <li><a href="my-tickets.html#checkin">Xác thực vé</a></li>
+            <li><a href="my-tickets.html#checkin-history">Lịch sử check-in</a></li>
           </ul>
         </div>
 
-        <!-- CỘT 3 -->
         <div class="col-12 col-md-4">
-          <h3 class="h5 mb-3">Liên hệ</h3>
+          <h3>Liên hệ</h3>
 
-          <p class="mb-2 text-white-50">
-            Điện thoại: 0123 456 789
-          </p>
+          <p>Điện thoại: 0123 456 789</p>
+          <p>Email: support@liveshowticket.vn</p>
+          <p>Địa chỉ: Việt Nam</p>
+          <p>Hỗ trợ: 24/7</p>
 
-          <p class="mb-2 text-white-50">
-            Email: support@liveshowticket.vn
-          </p>
-
-          <p class="mb-2 text-white-50">
-            Địa chỉ: Việt Nam
-          </p>
-
-          <p class="mb-4 text-white-50">
-            Hỗ trợ: 24/7
-          </p>
-
-          <h3 class="h5 mb-3">Tài khoản</h3>
+          <h3 class="mt-4">Tài khoản</h3>
 
           <div class="d-flex gap-2">
             <a href="login.html" class="btn btn-outline-light btn-sm">
@@ -386,20 +290,17 @@
 
       </div>
 
-      <hr class="border-secondary my-4">
+      <hr>
 
-      <p class="text-center text-white-50 mb-0">
+      <p class="copyright">
         &copy; 2026 by sheep
       </p>
 
     </div>
   </footer>
 
-  <!-- Bootstrap JS đã tải về máy -->
   <script src="bootstrap.bundle.min.js"></script>
-
-  <!-- JS tự viết, nếu chưa có main.js thì có thể xóa dòng này -->
-  <script src="main.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>

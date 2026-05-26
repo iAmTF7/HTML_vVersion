@@ -1,222 +1,452 @@
 /* ==========================================================================
-   1. THIẾT LẬP CHUNG & MÀU SẮC LIVESHOW (DARK MODE)
+   1. GLOBAL SETTINGS
    ========================================================================== */
+
 :root {
-    --bg-main: #12121a;        /* Đổi thành nền xám đen sâu (giúp mắt dễ chịu hơn nền đen xì) */
-    --bg-card: #1F1F29;        /* Đổi thành Xanh Đen Điện Tử (Làm nền cho thẻ sự kiện, Header, Footer) */
-    --bg-input: #2a2a35;       /* Sáng hơn nền card một chút để ô nhập liệu nổi lên */
-    --primary: #00E5FF;        /* Đổi sang Xanh Cyan (Làm viền laser, nút bấm, tiêu đề) */
-    --primary-hover: #00b8cc;  /* Xanh Cyan sẫm hơn khi rê chuột */
-    --text-light: #f8fafc;     /* Giữ nguyên chữ trắng */
-    --border-color: #334155;   /* Giữ nguyên viền */
+    --bg-main: #12121a;
+    --bg-card: #1f1f29;
+    --bg-input: #2a2a35;
+    --primary: #00e5ff;
+    --primary-hover: #00b8cc;
+    --text-light: #f8fafc;
+    --text-muted: #a8adbd;
+    --border-color: #334155;
+    --danger: #ef4444;
+    --success: #10b981;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: var(--bg-main);
+    background:
+        radial-gradient(circle at top left, rgba(0, 229, 255, 0.08), transparent 35%),
+        linear-gradient(180deg, #171721 0%, #101018 100%);
     color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
 }
 
 a {
     color: var(--primary);
     text-decoration: none;
-    transition: 0.3s;
+    transition: 0.25s ease;
 }
 
 a:hover {
     color: var(--primary-hover);
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 hr {
-    border: 0;
-    height: 1px;
-    background-color: var(--border-color);
-    margin: 30px 0;
+    border-color: var(--border-color);
+    opacity: 1;
 }
 
 /* ==========================================================================
-   2. THANH ĐIỀU HƯỚNG (HEADER & MENU)
+   2. HEADER / NAVBAR
    ========================================================================== */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 5%;
-    background-color: var(--bg-card);
-    border-bottom: 1px solid var(--border-color);
+
+.site-header {
     position: sticky;
     top: 0;
     z-index: 1000;
+    background-color: rgba(31, 31, 41, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.18);
 }
 
-header a span {
-    color: var(--primary) !important; /* ĐÃ SỬA: Chữ BOX phát sáng màu Cyan công nghệ */
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.site-navbar {
+    padding: 14px 0;
+    background-color: transparent !important;
 }
 
-nav > ul {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    gap: 20px;
+.navbar-brand {
+    color: var(--text-light) !important;
+    text-decoration: none;
 }
 
-nav form {
-    display: flex;
-    gap: 5px;
+.brand-text {
+    color: var(--text-light) !important;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 3px;
 }
 
-nav form input {
-    padding: 8px 15px;
-    border-radius: 20px;
-    border: 1px solid var(--border-color);
-    background-color: var(--bg-input);
-    color: white;
-    outline: none;
+.navbar .nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
 }
 
-/* ĐÃ SỬA: Nút Tìm kiếm không còn bị tàng hình, đổi màu khi trỏ chuột */
-nav form button {
-    padding: 8px 15px;
-    border-radius: 20px;
-    background-color: var(--primary);
-    color: var(--bg-card) !important; /* Chữ màu tối trên nền Cyan */
-    border: 1px solid var(--primary);
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-nav form button:hover {
-    background-color: transparent;
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
     color: var(--primary) !important;
 }
 
-/* --- Menu Tài Khoản Dropdown --- */
-nav > ul > li {
+/* ==========================================================================
+   3. SEARCH
+   ========================================================================== */
+
+.search-form {
+    gap: 10px;
+}
+
+.search-form .form-control {
+    min-width: 240px;
+    height: 46px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    border-radius: 12px;
+}
+
+.search-form .form-control::placeholder {
+    color: #8d93a3;
+}
+
+.search-form .form-control:focus {
+    background-color: var(--bg-input);
+    color: var(--text-light);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 229, 255, 0.15);
+}
+
+.search-wrapper {
     position: relative;
 }
 
-nav > ul > li > span {
-    cursor: pointer;
-    font-weight: bold;
-    padding: 10px;
-}
-
-nav > ul > p {
-    display: none; /* Ẩn dòng chữ hướng dẫn tĩnh thừa */
-}
-
-ul#account-menu {
-    display: none;
+.search-dropdown {
     position: absolute;
-    top: 100%;
+    top: calc(100% + 8px);
+    left: 0;
     right: 0;
+    z-index: 2000;
+    padding: 8px;
+    margin: 0;
+    list-style: none;
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 8px;
-    min-width: 150px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    padding: 10px 0;
+    border-radius: 12px;
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
 }
 
-nav > ul > li:hover ul#account-menu {
+.search-dropdown li a {
     display: block;
-}
-
-ul#account-menu li {
-    list-style: none;
-    padding: 5px 15px;
-}
-
-ul#account-menu li a {
+    padding: 10px 12px;
     color: var(--text-light);
+    border-radius: 8px;
     text-decoration: none;
-    display: block;
 }
 
-ul#account-menu li a:hover {
-    color: var(--primary);
+.search-dropdown li a:hover {
+    color: #071016;
+    background-color: var(--primary);
 }
 
 /* ==========================================================================
-   3. KHU VỰC NỘI DUNG CHÍNH (MAIN) & THẺ SỰ KIỆN (ARTICLE)
+   4. BUTTONS
    ========================================================================== */
-main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #071016 !important;
+    font-weight: 700;
 }
 
-/* ĐÃ THÊM: Đoạn văn bản mô tả ở main có màu xám nhạt cho dễ đọc */
-main p {
+.btn-primary:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    color: #071016 !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    font-weight: 700;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary) !important;
+    color: #071016 !important;
+}
+
+/* ==========================================================================
+   5. DROPDOWN
+   ========================================================================== */
+
+.custom-dropdown {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.custom-dropdown .dropdown-item {
+    color: var(--text-light);
+    border-radius: 8px;
+}
+
+.custom-dropdown .dropdown-item:hover {
+    color: #071016;
+    background-color: var(--primary);
+}
+
+.dropdown-divider {
+    border-color: var(--border-color);
+}
+
+/* ==========================================================================
+   6. MAIN / SECTION
+   ========================================================================== */
+
+.site-main {
+    max-width: none;
+    padding: 70px 0 40px;
+}
+
+.section-heading {
+    margin-bottom: 44px;
+}
+
+.section-badge {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 14px;
+    color: var(--primary);
+    background-color: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.section-heading h1 {
+    margin-bottom: 12px;
+    color: var(--text-light);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+}
+
+.section-heading p {
     color: var(--text-muted);
-    font-size: 16px;
-    margin-bottom: 20px;
+    font-size: 17px;
 }
 
-h2 {
-    margin-bottom: 20px;
+/* ==========================================================================
+   7. EVENT CARD INDEX
+   ========================================================================== */
+
+.event-card {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)),
+        var(--bg-card);
+    border: 1px solid rgba(0, 229, 255, 0.22);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 24px 60px rgba(0, 229, 255, 0.12);
+}
+
+.event-card-body {
+    height: 100%;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-badge {
+    align-self: flex-start;
+    margin-bottom: 18px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+}
+
+.event-card h2 {
+    margin-bottom: 18px;
+    padding-left: 14px;
     color: var(--text-light);
     border-left: 4px solid var(--primary);
-    padding-left: 10px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.3;
 }
 
-h3 {
+.event-info {
+    padding: 0;
+    margin: 0 0 26px;
+    list-style: none;
+}
+
+.event-info li {
+    margin-bottom: 10px;
+    color: var(--text-muted);
+    font-size: 15.5px;
+}
+
+.event-info strong {
+    color: var(--text-light);
+}
+
+.event-info span {
     color: var(--primary);
-    margin-bottom: 15px;
+    font-weight: 800;
 }
 
-article {
-    background-color: var(--bg-card); /* ĐÃ SỬA LỖI: Trả lại nền xanh đen cho thẻ */
-    border: 1px solid var(--border-color);
-    padding: 25px;
+.event-actions {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.event-actions .btn {
+    width: 100%;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 12px;
-    margin-bottom: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-article:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    border-color: var(--primary);
-}
-
-/* ĐÃ SỬA: Nút liên kết và nút thường có chữ màu tối để nổi trên nền Cyan */
-article a[href*=".html"], button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: var(--primary);
-    color: var(--bg-card) !important; /* Dùng chữ màu tối đè lên nền Cyan sáng */
-    border-radius: 6px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-right: 10px;
-    transition: 0.3s;
-}
-
-article a[href*=".html"]:hover, button:hover {
-    background-color: var(--primary-hover);
     text-decoration: none;
 }
 
 /* ==========================================================================
-   4. BIỂU MẪU (LOGIN, REGISTER, PAYMENT)
+   8. EVENT DETAILS PAGE
    ========================================================================== */
-#login, #register, #payment-page {
+
+.event-detail-card {
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)),
+        var(--bg-card);
+    border: 1px solid rgba(0, 229, 255, 0.22);
+    border-radius: 22px;
+    padding: 34px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+.event-detail-header {
+    margin-bottom: 30px;
+}
+
+.event-detail-header h1 {
+    margin: 14px 0;
+    color: var(--text-light);
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 800;
+}
+
+.event-detail-header p {
+    max-width: 850px;
+    color: var(--text-muted);
+    font-size: 17px;
+}
+
+.event-detail-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 28px;
+    margin-top: 28px;
+}
+
+.event-detail-info,
+.event-detail-price {
+    background-color: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 24px;
+}
+
+.event-detail-info h2,
+.event-detail-price h2 {
+    margin-bottom: 18px;
+    padding-left: 12px;
+    border-left: 4px solid var(--primary);
+    color: var(--text-light);
+    font-size: 24px;
+}
+
+.event-detail-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.event-detail-list li {
+    margin-bottom: 13px;
+    color: var(--text-muted);
+}
+
+.event-detail-list strong {
+    color: var(--text-light);
+}
+
+.ticket-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.ticket-price-table th,
+.ticket-price-table td {
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+}
+
+.ticket-price-table th {
+    color: var(--primary);
+    background-color: rgba(0, 229, 255, 0.08);
+}
+
+.ticket-price-table td {
+    color: var(--text-muted);
+}
+
+.ticket-price-table td:nth-child(2) {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.event-detail-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.event-detail-actions .btn {
+    min-width: 190px;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+/* ==========================================================================
+   9. FORMS
+   ========================================================================== */
+
+#login,
+#register,
+#payment-page {
     max-width: 500px;
     margin: 40px auto;
     background-color: var(--bg-card);
@@ -236,6 +466,7 @@ form input[type="password"],
 form input[type="email"],
 form input[type="tel"],
 form input[type="number"],
+form input[type="search"],
 form select {
     width: 100%;
     padding: 12px;
@@ -246,14 +477,27 @@ form select {
     color: white;
 }
 
-form input:focus, form select:focus {
+form input:focus,
+form select:focus {
     outline: none;
     border-color: var(--primary);
 }
 
+.input-error {
+    border-color: var(--danger) !important;
+}
+
+.error-message {
+    display: block;
+    margin-top: 6px;
+    color: var(--danger);
+    font-size: 14px;
+}
+
 /* ==========================================================================
-   5. CẤU TRÚC BẢNG (TABLES)
+   10. TABLE
    ========================================================================== */
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -263,11 +507,14 @@ table {
     margin: 20px 0;
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 1px solid var(--border-color);
 }
 
-th, td {
+th,
+td {
     padding: 12px 15px;
     text-align: left;
 }
@@ -278,10 +525,38 @@ th {
 }
 
 /* ==========================================================================
-   6. GIẢ LẬP QR CODE VÀ HIỆU ỨNG LASER (Trang Vé & Check-in)
+   11. PAYMENT / SEAT / QR
    ========================================================================== */
-/* Khung hiển thị text mã QR thô */
-article div, #payment-container div {
+
+.seat {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    margin: 6px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.seat:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.seat.selected {
+    background-color: var(--primary);
+    color: #071016;
+    border-color: var(--primary);
+    font-weight: 800;
+}
+
+.qr-box,
+#payment-container .qr-box {
     background-color: white;
     color: black;
     padding: 15px;
@@ -293,66 +568,136 @@ article div, #payment-container div {
     border: 3px solid var(--primary);
 }
 
-article div p, #payment-container div p {
-    color: black;
-    margin: 0;
+.flashing-red {
+    animation: flashingRed 0.8s infinite;
 }
 
-/* Tạo hiệu ứng quét camera lướt qua lướt lại */
-#checkin article:first-of-type div {
-    background-color: #000;
-    color: var(--text-muted);
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    border: 2px dashed var(--primary);
-}
+@keyframes flashingRed {
+    0% {
+        color: var(--danger);
+    }
 
-#checkin article:first-of-type div::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--primary);
-    box-shadow: 0 0 10px 2px var(--primary);
-    animation: scan 2s infinite linear;
-}
+    50% {
+        color: white;
+    }
 
-@keyframes scan {
-    0% { top: 0; }
-    50% { top: 100%; }
-    100% { top: 0; }
+    100% {
+        color: var(--danger);
+    }
 }
 
 /* ==========================================================================
-   7. CHÂN TRANG (FOOTER)
+   12. LOADING
    ========================================================================== */
-footer {
-    background-color: var(--bg-card);
-    padding: 40px 5% 20px;
-    border-top: 1px solid var(--border-color);
+
+.loading-spinner {
+    margin: 30px auto;
+    text-align: center;
+    color: var(--primary);
+    font-weight: 700;
 }
 
-footer table, footer th, footer td {
-    border: none;
-    background-color: transparent;
+/* ==========================================================================
+   13. FOOTER
+   ========================================================================== */
+
+.site-footer {
+    margin-top: 70px;
+    padding: 55px 0 24px;
+    background-color: #171721;
+    border-top: 1px solid rgba(0, 229, 255, 0.18);
 }
 
-footer h2 small {
+.site-footer h2,
+.site-footer h3 {
+    color: var(--text-light);
+}
+
+.site-footer h2 small {
     color: var(--primary);
 }
 
-footer h3 {
+.site-footer p {
+    color: var(--text-muted);
+}
+
+.footer-links {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.footer-links li {
     margin-bottom: 10px;
 }
-/* Giải pháp tự động thích ứng mọi Mode (Sáng/Tối) cho text-muted */
-main p.text-muted, 
-.text-muted {
-    color: inherit !important; /* Tự động "bắt chước" màu chữ của thẻ cha */
-    opacity: 0.7 !important;   /* Làm mờ chữ đi 30% để tạo hiệu ứng phụ (muted) */
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}
+
+.site-footer hr {
+    border-color: var(--border-color);
+    opacity: 1;
+}
+
+.copyright {
+    margin-bottom: 0;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   14. RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 991px) {
+    .search-form {
+        width: 100%;
+    }
+
+    .search-form .form-control {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .brand-text {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .event-detail-card {
+        padding: 24px;
+    }
+
+    .event-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-detail-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+    .site-main {
+        padding-top: 45px;
+    }
+
+    .event-card-body {
+        padding: 22px;
+    }
+
+    .event-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h1 {
+        font-size: 32px;
+    }
 }
