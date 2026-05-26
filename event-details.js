@@ -1,193 +1,165 @@
+// ==========================================
+// LOGIC HIỂN THỊ CHI TIẾT SỰ KIỆN DÀNH CHO TRANG EVENT-DETAILS.HTML
+// ==========================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    initEventDetailsPage();
+  // Lấy dữ liệu danh sách sự kiện từ LocalStorage đã được khởi tạo trong script.js
+  const events = JSON.parse(localStorage.getItem('events'));
+  
+  // Lấy thẻ container nơi sẽ render nội dung chi tiết sự kiện
+  const container = document.getElementById('event-container');
+  if (!container) return;
+
+  // Đọc các tham số truy vấn từ URL (Query Parameters)
+  // Ví dụ: event-details.html?id=1 hoặc event-details.html?id=EVT001
+  const params = new URLSearchParams(window.location.search);
+  const idStr = params.get('id');
+
+  // Nếu không có tham số ID, hiển thị lỗi không tìm thấy sự kiện
+  if (!idStr) {
+    showEventNotFound(container);
+    return;
+  }
+
+  // Tìm sự kiện tương ứng trong cơ sở dữ liệu LocalStorage
+  let event = null;
+  if (!isNaN(idStr)) {
+    // Nếu ID là dạng số (ví dụ: ?id=1), tìm theo trường id kiểu số nguyên
+    const id = parseInt(idStr, 10);
+    event = events.find(e => e.id === id);
+  } else {
+    // Nếu ID là dạng chuỗi mã (ví dụ: ?id=EVT001), tìm theo trường code (mã sự kiện)
+    event = events.find(e => e.code === idStr.toUpperCase());
+  }
+
+  // Nếu không tìm thấy sự kiện trùng khớp, hiển thị thông báo lỗi
+  if (!event) {
+    showEventNotFound(container);
+    return;
+  }
+
+  // Tiến hành render (vẽ) giao diện chi tiết của sự kiện vào container
+  renderEventDetails(container, event);
 });
 
-function initEventDetailsPage() {
-    const container = document.getElementById('event-container');
-
-    if (!container) return;
-
-    const events = {
-        1: {
-            id: 'EVT001',
-            detailId: '1',
-            title: 'Liveshow Mùa Hè 2026',
-            singer: 'Đang cập nhật',
-            date: '20/06/2026 - 19:30',
-            location: 'Sân vận động trung tâm',
-            description: 'Chương trình liveshow âm nhạc mùa hè với nhiều tiết mục đặc sắc, sân khấu ngoài trời và hệ thống âm thanh ánh sáng hiện đại.',
-            standardPrice: '300.000 VNĐ',
-            vipPrice: '700.000 VNĐ',
-            vvipPrice: '1.500.000 VNĐ',
-            remainingTickets: 500,
-            paymentId: 'EVT001'
-        },
-
-        2: {
-            id: 'EVT002',
-            detailId: '2',
-            title: 'Đêm nhạc Acoustic',
-            singer: 'Đang cập nhật',
-            date: '15/07/2026 - 20:00',
-            location: 'Nhà hát thành phố',
-            description: 'Đêm nhạc acoustic nhẹ nhàng, gần gũi, phù hợp với khán giả yêu thích không gian âm nhạc ấm cúng.',
-            standardPrice: '250.000 VNĐ',
-            vipPrice: '600.000 VNĐ',
-            vvipPrice: '1.200.000 VNĐ',
-            remainingTickets: 300,
-            paymentId: 'EVT002'
-        },
-
-        3: {
-            id: 'EVT003',
-            detailId: '3',
-            title: 'Music Night 2026',
-            singer: 'Đang cập nhật',
-            date: '10/08/2026 - 19:00',
-            location: 'Nhà thi đấu thành phố',
-            description: 'Sự kiện âm nhạc buổi tối với sân khấu lớn, nhiều tiết mục biểu diễn và không gian giải trí sôi động.',
-            standardPrice: '400.000 VNĐ',
-            vipPrice: '800.000 VNĐ',
-            vvipPrice: '1.600.000 VNĐ',
-            remainingTickets: 800,
-            paymentId: 'EVT003'
-        }
-    };
-
-    const params = new URLSearchParams(window.location.search);
-    const eventId = params.get('id');
-
-    if (!eventId) {
-        renderNotFound(container, 'Thiếu ID sự kiện trên URL.');
-        return;
-    }
-
-    const event = Object.values(events).find(item =>
-        item.detailId === eventId || item.id === eventId
-    );
-
-    if (!event) {
-        renderNotFound(container, 'ID sự kiện không hợp lệ hoặc sự kiện chưa được khai báo.');
-        return;
-    }
-
-    renderEventDetail(container, event);
+// Hàm hiển thị thông báo khi không tìm thấy sự kiện hợp lệ
+function showEventNotFound(container) {
+  container.innerHTML = `
+    <div class="text-center py-5">
+      <h2 class="text-danger mb-3">Sự kiện không tồn tại</h2>
+      <p class="text-muted mb-4">Không tìm thấy thông tin sự kiện được yêu cầu. Vui lòng kiểm tra lại đường dẫn.</p>
+      <a href="index.html" class="btn btn-primary">Quay lại trang chủ</a>
+    </div>
+  `;
 }
 
-function renderEventDetail(container, event) {
-    document.title = `${event.title} | QRBOX`;
+// Hàm render giao diện chi tiết sự kiện
+function renderEventDetails(container, event) {
+  // Cập nhật tiêu đề của tab trình duyệt theo tên sự kiện đang xem
+  document.title = `${event.title} - Chi tiết sự kiện | QRBOX`;
 
-    container.innerHTML = `
-        <article class="event-detail-card">
+  // Xác định màu sắc của thẻ Badge dựa trên mã sự kiện để đồng bộ phong cách
+  let badgeClass = 'bg-primary';
+  if (event.code === 'EVT002') badgeClass = 'bg-success';
+  if (event.code === 'EVT003') badgeClass = 'bg-warning text-dark';
 
-            <div class="event-detail-header">
-                <span class="event-badge bg-primary">
-                    ${event.id}
-                </span>
-
-                <h1>${event.title}</h1>
-
-                <p>${event.description}</p>
-            </div>
-
-            <div class="event-detail-grid">
-
-                <section class="event-detail-info">
-                    <h2>Thông tin sự kiện</h2>
-
-                    <ul class="event-detail-list">
-                        <li>
-                            <strong>Ca sĩ:</strong>
-                            <span>${event.singer}</span>
-                        </li>
-
-                        <li>
-                            <strong>Thời gian:</strong>
-                            <span>${event.date}</span>
-                        </li>
-
-                        <li>
-                            <strong>Địa điểm:</strong>
-                            <span>${event.location}</span>
-                        </li>
-
-                        <li>
-                            <strong>Số lượng vé còn:</strong>
-                            <span>${event.remainingTickets} vé</span>
-                        </li>
-                    </ul>
-                </section>
-
-                <section class="event-detail-price">
-                    <h2>Bảng giá vé</h2>
-
-                    <div class="table-responsive">
-                        <table class="ticket-price-table">
-                            <thead>
-                                <tr>
-                                    <th>Loại vé</th>
-                                    <th>Giá vé</th>
-                                    <th>Mô tả</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                <tr>
-                                    <td>Vé thường</td>
-                                    <td>${event.standardPrice}</td>
-                                    <td>Khu vực ghế thường</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Vé VIP</td>
-                                    <td>${event.vipPrice}</td>
-                                    <td>Khu vực gần sân khấu hơn</td>
-                                </tr>
-
-                                <tr>
-                                    <td>Vé VVIP</td>
-                                    <td>${event.vvipPrice}</td>
-                                    <td>Khu vực ưu tiên, vị trí đẹp</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-            </div>
-
-            <div class="event-detail-actions">
-                <a href="payment-page.html?id=${event.paymentId}" class="btn btn-primary">
-                    Mua vé / Thanh toán
-                </a>
-
-                <a href="index.html#events" class="btn btn-outline-primary">
-                    Quay lại danh sách sự kiện
-                </a>
-            </div>
-
-        </article>
+  // Khởi tạo chuỗi chứa mã HTML để hiển thị danh sách các hạng vé (Standard, VIP, VVIP)
+  let ticketClassesHtml = '';
+  event.ticketClasses.forEach(tClass => {
+    let tClassLower = tClass.name.toLowerCase();
+    
+    // Thêm các class CSS bổ sung để tạo viền phát sáng đặc trưng cho vé VIP và VVIP
+    let classCardMod = tClassLower === 'vip' ? 'vip' : (tClassLower === 'vvip' ? 'vvip' : '');
+    
+    // Tạo cấu trúc card cho từng hạng vé
+    ticketClassesHtml += `
+      <div class="ticket-option-card ${classCardMod}">
+        <h4 class="ticket-option-title">${tClass.name}</h4>
+        <div class="ticket-option-price">${formatCurrency(tClass.price)}</div>
+        <p class="ticket-option-desc">${tClass.desc}</p>
+        <div class="ticket-option-avail">
+          Số lượng còn lại: <span class="text-info">${tClass.available} vé</span>
+        </div>
+        <!-- Link nút Mua vé sẽ gửi kèm cả mã sự kiện và hạng vé đã chọn qua URL -->
+        <a href="payment-page.html?id=${event.code}&class=${encodeURIComponent(tClass.name)}" class="btn btn-primary btn-sm w-100 mt-2">
+          Chọn hạng vé này
+        </a>
+      </div>
     `;
+  });
+
+  // Ghi toàn bộ nội dung HTML động vào phần tử container
+  container.innerHTML = `
+    <!-- PHẦN BANNER ANH NỀN CHỦ ĐẠO (HERO BANNER) -->
+    <div class="event-detail-hero">
+      <img src="${event.banner}" alt="${event.title}" class="event-detail-banner">
+      <div class="event-detail-overlay">
+        <div class="event-detail-header">
+          <span class="event-badge ${badgeClass} mb-3 d-inline-block">
+            ${event.code}
+          </span>
+          <h1>${event.title}</h1>
+          
+          <!-- Thông tin tổng quan: Ca sĩ, Thời gian, Địa điểm -->
+          <div class="event-detail-meta">
+            <div class="meta-item">
+              🎤 <strong>Ca sĩ:</strong> ${event.artist}
+            </div>
+            <div class="meta-item">
+              📅 <strong>Thời gian:</strong> ${event.date} - ${event.time}
+            </div>
+            <div class="meta-item">
+              📍 <strong>Địa điểm:</strong> ${event.location}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHẦN GRID CHỨA NỘI DUNG MÔ TẢ VÀ CHỌN VÉ -->
+    <div class="row g-4 mt-2">
+      <!-- Cột bên trái (Mô tả sự kiện & Hướng dẫn quy định) -->
+      <div class="col-12 col-lg-8">
+        <div class="detail-card h-100">
+          <h3>Giới thiệu sự kiện</h3>
+          <p class="lead" style="line-height: 1.8; color: var(--text-main);">
+            ${event.description}
+          </p>
+          
+          <h3 class="mt-5">Thông tin quan trọng</h3>
+          <ul class="text-muted" style="line-height: 1.8;">
+            <li>Cổng soát vé sẽ bắt đầu đón khách trước giờ biểu diễn 60 phút.</li>
+            <li>Vui lòng chuẩn bị sẵn mã QR trên ứng dụng hoặc bản in để nhân viên quét xác thực tại lối vào cổng.</li>
+            <li>Hành lý cồng kềnh, các chất kích thích và vật dụng nguy hiểm bị cấm mang vào khu vực biểu diễn.</li>
+            <li>Vé đã mua không được hoàn trả, nhưng có thể chuyển nhượng thông tin QR code cho người khác.</li>
+          </ul>
+
+          <div class="mt-5 p-4 border border-secondary rounded bg-opacity-10 bg-secondary d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <h5 class="mb-1 text-white">Bạn cần hỗ trợ đặt vé doanh nghiệp hoặc mua số lượng lớn?</h5>
+              <p class="mb-0 text-muted text-sm">Vui lòng liên hệ với ban tổ chức qua hotline: 0123 456 789</p>
+            </div>
+            <a href="mailto:support@liveshowticket.vn" class="btn btn-outline-primary">Liên hệ BTC</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cột bên phải (Đặt vé nhanh với các hạng vé) -->
+      <div class="col-12 col-lg-4">
+        <div class="detail-card h-100">
+          <h3>Đặt vé nhanh</h3>
+          <p class="text-muted text-sm mb-4">Chọn một trong các hạng vé dưới đây để tiến hành điền thông tin và thanh toán vé trực tuyến.</p>
+          
+          <div class="ticket-options-container">
+            ${ticketClassesHtml}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
-function renderNotFound(container, message) {
-    document.title = 'Không tìm thấy sự kiện | QRBOX';
-
-    container.innerHTML = `
-        <section class="event-detail-card">
-            <div class="event-detail-header">
-                <span class="section-badge">ERROR</span>
-
-                <h1>Không tìm thấy sự kiện</h1>
-
-                <p>${message}</p>
-            </div>
-
-            <div class="event-detail-actions">
-                <a href="index.html#events" class="btn btn-primary">
-                    Quay lại danh sách sự kiện
-                </a>
-            </div>
-        </section>
-    `;
+// Hàm format số tiền sang định dạng VNĐ dễ nhìn
+function formatCurrency(amount) {
+  return amount.toLocaleString('vi-VN') + ' VNĐ';
 }
