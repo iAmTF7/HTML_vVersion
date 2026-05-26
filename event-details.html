@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Hệ thống quản lý sự kiện và bán vé Liveshow</title>
+  <title>Chi tiết sự kiện</title>
 
   <link rel="stylesheet" href="bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
@@ -107,135 +107,13 @@
     </nav>
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main class="site-main">
-
-    <section id="events" class="container">
-
-      <div class="section-heading text-center">
-        <span class="section-badge">QRBOX EVENTS</span>
-        <h1>Danh sách sự kiện</h1>
-        <p>
-          Khám phá các liveshow và đặt vé nhanh chóng cùng QRBOX
-        </p>
-      </div>
-
-      <div class="row g-4">
-
-        <!-- SỰ KIỆN 1 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <article class="event-card">
-            <div class="event-card-body">
-
-              <span class="event-badge bg-primary">
-                EVT001
-              </span>
-
-              <h2>
-                Liveshow Mùa Hè 2026
-              </h2>
-
-              <ul class="event-info">
-                <li><strong>Ca sĩ:</strong> Đang cập nhật</li>
-                <li><strong>Thời gian:</strong> 20/06/2026</li>
-                <li><strong>Địa điểm:</strong> Sân vận động trung tâm</li>
-                <li>
-                  <strong>Giá vé:</strong>
-                  <span>Từ 300.000 VNĐ</span>
-                </li>
-              </ul>
-
-              <div class="event-actions">
-                <a href="event-details.html?id=1" class="btn btn-outline-primary">
-                  Chi tiết
-                </a>
-
-                <a href="payment-page.html?id=EVT001" class="btn btn-primary">
-                  Mua vé
-                </a>
-              </div>
-
-            </div>
-          </article>
-        </div>
-
-        <!-- SỰ KIỆN 2 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <article class="event-card">
-            <div class="event-card-body">
-
-              <span class="event-badge bg-success">
-                EVT002
-              </span>
-
-              <h2>
-                Đêm nhạc Acoustic
-              </h2>
-
-              <ul class="event-info">
-                <li><strong>Ca sĩ:</strong> Đang cập nhật</li>
-                <li><strong>Thời gian:</strong> 15/07/2026</li>
-                <li><strong>Địa điểm:</strong> Nhà hát thành phố</li>
-                <li>
-                  <strong>Giá vé:</strong>
-                  <span>Từ 250.000 VNĐ</span>
-                </li>
-              </ul>
-
-              <div class="event-actions">
-                <a href="event-details.html?id=2" class="btn btn-outline-primary">
-                  Chi tiết
-                </a>
-
-                <a href="payment-page.html?id=EVT002" class="btn btn-primary">
-                  Mua vé
-                </a>
-              </div>
-
-            </div>
-          </article>
-        </div>
-
-        <!-- SỰ KIỆN 3 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <article class="event-card">
-            <div class="event-card-body">
-
-              <span class="event-badge bg-warning text-dark">
-                EVT003
-              </span>
-
-              <h2>
-                Music Night 2026
-              </h2>
-
-              <ul class="event-info">
-                <li><strong>Ca sĩ:</strong> Đang cập nhật</li>
-                <li><strong>Thời gian:</strong> 10/08/2026</li>
-                <li><strong>Địa điểm:</strong> Nhà thi đấu thành phố</li>
-                <li>
-                  <strong>Giá vé:</strong>
-                  <span>Từ 400.000 VNĐ</span>
-                </li>
-              </ul>
-
-              <div class="event-actions">
-                <a href="event-details.html?id=3" class="btn btn-outline-primary">
-                  Chi tiết
-                </a>
-
-                <a href="payment-page.html?id=EVT003" class="btn btn-primary">
-                  Mua vé
-                </a>
-              </div>
-
-            </div>
-          </article>
-        </div>
-
+    <section id="event-detail-section" class="container">
+      <div id="event-container">
+        <!-- event-details.js render nội dung ở đây -->
       </div>
     </section>
-
   </main>
 
   <!-- FOOTER -->
@@ -301,6 +179,7 @@
 
   <script src="bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
+  <script src="event-details.js"></script>
 
 </body>
 </html>

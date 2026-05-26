@@ -1,0 +1,703 @@
+/* ==========================================================================
+   1. GLOBAL SETTINGS
+   ========================================================================== */
+
+:root {
+    --bg-main: #12121a;
+    --bg-card: #1f1f29;
+    --bg-input: #2a2a35;
+    --primary: #00e5ff;
+    --primary-hover: #00b8cc;
+    --text-light: #f8fafc;
+    --text-muted: #a8adbd;
+    --border-color: #334155;
+    --danger: #ef4444;
+    --success: #10b981;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(0, 229, 255, 0.08), transparent 35%),
+        linear-gradient(180deg, #171721 0%, #101018 100%);
+    color: var(--text-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+a:hover {
+    color: var(--primary-hover);
+    text-decoration: none;
+}
+
+hr {
+    border-color: var(--border-color);
+    opacity: 1;
+}
+
+/* ==========================================================================
+   2. HEADER / NAVBAR
+   ========================================================================== */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: rgba(31, 31, 41, 0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.18);
+}
+
+.site-navbar {
+    padding: 14px 0;
+    background-color: transparent !important;
+}
+
+.navbar-brand {
+    color: var(--text-light) !important;
+    text-decoration: none;
+}
+
+.brand-text {
+    color: var(--text-light) !important;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.navbar .nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus {
+    color: var(--primary) !important;
+}
+
+/* ==========================================================================
+   3. SEARCH
+   ========================================================================== */
+
+.search-form {
+    gap: 10px;
+}
+
+.search-form .form-control {
+    min-width: 240px;
+    height: 46px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+    border-radius: 12px;
+}
+
+.search-form .form-control::placeholder {
+    color: #8d93a3;
+}
+
+.search-form .form-control:focus {
+    background-color: var(--bg-input);
+    color: var(--text-light);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 229, 255, 0.15);
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    padding: 8px;
+    margin: 0;
+    list-style: none;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.35);
+}
+
+.search-dropdown li a {
+    display: block;
+    padding: 10px 12px;
+    color: var(--text-light);
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+.search-dropdown li a:hover {
+    color: #071016;
+    background-color: var(--primary);
+}
+
+/* ==========================================================================
+   4. BUTTONS
+   ========================================================================== */
+
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #071016 !important;
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+    color: #071016 !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    font-weight: 700;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary) !important;
+    color: #071016 !important;
+}
+
+/* ==========================================================================
+   5. DROPDOWN
+   ========================================================================== */
+
+.custom-dropdown {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+
+.custom-dropdown .dropdown-item {
+    color: var(--text-light);
+    border-radius: 8px;
+}
+
+.custom-dropdown .dropdown-item:hover {
+    color: #071016;
+    background-color: var(--primary);
+}
+
+.dropdown-divider {
+    border-color: var(--border-color);
+}
+
+/* ==========================================================================
+   6. MAIN / SECTION
+   ========================================================================== */
+
+.site-main {
+    max-width: none;
+    padding: 70px 0 40px;
+}
+
+.section-heading {
+    margin-bottom: 44px;
+}
+
+.section-badge {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 6px 14px;
+    color: var(--primary);
+    background-color: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.section-heading h1 {
+    margin-bottom: 12px;
+    color: var(--text-light);
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 800;
+}
+
+.section-heading p {
+    color: var(--text-muted);
+    font-size: 17px;
+}
+
+/* ==========================================================================
+   7. EVENT CARD INDEX
+   ========================================================================== */
+
+.event-card {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)),
+        var(--bg-card);
+    border: 1px solid rgba(0, 229, 255, 0.22);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 24px 60px rgba(0, 229, 255, 0.12);
+}
+
+.event-card-body {
+    height: 100%;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-badge {
+    align-self: flex-start;
+    margin-bottom: 18px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+}
+
+.event-card h2 {
+    margin-bottom: 18px;
+    padding-left: 14px;
+    color: var(--text-light);
+    border-left: 4px solid var(--primary);
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+.event-info {
+    padding: 0;
+    margin: 0 0 26px;
+    list-style: none;
+}
+
+.event-info li {
+    margin-bottom: 10px;
+    color: var(--text-muted);
+    font-size: 15.5px;
+}
+
+.event-info strong {
+    color: var(--text-light);
+}
+
+.event-info span {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.event-actions {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.event-actions .btn {
+    width: 100%;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   8. EVENT DETAILS PAGE
+   ========================================================================== */
+
+.event-detail-card {
+    background:
+        linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)),
+        var(--bg-card);
+    border: 1px solid rgba(0, 229, 255, 0.22);
+    border-radius: 22px;
+    padding: 34px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+.event-detail-header {
+    margin-bottom: 30px;
+}
+
+.event-detail-header h1 {
+    margin: 14px 0;
+    color: var(--text-light);
+    font-size: clamp(30px, 4vw, 48px);
+    font-weight: 800;
+}
+
+.event-detail-header p {
+    max-width: 850px;
+    color: var(--text-muted);
+    font-size: 17px;
+}
+
+.event-detail-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 28px;
+    margin-top: 28px;
+}
+
+.event-detail-info,
+.event-detail-price {
+    background-color: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 24px;
+}
+
+.event-detail-info h2,
+.event-detail-price h2 {
+    margin-bottom: 18px;
+    padding-left: 12px;
+    border-left: 4px solid var(--primary);
+    color: var(--text-light);
+    font-size: 24px;
+}
+
+.event-detail-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.event-detail-list li {
+    margin-bottom: 13px;
+    color: var(--text-muted);
+}
+
+.event-detail-list strong {
+    color: var(--text-light);
+}
+
+.ticket-price-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.ticket-price-table th,
+.ticket-price-table td {
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+}
+
+.ticket-price-table th {
+    color: var(--primary);
+    background-color: rgba(0, 229, 255, 0.08);
+}
+
+.ticket-price-table td {
+    color: var(--text-muted);
+}
+
+.ticket-price-table td:nth-child(2) {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.event-detail-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.event-detail-actions .btn {
+    min-width: 190px;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+/* ==========================================================================
+   9. FORMS
+   ========================================================================== */
+
+#login,
+#register,
+#payment-page {
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: var(--bg-card);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+form label {
+    display: block;
+    margin-bottom: 15px;
+    color: var(--text-muted);
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="number"],
+form input[type="search"],
+form select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: white;
+}
+
+form input:focus,
+form select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.input-error {
+    border-color: var(--danger) !important;
+}
+
+.error-message {
+    display: block;
+    margin-top: 6px;
+    color: var(--danger);
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   10. TABLE
+   ========================================================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+table,
+th,
+td {
+    border: 1px solid var(--border-color);
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #1e293b;
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   11. PAYMENT / SEAT / QR
+   ========================================================================== */
+
+.seat {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    margin: 6px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.seat:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.seat.selected {
+    background-color: var(--primary);
+    color: #071016;
+    border-color: var(--primary);
+    font-weight: 800;
+}
+
+.qr-box,
+#payment-container .qr-box {
+    background-color: white;
+    color: black;
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block;
+    font-family: monospace;
+    font-weight: bold;
+    line-height: 1.2;
+    border: 3px solid var(--primary);
+}
+
+.flashing-red {
+    animation: flashingRed 0.8s infinite;
+}
+
+@keyframes flashingRed {
+    0% {
+        color: var(--danger);
+    }
+
+    50% {
+        color: white;
+    }
+
+    100% {
+        color: var(--danger);
+    }
+}
+
+/* ==========================================================================
+   12. LOADING
+   ========================================================================== */
+
+.loading-spinner {
+    margin: 30px auto;
+    text-align: center;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   13. FOOTER
+   ========================================================================== */
+
+.site-footer {
+    margin-top: 70px;
+    padding: 55px 0 24px;
+    background-color: #171721;
+    border-top: 1px solid rgba(0, 229, 255, 0.18);
+}
+
+.site-footer h2,
+.site-footer h3 {
+    color: var(--text-light);
+}
+
+.site-footer h2 small {
+    color: var(--primary);
+}
+
+.site-footer p {
+    color: var(--text-muted);
+}
+
+.footer-links {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}
+
+.site-footer hr {
+    border-color: var(--border-color);
+    opacity: 1;
+}
+
+.copyright {
+    margin-bottom: 0;
+    text-align: center;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   14. RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 991px) {
+    .search-form {
+        width: 100%;
+    }
+
+    .search-form .form-control {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .brand-text {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .event-detail-card {
+        padding: 24px;
+    }
+
+    .event-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-detail-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+    .site-main {
+        padding-top: 45px;
+    }
+
+    .event-card-body {
+        padding: 22px;
+    }
+
+    .event-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h1 {
+        font-size: 32px;
+    }
+}
