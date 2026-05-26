@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,221 @@
 <body>
 
 
+<<<<<<< Updated upstream
         <header>
             <a href="index.html#home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
             <img src="image/logo_dark.png" alt="QRBOX Logo" width="60">
             <span style="color: rgb(0, 0, 0); font-size: 24px;">QRBOX</span>
+=======
+        <!-- LOGO -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.html#home">
+          <img src="image/logo_dark.png" alt="QRBOX Logo" width="48">
+          <span class="brand-text">QRBOX</span>
+        </a>
+
+        <!-- MOBILE MENU BUTTON -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+          aria-controls="navbarMenu" aria-expanded="false" aria-label="Mở menu">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- MENU -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
+
+          <!-- SEARCH FORM -->
+          <form class="search-form d-flex ms-lg-auto my-3 my-lg-0 me-lg-3" role="search">
+            <input class="form-control" type="search" placeholder="Tìm kiếm sự kiện..." aria-label="Tìm kiếm sự kiện">
+
+            <button class="btn btn-primary" type="submit">
+              Tìm kiếm
+            </button>
+          </form>
+
+          <!-- NAV LINKS -->
+          <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
+
+            <li class="nav-item">
+              <a class="nav-link" href="my-tickets.html#ticket">
+                Vé của bạn
+              </a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Tài khoản
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="accountDropdown">
+                <li>
+                  <a class="dropdown-item" href="login.html">
+                    Đăng nhập
+                  </a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item active" href="register.html">
+                    Đăng ký
+                  </a>
+                </li>
+
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                  <a class="dropdown-item" href="my-tickets.html#ticket">
+                    Vé của bạn
+                  </a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item text-danger" href="logout">
+                    Đăng xuất
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="site-main">
+
+    <section id="register" class="auth-card auth-card-lg">
+
+      <div class="section-heading text-center mb-4">
+        <span class="section-badge">QRBOX ACCOUNT</span>
+        <h1>Đăng ký tài khoản</h1>
+        <p>
+          Tạo tài khoản để đặt vé, quản lý vé và sử dụng mã QR check-in.
+        </p>
+      </div>
+
+      <form id="registerForm" action="login.html" method="get" novalidate>
+
+        <label>
+          Họ và tên:
+          <input type="text" name="fullname" placeholder="Nhập họ và tên" autocomplete="name">
+        </label>
+
+        <label>
+          Email:
+          <input type="email" name="email" placeholder="Nhập email" autocomplete="email">
+        </label>
+
+        <label>
+          Số điện thoại:
+          <input type="tel" name="phone" placeholder="Nhập số điện thoại" autocomplete="tel">
+        </label>
+
+        <label>
+          Tên đăng nhập:
+          <input type="text" name="username" placeholder="Nhập tên đăng nhập" autocomplete="username">
+        </label>
+
+        <label>
+          Mật khẩu:
+          <input type="password" name="password" placeholder="Nhập mật khẩu" autocomplete="new-password">
+        </label>
+
+        <label>
+          Nhập lại mật khẩu:
+          <input type="password" name="confirm_password" placeholder="Nhập lại mật khẩu" autocomplete="new-password">
+        </label>
+
+        <label class="remember-row mt-2">
+          <input type="checkbox" id="isAdminReg" name="is_admin">
+          <span>Đăng ký tài khoản Quản trị viên (Admin)</span>
+        </label>
+
+        <div id="adminCodeWrapper" style="display: none; margin-bottom: 1.2rem;">
+          <label>
+            <span>Mã xác thực Admin:</span>
+            <input type="password" id="adminCode" name="admin_code" placeholder="Nhập mã xác thực Admin">
+          </label>
+        </div>
+
+        <label class="remember-row">
+          <input type="checkbox" name="agree">
+          <span>Tôi đồng ý với điều khoản sử dụng</span>
+        </label>
+
+        <div class="auth-actions">
+          <button type="submit" class="btn btn-primary">
+            Đăng ký
+          </button>
+
+          <button type="reset" class="btn btn-outline-primary">
+            Làm mới
+          </button>
+        </div>
+
+      </form>
+
+      <div class="auth-links">
+        <p>
+          Đã có tài khoản?
+          <a href="login.html">Đăng nhập tại đây</a>
+        </p>
+
+        <p>
+          <a href="index.html">Quay lại trang chủ</a>
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="vechungtoi" class="site-footer">
+    <div class="container">
+
+      <div class="row g-4">
+
+        <div class="col-12 col-md-4">
+          <h2>
+            <small>LIVE</small> TICKET
+          </h2>
+
+          <p>
+            Hệ thống quản lý sự kiện và bán vé liveshow.
+            Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
+          </p>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <h3>Liên kết nhanh</h3>
+
+          <ul class="footer-links">
+            <li><a href="index.html#home">Trang chủ</a></li>
+            <li><a href="index.html#events">Sự kiện</a></li>
+            <li><a href="my-tickets.html#ticket">Vé của tôi</a></li>
+            <li><a href="my-tickets.html#checkin">Xác thực vé</a></li>
+            <li><a href="my-tickets.html#checkin-history">Lịch sử check-in</a></li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <h3>Liên hệ</h3>
+
+          <p>Điện thoại: 0123 456 789</p>
+          <p>Email: support@liveshowticket.vn</p>
+          <p>Địa chỉ: Việt Nam</p>
+          <p>Hỗ trợ: 24/7</p>
+
+          <h3 class="mt-4">Tài khoản</h3>
+
+          <div class="d-flex gap-2">
+            <a href="login.html" class="btn btn-outline-light btn-sm">
+              Đăng nhập
+>>>>>>> Stashed changes
             </a>
 
             <nav>
@@ -187,4 +399,5 @@
     </footer>
 
 </body>
+
 </html>

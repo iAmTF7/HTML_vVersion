@@ -14,8 +14,64 @@
             <span style="color: rgb(0, 0, 0); font-size: 24px;">QRBOX</span>
             </a>
 
+<<<<<<< Updated upstream
             <nav>
             <ul>
+=======
+        <!-- MOBILE MENU BUTTON -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMenu"
+          aria-controls="navbarMenu"
+          aria-expanded="false"
+          aria-label="Mở menu"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- MENU -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
+
+          <!-- SEARCH FORM -->
+          <form class="search-form d-flex ms-lg-auto my-3 my-lg-0 me-lg-3" role="search">
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Tìm kiếm sự kiện..."
+              aria-label="Tìm kiếm sự kiện"
+            >
+
+            <button class="btn btn-primary" type="submit">
+              Tìm kiếm
+            </button>
+          </form>
+
+          <!-- NAV LINKS -->
+          <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
+
+            <li class="nav-item">
+              <a class="nav-link active" href="my-tickets.html#ticket">
+                Vé của bạn
+              </a>
+            </li>
+
+            <!-- ACCOUNT DROPDOWN -->
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="accountDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Tài khoản
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="accountDropdown">
+>>>>>>> Stashed changes
                 <li>
                     <form>
                         <input type="text" placeholder="Tìm kiếm sự kiện...">
@@ -29,6 +85,7 @@
                     <li><a href="register.html">Đăng ký</a></li>
                     </ul>
                 </li>
+<<<<<<< Updated upstream
                 <hr>
                 <p>Nếu đã có tài khoản pls thay thê = này</p>
                 <ul id ="account-menu">
@@ -284,13 +341,157 @@
                 </td>
             </tr>
         </table>
+=======
+
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                  <a class="dropdown-item active" href="my-tickets.html#ticket">
+                    Vé của bạn
+                  </a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item text-danger" href="logout">
+                    Đăng xuất
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="site-main">
+
+    <!-- VÉ CỦA TÔI -->
+    <section id="ticket" class="container">
+
+      <div class="section-heading text-center">
+        <span class="section-badge">MY TICKETS</span>
+
+        <h1>Vé của tôi</h1>
+
+        <p>
+          Quản lý vé đã mua, tải vé và sử dụng mã QR tại cổng sự kiện.
+        </p>
+      </div>
+
+      <!-- 
+        my-tickets.js sẽ render danh sách vé vào đây.
+        Không để demo vé tĩnh trong HTML nữa.
+      -->
+      <div class="row g-4">
+        <div class="col-12 text-center py-5">
+          <p class="text-muted fs-5">
+            Đang tải danh sách vé...
+          </p>
+        </div>
+      </div>
+>>>>>>> Stashed changes
 
         <hr>
 
+<<<<<<< Updated upstream
         <p align="center">
             &copy; 2026 by sheep
         </p>
     </footer>
+=======
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="vechungtoi" class="site-footer">
+    <div class="container">
+
+      <div class="row g-4">
+
+        <!-- FOOTER COLUMN 1 -->
+        <div class="col-12 col-md-4">
+          <h2>
+            <small>LIVE</small> TICKET
+          </h2>
+
+          <p>
+            Hệ thống quản lý sự kiện và bán vé liveshow.
+            Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
+          </p>
+        </div>
+
+        <!-- FOOTER COLUMN 2 -->
+        <div class="col-12 col-md-4">
+          <h3>Liên kết nhanh</h3>
+
+          <ul class="footer-links">
+            <li>
+              <a href="index.html#home">
+                Trang chủ
+              </a>
+            </li>
+
+            <li>
+              <a href="index.html#events">
+                Sự kiện
+              </a>
+            </li>
+
+            <li>
+              <a href="my-tickets.html#ticket">
+                Vé của tôi
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- FOOTER COLUMN 3 -->
+        <div class="col-12 col-md-4">
+          <h3>Liên hệ</h3>
+
+          <p>Điện thoại: 0123 456 789</p>
+          <p>Email: support@liveshowticket.vn</p>
+          <p>Địa chỉ: Việt Nam</p>
+          <p>Hỗ trợ: 24/7</p>
+
+          <h3 class="mt-4">Tài khoản</h3>
+
+          <div class="d-flex gap-2">
+            <a href="login.html" class="btn btn-outline-light btn-sm">
+              Đăng nhập
+            </a>
+
+            <a href="register.html" class="btn btn-primary btn-sm">
+              Đăng ký
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <hr>
+
+      <p class="copyright">
+        &copy; 2026 by sheep
+      </p>
+
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="bootstrap.bundle.min.js"></script>
+
+  <!-- script.js chạy trước để có dữ liệu localStorage, showToast, navbar -->
+  <script src="script.js"></script>
+>>>>>>> Stashed changes
+
+  <!-- File JS bạn gửi: render vé cá nhân, tải vé, in vé -->
+  <script src="my-tickets.js"></script>
 
 </body>
 </html>

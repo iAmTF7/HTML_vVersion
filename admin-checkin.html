@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Kiểm soát vé | QRBOX Admin</title>
+
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER / NAVBAR -->
+  <header id="home" class="site-header">
+    <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
+      <div class="container">
+
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.html#home">
+          <img src="image/logo_dark.png" alt="QRBOX Logo" width="48">
+          <span class="brand-text">QRBOX</span>
+        </a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMenu"
+          aria-controls="navbarMenu"
+          aria-expanded="false"
+          aria-label="Mở menu"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+
+          <form class="search-form d-flex ms-lg-auto my-3 my-lg-0 me-lg-3" role="search">
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Tìm kiếm sự kiện..."
+              aria-label="Tìm kiếm sự kiện"
+            >
+
+            <button class="btn btn-primary" type="submit">
+              Tìm kiếm
+            </button>
+          </form>
+
+          <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
+
+            <li class="nav-item">
+              <a class="nav-link" href="my-tickets.html#ticket">
+                Vé của bạn
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link active" href="admin-checkin.html#checkin">
+                Kiểm soát vé
+              </a>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="accountDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Tài khoản
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="accountDropdown">
+                <li>
+                  <a class="dropdown-item" href="login.html">
+                    Đăng nhập
+                  </a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item" href="register.html">
+                    Đăng ký
+                  </a>
+                </li>
+
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+
+                <li>
+                  <a class="dropdown-item" href="my-tickets.html#ticket">
+                    Vé của bạn
+                  </a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item active" href="admin-checkin.html#checkin">
+                    Kiểm soát vé
+                  </a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item text-danger" href="logout">
+                    Đăng xuất
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="site-main">
+
+    <section class="container">
+
+      <div class="section-heading text-center">
+        <span class="section-badge">ADMIN CHECK-IN</span>
+        <h1>Kiểm soát vé vào cổng</h1>
+        <p>
+          Trang dành cho tài khoản <strong>admin</strong> hoặc <strong>staff</strong>
+          để xác thực vé và theo dõi lịch sử check-in.
+        </p>
+      </div>
+
+      <!-- THÔNG BÁO KHÔNG CÓ QUYỀN -->
+      <div id="access-denied" class="admin-access-card d-none">
+        <span class="section-badge">ACCESS DENIED</span>
+
+        <h2>Bạn không có quyền truy cập</h2>
+
+        <p>
+          Chức năng xác thực vé vào cổng và lịch sử check-in chỉ dành cho tài khoản
+          <strong>admin</strong> hoặc <strong>staff</strong>.
+        </p>
+
+        <div class="admin-actions">
+          <a href="login.html?redirect=admin-checkin.html" class="btn btn-primary">
+            Đăng nhập
+          </a>
+
+          <a href="index.html" class="btn btn-outline-primary">
+            Quay lại trang chủ
+          </a>
+        </div>
+      </div>
+
+      <!-- NỘI DUNG ADMIN / STAFF -->
+      <div id="admin-checkin-content" class="d-none">
+
+        <!-- DASHBOARD -->
+        <div class="admin-dashboard-grid">
+
+          <article class="admin-card">
+            <h2>Thông tin tài khoản</h2>
+
+            <ul class="admin-info-list">
+              <li>
+                <strong>Tên tài khoản:</strong>
+                <span id="adminUsernameText">Đang tải...</span>
+              </li>
+
+              <li>
+                <strong>Vai trò:</strong>
+                <span id="adminRoleText" class="ticket-status status-unused">
+                  Đang tải...
+                </span>
+              </li>
+
+              <li>
+                <strong>Trạng thái:</strong>
+                <span class="ticket-status status-used">
+                  Đang hoạt động
+                </span>
+              </li>
+            </ul>
+          </article>
+
+          <article class="admin-card">
+            <h2>Thống kê nhanh</h2>
+
+            <div class="admin-stats-grid">
+              <div class="admin-stat-item">
+                <span id="totalTicketsText">0</span>
+                <small>Tổng vé</small>
+              </div>
+
+              <div class="admin-stat-item">
+                <span id="checkedInTicketsText">0</span>
+                <small>Đã check-in</small>
+              </div>
+
+              <div class="admin-stat-item">
+                <span id="unusedTicketsText">0</span>
+                <small>Chưa sử dụng</small>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- XÁC THỰC VÉ VÀO CỔNG -->
+        <section id="checkin" class="admin-card page-section-sm">
+          <h2>Xác thực vé vào cổng</h2>
+
+          <p class="admin-muted">
+            Có thể mô phỏng quét QR, bấm mã demo hoặc nhập mã vé thủ công để kiểm tra trạng thái vé.
+          </p>
+
+          <div class="admin-scanner-box">
+            <p>[ Camera quét QR - mô phỏng web tĩnh ]</p>
+          </div>
+
+          <div class="admin-actions">
+            <button type="button" class="btn btn-primary" id="startScanBtn">
+              Bắt đầu quét
+            </button>
+
+            <button type="button" class="btn btn-outline-primary" id="stopScanBtn">
+              Dừng quét
+            </button>
+          </div>
+
+          <div class="demo-scan-area">
+            <p>Quét thử nhanh:</p>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary demo-ticket-btn"
+              data-code="TICKET-EVT001-001"
+            >
+              TICKET-EVT001-001
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary demo-ticket-btn"
+              data-code="TICKET-EVT002-001"
+            >
+              TICKET-EVT002-001
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary demo-ticket-btn"
+              data-code="TICKET-EVT003-001"
+            >
+              TICKET-EVT003-001
+            </button>
+          </div>
+        </section>
+
+        <!-- NHẬP MÃ VÉ THỦ CÔNG -->
+        <section class="admin-card page-section-sm">
+          <h2>Nhập mã vé thủ công</h2>
+
+          <form id="manualCheckinForm">
+            <label class="payment-label">
+              Mã vé:
+              <input
+                type="text"
+                id="manualTicketCode"
+                name="ticket_code"
+                placeholder="Nhập mã vé, ví dụ: TICKET-EVT001-001"
+              >
+            </label>
+
+            <button type="submit" class="btn btn-primary">
+              Kiểm tra vé
+            </button>
+          </form>
+        </section>
+
+        <!-- KẾT QUẢ KIỂM TRA -->
+        <section class="admin-card page-section-sm">
+          <h2>Kết quả kiểm tra</h2>
+
+          <div id="checkinResultBox" class="checkin-result-box">
+            <p>Chưa có vé nào được kiểm tra.</p>
+          </div>
+        </section>
+
+        <!-- LỊCH SỬ CHECK-IN -->
+        <section id="checkin-history" class="admin-card page-section-sm">
+          <h2>Lịch sử check-in</h2>
+
+          <p class="admin-muted">
+            Danh sách toàn bộ vé trong hệ thống, trạng thái sử dụng và thời gian check-in.
+          </p>
+
+          <div class="table-responsive">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Mã vé</th>
+                  <th>Khách hàng</th>
+                  <th>Sự kiện</th>
+                  <th>Loại vé</th>
+                  <th>Thời gian check-in</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+
+              <tbody id="adminTicketTableBody">
+                <!-- admin-checkin.js render dữ liệu ở đây -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="vechungtoi" class="site-footer">
+    <div class="container">
+
+      <div class="row g-4">
+
+        <div class="col-12 col-md-4">
+          <h2>
+            <small>LIVE</small> TICKET
+          </h2>
+
+          <p>
+            Hệ thống quản lý sự kiện và bán vé liveshow.
+            Hỗ trợ đặt vé, quản lý QR code và xác thực vé vào cổng.
+          </p>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <h3>Liên kết nhanh</h3>
+
+          <ul class="footer-links">
+            <li>
+              <a href="index.html#home">Trang chủ</a>
+            </li>
+
+            <li>
+              <a href="index.html#events">Sự kiện</a>
+            </li>
+
+            <li>
+              <a href="my-tickets.html#ticket">Vé của tôi</a>
+            </li>
+
+            <li>
+              <a href="admin-checkin.html#checkin">Xác thực vé</a>
+            </li>
+
+            <li>
+              <a href="admin-checkin.html#checkin-history">Lịch sử check-in</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <h3>Liên hệ</h3>
+
+          <p>Điện thoại: 0123 456 789</p>
+          <p>Email: support@liveshowticket.vn</p>
+          <p>Địa chỉ: Việt Nam</p>
+          <p>Hỗ trợ: 24/7</p>
+
+          <h3 class="mt-4">Tài khoản</h3>
+
+          <div class="d-flex gap-2">
+            <a href="login.html" class="btn btn-outline-light btn-sm">
+              Đăng nhập
+            </a>
+
+            <a href="register.html" class="btn btn-primary btn-sm">
+              Đăng ký
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <hr>
+
+      <p class="copyright">
+        &copy; 2026 by sheep
+      </p>
+
+    </div>
+  </footer>
+
+  <script src="bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script src="admin-checkin.js"></script>
+
+</body>
+</html>

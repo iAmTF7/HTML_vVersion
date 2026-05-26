@@ -8,6 +8,7 @@
 <body>
 
 
+<<<<<<< Updated upstream
         <header>
             <a href="index.html#home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
             <img src="image/logo_dark.png" alt="QRBOX Logo" width="60">
@@ -16,6 +17,67 @@
 
             <nav>
             <ul>
+=======
+        <!-- LOGO -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="index.html#home">
+          <img src="image/logo_dark.png" alt="QRBOX Logo" width="48">
+          <span class="brand-text">QRBOX</span>
+        </a>
+
+        <!-- MOBILE MENU BUTTON -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMenu"
+          aria-controls="navbarMenu"
+          aria-expanded="false"
+          aria-label="Mở menu"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- MENU -->
+        <div class="collapse navbar-collapse" id="navbarMenu">
+
+          <!-- SEARCH FORM -->
+          <form class="search-form d-flex ms-lg-auto my-3 my-lg-0 me-lg-3" role="search">
+            <input
+              class="form-control"
+              type="search"
+              placeholder="Tìm kiếm sự kiện..."
+              aria-label="Tìm kiếm sự kiện"
+            >
+
+            <button class="btn btn-primary" type="submit">
+              Tìm kiếm
+            </button>
+          </form>
+
+          <!-- NAV LINKS -->
+          <ul class="navbar-nav mb-2 mb-lg-0 align-items-lg-center">
+
+            <li class="nav-item">
+              <a class="nav-link" href="my-tickets.html#ticket">
+                Vé của bạn
+              </a>
+            </li>
+
+            <!-- ACCOUNT DROPDOWN -->
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="accountDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Tài khoản
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="accountDropdown">
+>>>>>>> Stashed changes
                 <li>
                     <form>
                         <input type="text" placeholder="Tìm kiếm sự kiện...">
@@ -80,6 +142,7 @@
                     <p><a href="index.html#vechungtoi">Về chúng tôi</a></p>
                 </td>
 
+<<<<<<< Updated upstream
                 <td width="35%" valign="top">
                     <h3>Liên hệ</h3>
 
@@ -99,9 +162,19 @@
 
         <p align="center">
             &copy; 2026 by sheep
+=======
+      <div class="section-heading text-center">
+        <span class="section-badge">QRBOX PAYMENT</span>
+
+        <h1>Thanh toán vé</h1>
+
+        <p>
+          Chọn hạng vé, số lượng, nhập thông tin nhận vé và hoàn tất thanh toán.
+>>>>>>> Stashed changes
         </p>
     </footer>
 
+<<<<<<< Updated upstream
     <script>
         // Database sự kiện giả lập
         const events = {
@@ -118,6 +191,20 @@
                 orderCode: "ORDER-EVT001-001",
                 ticketCode: "TICKET-EVT001-001"
             },
+=======
+      <!-- payment-page.js sẽ render toàn bộ giao diện thanh toán vào đây -->
+      <div id="payment-container">
+        <section class="payment-card payment-message-card text-center">
+          <span class="section-badge">LOADING</span>
+
+          <h2>Đang tải thông tin thanh toán...</h2>
+
+          <p>
+            Vui lòng chờ trong giây lát.
+          </p>
+        </section>
+      </div>
+>>>>>>> Stashed changes
 
             EVT002: {
                 id: "EVT002",
@@ -156,8 +243,16 @@
         // Lấy sự kiện theo id
         const event = events[eventId];
 
+<<<<<<< Updated upstream
         // Vị trí hiển thị nội dung
         const container = document.getElementById("payment-container");
+=======
+        <!-- FOOTER COLUMN 1 -->
+        <div class="col-12 col-md-4">
+          <h2>
+            <small>LIVE</small> TICKET
+          </h2>
+>>>>>>> Stashed changes
 
         // Nếu tìm thấy sự kiện
         if (event) {
@@ -165,6 +260,7 @@
                 <section>
                     <h2>Thông tin sự kiện</h2>
 
+<<<<<<< Updated upstream
                     <article>
                         <p><strong>Mã sự kiện:</strong> ${event.id}</p>
                         <p><strong>Tên sự kiện:</strong> ${event.title}</p>
@@ -179,6 +275,36 @@
 
                 <section>
                     <h2>Chọn vé</h2>
+=======
+        <!-- FOOTER COLUMN 2 -->
+        <div class="col-12 col-md-4">
+          <h3>Liên kết nhanh</h3>
+
+          <ul class="footer-links">
+            <li>
+              <a href="index.html#home">
+                Trang chủ
+              </a>
+            </li>
+
+            <li>
+              <a href="index.html#events">
+                Sự kiện
+              </a>
+            </li>
+
+            <li>
+              <a href="my-tickets.html#ticket">
+                Vé của tôi
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- FOOTER COLUMN 3 -->
+        <div class="col-12 col-md-4">
+          <h3>Liên hệ</h3>
+>>>>>>> Stashed changes
 
                     <form>
                         <input type="hidden" name="event_id" value="${event.id}">
@@ -215,6 +341,7 @@
 
                 <hr>
 
+<<<<<<< Updated upstream
                 <section>
                     <h2>Thông tin khách hàng</h2>
 
@@ -353,6 +480,16 @@
             `;
         }
     </script>
+=======
+  <!-- JS -->
+  <script src="bootstrap.bundle.min.js"></script>
+
+  <!-- script.js chạy trước để khởi tạo localStorage: events, users, tickets -->
+  <script src="script.js"></script>
+>>>>>>> Stashed changes
+
+  <!-- payment-page.js render giao diện thanh toán -->
+  <script src="payment-page.js"></script>
 
 </body>
 </html>
