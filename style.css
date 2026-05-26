@@ -1,0 +1,358 @@
+/* ==========================================================================
+   1. THIẾT LẬP CHUNG & MÀU SẮC LIVESHOW (DARK MODE)
+   ========================================================================== */
+:root {
+    --bg-main: #12121a;        /* Đổi thành nền xám đen sâu (giúp mắt dễ chịu hơn nền đen xì) */
+    --bg-card: #1F1F29;        /* Đổi thành Xanh Đen Điện Tử (Làm nền cho thẻ sự kiện, Header, Footer) */
+    --bg-input: #2a2a35;       /* Sáng hơn nền card một chút để ô nhập liệu nổi lên */
+    --primary: #00E5FF;        /* Đổi sang Xanh Cyan (Làm viền laser, nút bấm, tiêu đề) */
+    --primary-hover: #00b8cc;  /* Xanh Cyan sẫm hơn khi rê chuột */
+    --text-light: #f8fafc;     /* Giữ nguyên chữ trắng */
+    --border-color: #334155;   /* Giữ nguyên viền */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 30px 0;
+}
+
+/* ==========================================================================
+   2. THANH ĐIỀU HƯỚNG (HEADER & MENU)
+   ========================================================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header a span {
+    color: var(--primary) !important; /* ĐÃ SỬA: Chữ BOX phát sáng màu Cyan công nghệ */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+nav > ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 20px;
+}
+
+nav form {
+    display: flex;
+    gap: 5px;
+}
+
+nav form input {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: white;
+    outline: none;
+}
+
+/* ĐÃ SỬA: Nút Tìm kiếm không còn bị tàng hình, đổi màu khi trỏ chuột */
+nav form button {
+    padding: 8px 15px;
+    border-radius: 20px;
+    background-color: var(--primary);
+    color: var(--bg-card) !important; /* Chữ màu tối trên nền Cyan */
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+nav form button:hover {
+    background-color: transparent;
+    color: var(--primary) !important;
+}
+
+/* --- Menu Tài Khoản Dropdown --- */
+nav > ul > li {
+    position: relative;
+}
+
+nav > ul > li > span {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+}
+
+nav > ul > p {
+    display: none; /* Ẩn dòng chữ hướng dẫn tĩnh thừa */
+}
+
+ul#account-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    min-width: 150px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    padding: 10px 0;
+}
+
+nav > ul > li:hover ul#account-menu {
+    display: block;
+}
+
+ul#account-menu li {
+    list-style: none;
+    padding: 5px 15px;
+}
+
+ul#account-menu li a {
+    color: var(--text-light);
+    text-decoration: none;
+    display: block;
+}
+
+ul#account-menu li a:hover {
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   3. KHU VỰC NỘI DUNG CHÍNH (MAIN) & THẺ SỰ KIỆN (ARTICLE)
+   ========================================================================== */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ĐÃ THÊM: Đoạn văn bản mô tả ở main có màu xám nhạt cho dễ đọc */
+main p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: var(--text-light);
+    border-left: 4px solid var(--primary);
+    padding-left: 10px;
+}
+
+h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+article {
+    background-color: var(--bg-card); /* ĐÃ SỬA LỖI: Trả lại nền xanh đen cho thẻ */
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    border-color: var(--primary);
+}
+
+/* ĐÃ SỬA: Nút liên kết và nút thường có chữ màu tối để nổi trên nền Cyan */
+article a[href*=".html"], button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: var(--bg-card) !important; /* Dùng chữ màu tối đè lên nền Cyan sáng */
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-right: 10px;
+    transition: 0.3s;
+}
+
+article a[href*=".html"]:hover, button:hover {
+    background-color: var(--primary-hover);
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   4. BIỂU MẪU (LOGIN, REGISTER, PAYMENT)
+   ========================================================================== */
+#login, #register, #payment-page {
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: var(--bg-card);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+form label {
+    display: block;
+    margin-bottom: 15px;
+    color: var(--text-muted);
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-input);
+    color: white;
+}
+
+form input:focus, form select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* ==========================================================================
+   5. CẤU TRÚC BẢNG (TABLES)
+   ========================================================================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+table, th, td {
+    border: 1px solid var(--border-color);
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #1e293b;
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   6. GIẢ LẬP QR CODE VÀ HIỆU ỨNG LASER (Trang Vé & Check-in)
+   ========================================================================== */
+/* Khung hiển thị text mã QR thô */
+article div, #payment-container div {
+    background-color: white;
+    color: black;
+    padding: 15px;
+    border-radius: 8px;
+    display: inline-block;
+    font-family: monospace;
+    font-weight: bold;
+    line-height: 1.2;
+    border: 3px solid var(--primary);
+}
+
+article div p, #payment-container div p {
+    color: black;
+    margin: 0;
+}
+
+/* Tạo hiệu ứng quét camera lướt qua lướt lại */
+#checkin article:first-of-type div {
+    background-color: #000;
+    color: var(--text-muted);
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    border: 2px dashed var(--primary);
+}
+
+#checkin article:first-of-type div::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary);
+    box-shadow: 0 0 10px 2px var(--primary);
+    animation: scan 2s infinite linear;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    50% { top: 100%; }
+    100% { top: 0; }
+}
+
+/* ==========================================================================
+   7. CHÂN TRANG (FOOTER)
+   ========================================================================== */
+footer {
+    background-color: var(--bg-card);
+    padding: 40px 5% 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+footer table, footer th, footer td {
+    border: none;
+    background-color: transparent;
+}
+
+footer h2 small {
+    color: var(--primary);
+}
+
+footer h3 {
+    margin-bottom: 10px;
+}
+/* Giải pháp tự động thích ứng mọi Mode (Sáng/Tối) cho text-muted */
+main p.text-muted, 
+.text-muted {
+    color: inherit !important; /* Tự động "bắt chước" màu chữ của thẻ cha */
+    opacity: 0.7 !important;   /* Làm mờ chữ đi 30% để tạo hiệu ứng phụ (muted) */
+}

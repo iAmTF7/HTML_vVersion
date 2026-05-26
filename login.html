@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hệ thống quản lý sự kiện và bán vé Liveshow</title>
-    <link rel="stylesheet" href ="style.css">
 </head>
 <body>
 
 
-        <header id ="home" class ="navbar">
-            <a href="#home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-            <img src="image/logo_dark.png" alt="QRBOX Logo" width="90">
+        <header>
+            <a href="index.html#home" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+            <img src="image/logo_dark.png" alt="QRBOX Logo" width="60">
             <span style="color: rgb(0, 0, 0); font-size: 24px;">QRBOX</span>
             </a>
 
@@ -46,61 +45,54 @@
 
     <hr>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main>
 
-        <!-- DANH SÁCH SỰ KIỆN -->
-        <section id="events">
-            <h2>Danh sách sự kiện</h2>
+        <!-- FORM ĐĂNG NHẬP -->
+        <section id="login">
+            <h2>Form đăng nhập</h2>
 
-            <!-- SỰ KIỆN 1 -->
-            <article>
-                <h3>Liveshow Mùa Hè 2026</h3>
+            <!-- 
+                Web tĩnh:
+                - Form này chỉ mô phỏng giao diện đăng nhập.
+                - Chưa kiểm tra tài khoản thật.
+                - Khi bấm Đăng nhập, form sẽ chuyển về index.html.
+                - Logic kiểm tra sẽ xử lý bằng JavaScript/backend sau.
+            -->
+            <form action="index.html" method="get">
+                <label>
+                    Email hoặc tên đăng nhập:
+                    <input type="text" name="username" placeholder="Nhập email hoặc tên đăng nhập">
+                </label>
 
-                <p><strong>Mã sự kiện:</strong> EVT001</p>
-                <p><strong>Ca sĩ:</strong> Đang cập nhật</p>
-                <p><strong>Thời gian:</strong> 20/06/2026</p>
-                <p><strong>Địa điểm:</strong> Sân vận động trung tâm</p>
-                <p><strong>Giá vé:</strong> Từ 300.000 VNĐ</p>
+                <br><br>
 
-                <a href="event-details.html?id=1">Xem chi tiết</a>
-                <br>
-                <a href="payment-page.html?id=EVT001">Mua vé</a>
-            </article>
+                <label>
+                    Mật khẩu:
+                    <input type="password" name="password" placeholder="Nhập mật khẩu">
+                </label>
 
-            <br>
+                <br><br>
 
-            <!-- SỰ KIỆN 2 -->
-            <article>
-                <h3>Đêm nhạc Acoustic</h3>
+                <label>
+                    <input type="checkbox" name="remember">
+                    Ghi nhớ đăng nhập
+                </label>
 
-                <p><strong>Mã sự kiện:</strong> EVT002</p>
-                <p><strong>Ca sĩ:</strong> Đang cập nhật</p>
-                <p><strong>Thời gian:</strong> 15/07/2026</p>
-                <p><strong>Địa điểm:</strong> Nhà hát thành phố</p>
-                <p><strong>Giá vé:</strong> Từ 250.000 VNĐ</p>
+                <br><br>
 
-                <a href="event-details.html?id=2">Xem chi tiết</a>
-                <br>
-                <a href="payment-page.html?id=EVT002">Mua vé</a>
-            </article>
+                <button type="submit">Đăng nhập</button>
+                <button type="reset">Làm mới</button>
+            </form>
 
-            <br>
+            <p>
+                Chưa có tài khoản?
+                <a href="register.html">Đăng ký tại đây</a>
+            </p>
 
-            <!-- SỰ KIỆN 3 -->
-            <article>
-                <h3>Music Night 2026</h3>
-
-                <p><strong>Mã sự kiện:</strong> EVT003</p>
-                <p><strong>Ca sĩ:</strong> Đang cập nhật</p>
-                <p><strong>Thời gian:</strong> 10/08/2026</p>
-                <p><strong>Địa điểm:</strong> Nhà thi đấu thành phố</p>
-                <p><strong>Giá vé:</strong> Từ 400.000 VNĐ</p>
-
-                <a href="event-details.html?id=3">Xem chi tiết</a>
-                <br>
-                <a href="payment-page.html?id=EVT003">Mua vé</a>
-            </article>
+            <p>
+                <a href="index.html">Quay lại trang chủ</a>
+            </p>
         </section>
 
     </main>
@@ -108,10 +100,10 @@
     <hr>
 
     <!-- FOOTER -->
-    <footer id="vechungtoi">
+    <footer>
         <table width="100%" cellpadding="20">
             <tr>
-                <!-- CỘT 1: LOGO + MÔ TẢ -->
+                <!-- CỘT 1 -->
                 <td width="35%" valign="top">
                     <h2>
                         <small>LIVE</small> TICKET
@@ -123,7 +115,7 @@
                     </p>
                 </td>
 
-                <!-- CỘT 2: LIÊN KẾT NHANH -->
+                <!-- CỘT 2 -->
                 <td width="30%" valign="top">
                     <h3>Liên kết nhanh</h3>
 
@@ -134,7 +126,7 @@
                     <p><a href="my-tickets.html#checkin-history">Lịch sử check-in</a></p>
                 </td>
 
-                <!-- CỘT 3: LIÊN HỆ -->
+                <!-- CỘT 3 -->
                 <td width="35%" valign="top">
                     <h3>Liên hệ</h3>
 
