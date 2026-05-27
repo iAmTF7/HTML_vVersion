@@ -1,48 +1,27 @@
-// ==========================================
-// LOGIC HIỂN THỊ CHI TIẾT SỰ KIỆN DÀNH CHO TRANG EVENT-DETAILS.HTML
-// ==========================================
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Lấy dữ liệu danh sách sự kiện từ LocalStorage đã được khởi tạo trong script.js
   const events = JSON.parse(localStorage.getItem('events'));
   
-  // Lấy thẻ container nơi sẽ render nội dung chi tiết sự kiện
   const container = document.getElementById('event-container');
   if (!container) return;
-
-  // Đọc các tham số truy vấn từ URL (Query Parameters)
-  // Ví dụ: event-details.html?id=1 hoặc event-details.html?id=EVT001
   const params = new URLSearchParams(window.location.search);
   const idStr = params.get('id');
-
-  // Nếu không có tham số ID, hiển thị lỗi không tìm thấy sự kiện
   if (!idStr) {
     showEventNotFound(container);
     return;
   }
-
-  // Tìm sự kiện tương ứng trong cơ sở dữ liệu LocalStorage
   let event = null;
   if (!isNaN(idStr)) {
-    // Nếu ID là dạng số (ví dụ: ?id=1), tìm theo trường id kiểu số nguyên
     const id = parseInt(idStr, 10);
     event = events.find(e => e.id === id);
   } else {
-    // Nếu ID là dạng chuỗi mã (ví dụ: ?id=EVT001), tìm theo trường code (mã sự kiện)
     event = events.find(e => e.code === idStr.toUpperCase());
   }
-
-  // Nếu không tìm thấy sự kiện trùng khớp, hiển thị thông báo lỗi
   if (!event) {
     showEventNotFound(container);
     return;
   }
-
-  // Tiến hành render (vẽ) giao diện chi tiết của sự kiện vào container
   renderEventDetails(container, event);
 });
-
-// Hàm hiển thị thông báo khi không tìm thấy sự kiện hợp lệ
 function showEventNotFound(container) {
   container.innerHTML = `
     <div class="text-center py-5">
@@ -52,26 +31,27 @@ function showEventNotFound(container) {
     </div>
   `;
 }
-
-// Hàm render giao diện chi tiết sự kiện
+function getDefaultCategory(event) {
+  if (event.category && event.category.trim()) return event.category;
+  if (event.id === 1 || event.code === 'EVT001') return 'Pop';
+  if (event.id === 2 || event.code === 'EVT002') return 'Acoustic';
+  if (event.id === 3 || event.code === 'EVT003') return 'EDM/Hiphop';
+  return 'Khác';
+}
 function renderEventDetails(container, event) {
-  // Cập nhật tiêu đề của tab trình duyệt theo tên sự kiện đang xem
+  const eventCategory = getDefaultCategory(event);
   document.title = `${event.title} - Chi tiết sự kiện | QRBOX`;
-
-  // Xác định màu sắc của thẻ Badge dựa trên mã sự kiện để đồng bộ phong cách
   let badgeClass = 'bg-primary';
   if (event.code === 'EVT002') badgeClass = 'bg-success';
   if (event.code === 'EVT003') badgeClass = 'bg-warning text-dark';
 
-  // Khởi tạo chuỗi chứa mã HTML để hiển thị danh sách các hạng vé (Standard, VIP, VVIP)
   let ticketClassesHtml = '';
   event.ticketClasses.forEach(tClass => {
     let tClassLower = tClass.name.toLowerCase();
     
-    // Thêm các class CSS bổ sung để tạo viền phát sáng đặc trưng cho vé VIP và VVIP
+    
     let classCardMod = tClassLower === 'vip' ? 'vip' : (tClassLower === 'vvip' ? 'vvip' : '');
     
-    // Tạo cấu trúc card cho từng hạng vé
     ticketClassesHtml += `
       <div class="ticket-option-card ${classCardMod}">
         <h4 class="ticket-option-title">${tClass.name}</h4>
@@ -86,11 +66,18 @@ function renderEventDetails(container, event) {
       </div>
     `;
   });
+  // resolve banner from storedImages when needed
+  function resolveBannerSrc(banner) {
+    try {
+      const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+      if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
+    } catch (e) {}
+    return banner;
+  }
 
-  // Ghi toàn bộ nội dung HTML động vào phần tử container
   container.innerHTML = `
     <div class="event-detail-hero">
-      <img src="${event.banner}" alt="${event.title}" class="event-detail-banner">
+      <img src="${resolveBannerSrc(event.banner)}" alt="${event.title}" class="event-detail-banner">
       <div class="event-detail-overlay">
         <div class="event-detail-header">
           <span class="event-badge ${badgeClass} mb-3 d-inline-block">
@@ -107,6 +94,9 @@ function renderEventDetails(container, event) {
             </div>
             <div class="meta-item">
               📍 <strong>Địa điểm:</strong> ${event.location}
+            </div>
+            <div class="meta-item">
+              🎫 <strong>Thể loại:</strong> ${eventCategory}
             </div>
           </div>
         </div>
@@ -153,8 +143,6 @@ function renderEventDetails(container, event) {
     </div>
   `;
 }
-
-// Hàm format số tiền sang định dạng VNĐ dễ nhìn
 function formatCurrency(amount) {
   return amount.toLocaleString('vi-VN') + ' VNĐ';
 }

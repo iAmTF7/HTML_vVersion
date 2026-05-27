@@ -1,4 +1,4 @@
-/* IMPORT GOOGLE FONTS */
+
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
@@ -8,11 +8,11 @@
   --glass-bg: rgba(20, 15, 38, 0.6);
   --glass-border: rgba(255, 255, 255, 0.08);
   
-  --primary-color: #6366f1; /* Indigo */
+  --primary-color: #6366f1; 
   --primary-glow: rgba(99, 102, 241, 0.4);
-  --secondary-color: #ec4899; /* Pink */
+  --secondary-color: #ec4899; 
   --secondary-glow: rgba(236, 72, 153, 0.4);
-  --accent-color: #06b6d4; /* Cyan */
+  --accent-color: #06b6d4; 
   --accent-glow: rgba(6, 182, 212, 0.4);
   
   --text-main: #f3f4f6;
@@ -28,7 +28,7 @@
   color: var(--text-muted) !important;
 }
 
-/* GENERAL STYLES */
+
 body {
   background-color: var(--bg-primary);
   background-image: 
@@ -56,7 +56,7 @@ a:hover {
   color: var(--secondary-color);
 }
 
-/* NAVBAR Styles */
+
 .site-navbar {
   position: relative;
   z-index: 1050;
@@ -73,6 +73,7 @@ a:hover {
   letter-spacing: 2px;
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 1.5rem;
 }
@@ -107,6 +108,10 @@ a:hover {
   box-shadow: 0 0 15px var(--primary-glow);
   color: var(--text-main);
 }
+.search-form .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 1;
+}
 .search-form .btn {
   position: absolute;
   right: 4px;
@@ -140,7 +145,7 @@ a:hover {
   border-color: var(--glass-border) !important;
 }
 
-/* FOOTER Styles */
+
 .site-footer {
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--glass-border);
@@ -187,7 +192,7 @@ a:hover {
   color: var(--text-muted);
 }
 
-/* BUTTONS */
+
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-color), #4f46e5);
   border: none;
@@ -218,7 +223,7 @@ a:hover {
   transform: translateY(-2px);
 }
 
-/* BADGES & SECTIONS */
+
 .section-heading {
   margin-bottom: 3.5rem;
 }
@@ -239,6 +244,7 @@ a:hover {
   font-weight: 800;
   background: linear-gradient(to right, #ffffff, #d1d5db);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .section-heading p {
@@ -248,7 +254,7 @@ a:hover {
   margin: 0 auto;
 }
 
-/* EVENT CARDS */
+
 .event-card {
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -287,7 +293,7 @@ a:hover {
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   color: var(--text-main);
-  padding-right: 5rem; /* Avoid badge overlap */
+  padding-right: 5rem; 
 }
 .event-info {
   list-style: none;
@@ -319,7 +325,7 @@ a:hover {
   flex: 1;
 }
 
-/* EVENT DETAILS PAGE */
+
 .event-detail-hero {
   position: relative;
   border-radius: 24px;
@@ -446,7 +452,7 @@ a:hover {
   margin-bottom: 1rem;
 }
 
-/* PAYMENT PAGE */
+
 .payment-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -584,7 +590,7 @@ a:hover {
   text-align: center;
 }
 
-/* INPUT CONTROLS */
+
 label {
   display: block;
   margin-bottom: 1.2rem;
@@ -635,7 +641,7 @@ input[type="number"]:focus {
   border-color: var(--primary-color);
 }
 
-/* AUTH CARDS (Login, Register) */
+
 .auth-card {
   max-width: 480px;
   margin: 0 auto;
@@ -688,7 +694,7 @@ input[type="number"]:focus {
   margin-bottom: 0.5rem;
 }
 
-/* TICKET CARDS */
+
 .ticket-card {
   background: radial-gradient(circle at 10% 50%, transparent 12px, var(--glass-bg) 13px),
               radial-gradient(circle at 90% 50%, transparent 12px, var(--glass-bg) 13px);
@@ -795,7 +801,7 @@ input[type="number"]:focus {
   flex: 1;
 }
 
-/* CHECK-IN CARD & SCANNER */
+
 .checkin-card {
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -851,7 +857,7 @@ input[type="number"]:focus {
   display: none;
 }
 
-/* HISTORY TABLE */
+
 .page-section {
   margin-top: 5rem;
 }
@@ -889,7 +895,7 @@ input[type="number"]:focus {
   color: var(--text-main);
 }
 
-/* FORM VALIDATION FEEDBACK */
+
 .error-feedback {
   color: var(--danger-color);
   font-size: 0.8rem;
@@ -902,7 +908,7 @@ input[type="number"]:focus {
   box-shadow: 0 0 8px rgba(239, 68, 68, 0.25) !important;
 }
 
-/* NOTIFICATIONS (Custom Toast) */
+
 .toast-container-custom {
   position: fixed;
   bottom: 2rem;
@@ -936,9 +942,7 @@ input[type="number"]:focus {
   to { transform: translateX(0); opacity: 1; }
 }
 
-/* ==========================================
-   ADMIN CHECKIN PAGE STYLES
-   ========================================== */
+
 .admin-access-card {
   max-width: 580px;
   margin: 3rem auto;
@@ -1039,16 +1043,19 @@ input[type="number"]:focus {
   font-weight: 800;
   background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .admin-stat-item:nth-child(2) span {
   background: linear-gradient(135deg, var(--success-color), var(--accent-color));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .admin-stat-item:nth-child(3) span {
   background: linear-gradient(135deg, var(--warning-color), var(--secondary-color));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .admin-stat-item small {
@@ -1151,7 +1158,7 @@ input[type="number"]:focus {
   margin-top: 2rem;
 }
 
-/* SEAT SELECTION DESIGN */
+
 .seat-selection-section {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--glass-border);
@@ -1262,7 +1269,7 @@ input[type="number"]:focus {
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
-/* EVENT CARD IMAGE STYLES */
+
 .event-card {
   overflow: hidden;
   display: flex;

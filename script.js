@@ -1,13 +1,4 @@
-// ============================================================================
-// LOGIC HỆ THỐNG DÙNG CHUNG (CƠ SỞ DỮ LIỆU LOCALSTORAGE, XÁC THỰC, NAVBAR & TÌM KIẾM)
-// ============================================================================
-
-// Biến lưu trữ thể loại được filter hiện tại
 let currentCategoryFilter = null;
-
-// 1. KHỞI TẠO DỮ LIỆU MẪU BAN ĐẦU (DATABASE INITIALIZATION)
-
-// Danh sách các sự kiện âm nhạc mặc định (3 sự kiện chính)
 const DEFAULT_EVENTS = [
   {
     id: 1,
@@ -64,27 +55,27 @@ const DEFAULT_EVENTS = [
   }
 ];
 
-// Danh sách các tài khoản đăng nhập mẫu sẵn có trên hệ thống
+
 const DEFAULT_USERS = [
   { fullname: 'Nguyễn Văn A', username: 'customer', password: '123', email: 'customer@qrbox.vn', phone: '0987654321', role: 'customer' },
   { fullname: 'Nhân Viên Soát Vé B', username: 'staff', password: '123', email: 'staff@qrbox.vn', phone: '0912345678', role: 'staff' },
   { fullname: 'Quản Trị Viên C', username: 'admin', password: '123456', email: 'admin@qrbox.vn', phone: '0900000000', role: 'admin' }
 ];
 
-// Version của dữ liệu để check khi cần update
-const DATA_VERSION = '2.1'; // Có category field
 
-// Danh sách các vé đã được đặt mua mặc định ban đầu để hiển thị lịch sử check-in
-// Cấu hình ghi dữ liệu mặc định vào LocalStorage nếu trình duyệt chưa lưu trữ
+const DATA_VERSION = '2.1'; 
+
+
+
 const storedVersion = localStorage.getItem('dataVersion');
 const storedEvents = localStorage.getItem('events');
 
-// Nếu phiên bản cũ hoặc không có dữ liệu, cập nhật toàn bộ
+
 if (storedVersion !== DATA_VERSION || !storedEvents) {
   localStorage.setItem('events', JSON.stringify(DEFAULT_EVENTS));
   localStorage.setItem('dataVersion', DATA_VERSION);
 } else {
-  // Kiểm tra thêm: nếu có sự kiện không có category, update
+  
   try {
     const parsedEvents = JSON.parse(storedEvents);
     let needsUpdate = false;
@@ -113,8 +104,8 @@ if (!localStorage.getItem('tickets')) {
   localStorage.setItem('tickets', JSON.stringify([]));
 }
 
-// 2. BỘ ĐIỀU KHIỂN HỘP THÔNG BÁO TẠM THỜI (TOAST NOTIFICATION)
-// Hàm vẽ và hiển thị các thông báo dạng Toast nhỏ ở góc màn hình (success, danger, warning, info)
+
+
 function showToast(message, type = 'info') {
   let container = document.querySelector('.toast-container-custom');
   if (!container) {
@@ -138,7 +129,7 @@ function showToast(message, type = 'info') {
 
   container.appendChild(toast);
 
-  // Tự động biến mất sau 4 giây kèm hiệu ứng thu gọn
+  
   setTimeout(() => {
     toast.style.animation = 'slideInCustom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) reverse';
     toast.style.opacity = '0';
@@ -151,41 +142,41 @@ function showToast(message, type = 'info') {
   }, 4000);
 }
 
-// 3. LOGIC KHỞI CHẠY NGAY KHI NẠP XONG TRANG (DOM CONTENT LOADED)
+
 document.addEventListener('DOMContentLoaded', () => {
   const events = JSON.parse(localStorage.getItem('events'));
   const users = JSON.parse(localStorage.getItem('users'));
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-  // Cập nhật trạng thái thanh menu (Navbar) dựa theo thông tin đăng nhập
+  
   updateNavbar(currentUser);
 
-  // Đăng ký sự kiện Click cho nút "Đăng xuất"
+  
   const logoutBtn = document.querySelector('a[href="logout"]');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      localStorage.removeItem('currentUser'); // Xóa phiên đăng nhập khỏi LocalStorage
+      localStorage.removeItem('currentUser'); 
       showToast('Đăng xuất thành công!', 'success');
       setTimeout(() => {
-        window.location.href = 'index.html'; // Chuyển hướng về trang chủ
+        window.location.href = 'index.html'; 
       }, 1000);
     });
   }
 
-  // Khởi tạo trình xử lý xác thực biểu mẫu cho trang Đăng nhập & Đăng ký
+  
   handleLoginForm(users);
   handleRegisterForm(users);
 
-  // Kích hoạt tính năng tìm kiếm trên thanh điều hướng Navbar
+  
   handleNavbarSearch();
 
-  // Kiểm tra nếu đang ở trang chủ (index.html), tự động vẽ danh sách các sự kiện
+  
   if (document.getElementById('events')) {
     const searchParams = new URLSearchParams(window.location.search);
     const searchQuery = searchParams.get('search');
 
-    // Điền sẵn từ khóa vào ô tìm kiếm nếu có tham số truy vấn từ trang khác
+    
     const searchInput = document.querySelector('.search-form input');
     if (searchQuery && searchInput) {
       searchInput.value = searchQuery;
@@ -193,14 +184,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderEventsList(events, searchQuery);
 
-    // Xử lý filter sự kiện theo thể loại từ dropdown
+    
     const categoryFilters = document.querySelectorAll('.filter-category');
     categoryFilters.forEach(filterBtn => {
       filterBtn.addEventListener('click', function(e) {
         e.preventDefault();
         const category = this.getAttribute('data-category');
         if (!category) {
-          // "Tất cả" hoặc empty -> reset filter
+          
           currentCategoryFilter = null;
           renderEventsList(events, '');
         } else {
@@ -212,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// 4. CẬP NHẬT NAVBAR ĐỘNG THEO TÀI KHOẢN VÀ VAI TRÒ
+
 function updateNavbar(currentUser) {
   const accountDropdown = document.getElementById('accountDropdown');
   if (!accountDropdown) return;
@@ -221,7 +212,7 @@ function updateNavbar(currentUser) {
   if (!dropdownMenu) return;
 
   if (currentUser) {
-    // Trường hợp đã đăng nhập: Hiển thị tên người dùng kèm chức vụ vai trò
+    
     accountDropdown.innerHTML = `👤 ${currentUser.fullname} (${translateRole(currentUser.role)})`;
 
     dropdownMenu.innerHTML = `
@@ -232,7 +223,7 @@ function updateNavbar(currentUser) {
       </li>
     `;
 
-    // Hiển thị các tính năng quản lý soát vé dành riêng cho Staff và Admin
+    
     if (currentUser.role === 'staff' || currentUser.role === 'admin') {
       dropdownMenu.innerHTML += `
         <li>
@@ -262,7 +253,7 @@ function updateNavbar(currentUser) {
       </li>
     `;
   } else {
-    // Trường hợp chưa đăng nhập: Hiển thị các nút đăng nhập, đăng ký
+    
     accountDropdown.innerHTML = 'Tài khoản';
     dropdownMenu.innerHTML = `
       <li>
@@ -279,7 +270,7 @@ function updateNavbar(currentUser) {
   }
 }
 
-// Chuyển ngữ vai trò người dùng sang Tiếng Việt hiển thị
+
 function translateRole(role) {
   switch (role) {
     case 'admin': return 'Admin';
@@ -288,7 +279,7 @@ function translateRole(role) {
   }
 }
 
-// 5. BIỂU MẪU ĐĂNG NHẬP (LOGIN VALIDATION & AUTHENTICATION)
+
 function handleLoginForm(users) {
   const loginForm = document.getElementById('loginForm');
   if (!loginForm) return;
@@ -302,7 +293,7 @@ function handleLoginForm(users) {
     let valid = true;
     clearErrorStyles([usernameInput, passwordInput]);
 
-    // Validation cơ bản
+    
     if (!usernameInput.value.trim()) {
       showInputError(usernameInput, 'Vui lòng nhập email hoặc tên đăng nhập');
       valid = false;
@@ -314,18 +305,18 @@ function handleLoginForm(users) {
 
     if (!valid) return;
 
-    // So khớp thông tin đăng nhập trong danh sách LocalStorage
+    
     const user = users.find(u =>
       (u.username === usernameInput.value.trim() || u.email === usernameInput.value.trim()) &&
       u.password === passwordInput.value
     );
 
     if (user) {
-      // Lưu thông tin người dùng đăng nhập vào phiên hiện tại
+      
       localStorage.setItem('currentUser', JSON.stringify(user));
       showToast(`Chào mừng ${user.fullname} đã quay trở lại!`, 'success');
 
-      // Đọc URL chuyển hướng sau đăng nhập nếu có
+      
       const params = new URLSearchParams(window.location.search);
       const redirectUrl = params.get('redirect');
       setTimeout(() => {
@@ -339,17 +330,17 @@ function handleLoginForm(users) {
   });
 }
 
-// 6. BIỂU MẪU ĐĂNG KÝ (REGISTER VALIDATION & ROLE ASSIGNMENT)
+
 function handleRegisterForm(users) {
   const registerForm = document.getElementById('registerForm');
   if (!registerForm) return;
 
-  // Lấy các thẻ của tính năng cấp quyền Admin đặc biệt bằng mã xác thực 123456
+  
   const isAdminCheckbox = document.getElementById('isAdminReg');
   const adminCodeWrapper = document.getElementById('adminCodeWrapper');
   const adminCodeInput = document.getElementById('adminCode');
 
-  // Lắng nghe sự kiện Checkbox đăng ký Admin để ẩn/hiện ô điền mã xác thực
+  
   if (isAdminCheckbox && adminCodeWrapper) {
     isAdminCheckbox.addEventListener('change', () => {
       if (isAdminCheckbox.checked) {
@@ -372,7 +363,7 @@ function handleRegisterForm(users) {
     const confirmPasswordInput = registerForm.querySelector('input[name="confirm_password"]');
     const agreeCheckbox = registerForm.querySelector('input[name="agree"]');
 
-    // Gom danh sách các ô nhập liệu cần xóa kiểu cảnh báo đỏ khi nộp form mới
+    
     const inputs = [fullnameInput, emailInput, phoneInput, usernameInput, passwordInput, confirmPasswordInput];
     if (adminCodeInput) inputs.push(adminCodeInput);
 
@@ -380,7 +371,7 @@ function handleRegisterForm(users) {
 
     let valid = true;
 
-    // Tiến hành kiểm tra dữ liệu đăng ký hợp lệ
+    
     if (!fullnameInput.value.trim()) {
       showInputError(fullnameInput, 'Họ và tên không được để trống');
       valid = false;
@@ -410,7 +401,7 @@ function handleRegisterForm(users) {
       valid = false;
     }
 
-    // Nếu chọn Đăng ký làm Admin, kiểm tra mã xác thực xem có trùng khớp với '123456'
+    
     if (isAdminCheckbox && isAdminCheckbox.checked && adminCodeInput) {
       if (adminCodeInput.value.trim() !== '123456') {
         showInputError(adminCodeInput, 'Mã xác thực Admin không chính xác!');
@@ -420,7 +411,7 @@ function handleRegisterForm(users) {
 
     if (!valid) return;
 
-    // Kiểm tra xem email hoặc tên đăng nhập đã được đăng ký trước đó chưa
+    
     const exists = users.some(u => u.username === usernameInput.value.trim() || u.email === emailInput.value.trim());
     if (exists) {
       showToast('Tên đăng nhập hoặc email đã tồn tại trên hệ thống', 'danger');
@@ -428,10 +419,10 @@ function handleRegisterForm(users) {
       return;
     }
 
-    // Xác định vai trò đăng ký (Admin hoặc Khách hàng)
+    
     const selectedRole = (isAdminCheckbox && isAdminCheckbox.checked) ? 'admin' : 'customer';
 
-    // Tạo đối tượng tài khoản mới
+    
     const newUser = {
       fullname: fullnameInput.value.trim(),
       username: usernameInput.value.trim(),
@@ -441,18 +432,18 @@ function handleRegisterForm(users) {
       role: selectedRole
     };
 
-    // Đẩy tài khoản mới vào danh sách và cập nhật LocalStorage
+    
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
 
     showToast('Đăng ký tài khoản thành công!', 'success');
     setTimeout(() => {
-      window.location.href = 'login.html'; // Chuyển hướng sang đăng nhập
+      window.location.href = 'login.html'; 
     }, 1500);
   });
 }
 
-// 7. HÀM TÌM KIẾM SỰ KIỆN TRÊN THANH NAVBAR
+
 function handleNavbarSearch() {
   const searchForm = document.querySelector('.search-form');
   if (!searchForm) return;
@@ -461,22 +452,22 @@ function handleNavbarSearch() {
     e.preventDefault();
     const query = searchForm.querySelector('input').value.trim();
 
-    // Nếu đang ở trang chủ (index.html), lọc trực tiếp trên giao diện không cần nạp lại trang
+    
     if (document.getElementById('events')) {
       const events = JSON.parse(localStorage.getItem('events'));
       renderEventsList(events, query);
 
-      // Đẩy từ khóa tìm kiếm lên thanh URL để lưu lịch sử duyệt
+      
       const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?search=${encodeURIComponent(query)}`;
       window.history.pushState({ path: newUrl }, '', newUrl);
     } else {
-      // Nếu đang ở trang khác, chuyển hướng về trang chủ kèm theo tham số tìm kiếm
+      
       window.location.href = `index.html?search=${encodeURIComponent(query)}`;
     }
   });
 }
 
-// 8. RENDER DANH SÁCH THẺ SỰ KIỆN Ở TRANG CHỦ INDEX.HTML
+
 function renderEventsList(events, query = '', category = null) {
   const container = document.querySelector('#events .row.g-4');
   if (!container) return;
@@ -484,7 +475,7 @@ function renderEventsList(events, query = '', category = null) {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const showBuyButton = !currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'staff');
 
-  // Lọc sự kiện theo từ khóa tìm kiếm (hỗ trợ tìm theo tiêu đề, nghệ sĩ, địa điểm)
+  
   let filteredEvents = events;
   if (query) {
     const q = query.toLowerCase();
@@ -495,12 +486,12 @@ function renderEventsList(events, query = '', category = null) {
     );
   }
 
-  // Lọc sự kiện theo thể loại nếu có
+  
   if (category) {
     filteredEvents = filteredEvents.filter(e => e.category === category);
   }
 
-  // Hiển thị giao diện trống nếu không tìm thấy sự kiện khớp từ khóa hoặc thể loại
+  
   if (filteredEvents.length === 0) {
     const filterText = category ? `thể loại "${category}"` : `từ khóa "${query}"`;
     container.innerHTML = `
@@ -512,8 +503,19 @@ function renderEventsList(events, query = '', category = null) {
     return;
   }
 
-  // Khởi tạo lại container sự kiện
+  
   container.innerHTML = '';
+  // helper to resolve banner src to stored dataURL if mapped under storedImages
+  function resolveBannerSrc(banner) {
+    try {
+      const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+      if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
+    } catch (e) {
+      // ignore
+    }
+    return banner;
+  }
+
   filteredEvents.forEach(evt => {
     let badgeClass = 'bg-primary';
     if (evt.code === 'EVT002') badgeClass = 'bg-success';
@@ -523,7 +525,7 @@ function renderEventsList(events, query = '', category = null) {
       <div class="col-12 col-md-6 col-lg-4">
         <article class="event-card">
           <div class="event-card-img-container">
-            <img src="${evt.banner}" alt="${evt.title}" class="event-card-img">
+            <img src="${resolveBannerSrc(evt.banner)}" alt="${evt.title}" class="event-card-img">
           </div>
           <div class="event-card-body">
             <span class="event-badge ${badgeClass}">
@@ -536,9 +538,9 @@ function renderEventsList(events, query = '', category = null) {
 
             <ul class="event-info">
               <li><strong>Thể loại:</strong> <span>${evt.category}</span></li>
-              <li><strong>Ca sĩ:</strong> <span>${evt.artist.split(',')[0]}...</span></li>
+              <li><strong>Ca sĩ:</strong> <span>${evt.artist || 'Không xác định'}</span></li>
               <li><strong>Thời gian:</strong> <span>${evt.date}</span></li>
-              <li><strong>Địa điểm:</strong> <span>${evt.location.split(',')[0]}</span></li>
+              <li><strong>Địa điểm:</strong> <span>${evt.location}</span></li>
               <li>
                 <strong>Giá vé:</strong>
                 <span>Từ ${evt.minPrice}</span>
@@ -564,7 +566,7 @@ function renderEventsList(events, query = '', category = null) {
   });
 }
 
-// Đặt lại ô tìm kiếm và hiển thị toàn bộ sự kiện
+
 function resetSearch() {
   const searchInput = document.querySelector('.search-form input');
   if (searchInput) searchInput.value = '';
@@ -574,7 +576,7 @@ function resetSearch() {
   window.history.pushState({ path: 'index.html' }, '', 'index.html');
 }
 
-// 9. TIỆN ÍCH HIỂN THỊ CẢNH BÁO LỖI FORM CỦA INPUT
+
 function showInputError(input, message) {
   if (!input) return;
   input.classList.add('is-invalid');
@@ -589,7 +591,7 @@ function showInputError(input, message) {
   errorEl.style.display = 'block';
 }
 
-// Xóa bỏ các cảnh báo viền đỏ trên các ô input
+
 function clearErrorStyles(inputs) {
   inputs.forEach(input => {
     if (!input) return;
@@ -602,7 +604,7 @@ function clearErrorStyles(inputs) {
   });
 }
 
-// Kiểm tra định dạng email bằng regex
+
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);

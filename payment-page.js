@@ -1,53 +1,33 @@
-// ==========================================
-// LOGIC THANH TOÁN VÀ ĐẶT VÉ SỰ KIỆN DÀNH CHO TRANG PAYMENT-PAGE.HTML
-// ==========================================
-
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('payment-container');
   if (!container) return;
-
-  // Lấy thông tin tài khoản đang đăng nhập và danh sách sự kiện từ LocalStorage
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const events = JSON.parse(localStorage.getItem('events'));
-
-  // 1. KIỂM TRA TRẠNG THÁI ĐĂNG NHẬP
-  // Nếu chưa đăng nhập, bắt buộc người dùng chuyển hướng tới trang đăng nhập
   if (!currentUser) {
     showLoginRequired(container);
     return;
   }
-
-  // 2. LẤY MÃ SỰ KIỆN VÀ HẠNG VÉ TỪ ĐƯỜNG DẪN URL
-  // Ví dụ URL: payment-page.html?id=EVT001&class=VIP
   const params = new URLSearchParams(window.location.search);
   const eventCode = params.get('id');
   const preSelectedClass = params.get('class');
-
-  // Nếu thiếu mã sự kiện trên đường dẫn URL, báo lỗi
   if (!eventCode) {
     showPaymentError(container, 'Không tìm thấy thông tin thanh toán sự kiện.');
     return;
   }
-
-  // Khớp mã sự kiện trong danh sách
   const event = events.find(e => e.code === eventCode.toUpperCase());
   if (!event) {
     showPaymentError(container, 'Sự kiện thanh toán không tồn tại.');
     return;
   }
-
-  // 3. TIẾN HÀNH RENDER GIAO DIỆN THANH TOÁN
   renderPaymentPage(container, event, currentUser, preSelectedClass);
 });
-
-// Hàm thông báo yêu cầu đăng nhập nếu người dùng chưa đăng nhập
 function showLoginRequired(container) {
   const currentUrl = window.location.href;
   container.innerHTML = `
     <div class="text-center py-5">
       <h2 class="text-warning mb-3">Yêu cầu đăng nhập</h2>
       <p class="text-muted mb-4">Bạn cần đăng nhập tài khoản QRBOX để thực hiện mua vé và thanh toán.</p>
-      
+      <!-- Truyền thêm tham số redirect để sau khi đăng nhập xong sẽ quay lại đúng trang thanh toán này -->
       <a href="login.html?redirect=${encodeURIComponent(currentUrl)}" class="btn btn-primary px-4 py-2">
         Đăng nhập ngay
       </a>
@@ -55,8 +35,6 @@ function showLoginRequired(container) {
     </div>
   `;
 }
-
-// Hàm thông báo khi xảy ra lỗi thanh toán
 function showPaymentError(container, message) {
   container.innerHTML = `
     <div class="text-center py-5">
@@ -66,32 +44,27 @@ function showPaymentError(container, message) {
     </div>
   `;
 }
-
-// Hàm render toàn bộ trang thanh toán
 function renderPaymentPage(container, event, user, preSelectedClass) {
-  // Thay đổi tiêu đề tab trình duyệt
   document.title = `Thanh toán: ${event.title} | QRBOX`;
-
-  // Mặc định chọn hạng vé đầu tiên nếu không có hạng vé được truyền qua URL
   let selectedClassObj = event.ticketClasses[0];
   if (preSelectedClass) {
     const found = event.ticketClasses.find(t => t.name.toLowerCase() === preSelectedClass.toLowerCase());
     if (found) selectedClassObj = found;
   }
-
-  // Tạo layout chia làm 2 cột
   container.innerHTML = `
     <div class="payment-grid">
-      
+      <!-- CỘT TRÁI: BIỂU MẪU ĐẶT VÉ -->
       <div>
         <form id="ticketPurchaseForm" novalidate>
           <div class="payment-form-card">
             
-
+            <!-- BƯỚC 1: LỰA CHỌN VÉ -->
+            <div class="form-section-title">
+              <span>1</span> Chọn loại vé & số lượng
             </div>
             
             <div class="row g-3 mb-4">
-
+              <!-- Hộp chọn hạng vé -->
               <div class="col-12 col-md-8">
                 <label>
                   <span>Hạng vé:</span>
@@ -104,6 +77,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
                   </select>
                 </label>
               </div>
+              <!-- Số lượng vé muốn đặt -->
               <div class="col-12 col-md-4">
                 <label>
                   <span>Số lượng:</span>
@@ -112,7 +86,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
               </div>
             </div>
 
-            
+            <!-- SƠ ĐỒ CHỌN GHẾ NGỒI -->
             <div class="seat-selection-section mb-4">
               <div class="form-section-title" style="margin-top: 0;">
                 <span>1.5</span> Chọn vị trí ghế ngồi
@@ -123,6 +97,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
               </div>
 
               <div id="seatingGrid" class="seating-grid mb-3">
+                <!-- Sẽ được vẽ động từ JavaScript -->
               </div>
 
               <div class="seating-legend d-flex justify-content-center gap-3 text-sm flex-wrap">
@@ -132,6 +107,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
               </div>
             </div>
 
+            <!-- BƯỚC 2: THÔNG TIN KHÁCH HÀNG -->
             <div class="form-section-title">
               <span>2</span> Thông tin khách hàng nhận vé
             </div>
@@ -159,6 +135,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
               </div>
             </div>
 
+            <!-- BƯỚC 3: PHƯƠNG THỨC THANH TOÁN -->
             <div class="form-section-title">
               <span>3</span> Phương thức thanh toán
             </div>
@@ -189,6 +166,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
               </label>
             </div>
 
+            <!-- KHU VỰC THÔNG TIN & MÃ QR CHUYỂN KHOẢN -->
             <div id="paymentQRBox" class="text-center mb-4">
               <div class="border border-secondary p-3 rounded bg-dark bg-opacity-20 d-inline-block w-100">
                 <h5 class="text-white mb-3">Mã QR Thanh Toán</h5>
@@ -216,6 +194,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
         </form>
       </div>
 
+      <!-- CỘT PHẢI: TÓM TẮT ĐƠN HÀNG -->
       <div>
         <div class="payment-summary-card">
           <h3>Tóm tắt đơn hàng</h3>
@@ -265,8 +244,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
       </div>
     </div>
   `;
-
-  // Liên kết các phần tử DOM
   const ticketClassSelect = document.getElementById('ticketClassSelect');
   const ticketQuantity = document.getElementById('ticketQuantity');
   const paymentMethods = document.getElementsByName('payment_method');
@@ -284,36 +261,27 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
   const seatingGrid = document.getElementById('seatingGrid');
 
   let selectedSeats = [];
-
-  // Hàm chia hàng ghế tương ứng với các hạng vé
   function getRowsForClass(event, className) {
     const sortedClasses = [...event.ticketClasses].sort((a, b) => b.price - a.price);
     const classIndex = sortedClasses.findIndex(c => c.name === className);
     if (sortedClasses.length === 3) {
-      if (classIndex === 0) return ['A', 'B']; // Hạng cao nhất (VVIP)
-      if (classIndex === 1) return ['C', 'D']; // VIP
-      return ['E', 'F', 'G', 'H'];             // Standard
+      if (classIndex === 0) return ['A', 'B'];
+      if (classIndex === 1) return ['C', 'D']; 
+      return ['E', 'F', 'G', 'H'];             
     } else if (sortedClasses.length === 2) {
-      if (classIndex === 0) return ['A', 'B', 'C']; // VIP / Hạng cao
-      return ['D', 'E', 'F', 'G'];                  // Standard
+      if (classIndex === 0) return ['A', 'B', 'C'];
+      return ['D', 'E', 'F', 'G'];                  
     }
     return ['A', 'B', 'C', 'D'];
   }
-
-  // Hàm vẽ sơ đồ ghế và xử lý trạng thái
   function renderSeatingGrid() {
     const selectedClassName = ticketClassSelect.value;
     const qty = parseInt(ticketQuantity.value, 10) || 1;
-
-    // Giữ lại số lượng ghế đã chọn tối đa bằng số vé hiện tại
     if (selectedSeats.length > qty) {
       selectedSeats = selectedSeats.slice(0, qty);
     }
-
     const rows = getRowsForClass(event, selectedClassName);
     const globalTickets = JSON.parse(localStorage.getItem('tickets')) || [];
-    
-    // Lọc ra danh sách ghế của sự kiện này đã được đặt
     const occupiedSeats = globalTickets
       .filter(t => t.eventCode === event.code)
       .map(t => t.seat)
@@ -325,13 +293,10 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
       const rowDiv = document.createElement('div');
       rowDiv.className = 'seat-row';
 
-      // Nhãn hàng (đầu)
       const labelStart = document.createElement('span');
       labelStart.className = 'row-label';
       labelStart.textContent = rowLetter;
       rowDiv.appendChild(labelStart);
-
-      // 10 ghế mỗi hàng
       for (let i = 1; i <= 10; i++) {
         const seatId = `${rowLetter}${i}`;
         const seatBtn = document.createElement('button');
@@ -356,7 +321,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
         rowDiv.appendChild(seatBtn);
       }
 
-      // Nhãn hàng (cuối)
       const labelEnd = document.createElement('span');
       labelEnd.className = 'row-label';
       labelEnd.textContent = rowLetter;
@@ -368,7 +332,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
     updateSummarySeats();
   }
 
-  // Xử lý nhấp chọn ghế
   function handleSeatClick(seatId, seatBtn) {
     const qty = parseInt(ticketQuantity.value, 10) || 1;
 
@@ -376,7 +339,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
       selectedSeats = selectedSeats.filter(s => s !== seatId);
       seatBtn.classList.remove('selected');
     } else {
-      // Nếu chọn vượt quá số lượng, tự động nhường ghế cũ nhất
+
       if (selectedSeats.length >= qty) {
         const oldestSeatId = selectedSeats.shift();
         const oldestBtn = seatingGrid.querySelector(`[data-seat-id="${oldestSeatId}"]`);
@@ -387,8 +350,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
     }
     updateSummarySeats();
   }
-
-  // Cập nhật nhãn tóm tắt ghế đã chọn
   function updateSummarySeats() {
     const qty = parseInt(ticketQuantity.value, 10) || 1;
     if (selectedSeats.length === 0) {
@@ -403,8 +364,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
       }
     }
   }
-
-  // Hàm tính toán và cập nhật chi phí đơn hàng
   function updateOrderTotals() {
     const selectedClassName = ticketClassSelect.value;
     const qty = parseInt(ticketQuantity.value, 10) || 1;
@@ -429,18 +388,14 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
     const qrData = encodeURIComponent(`STK: 19036789012015 | Nganhang: Techcombank | SoTien: ${subtotal} | ND: ${codePrefix}`);
     vietQRApiImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${qrData}`;
     vietQRText.textContent = `Quét mã để chuyển khoản ${formattedTotal}`;
-
-    // Vẽ lại sơ đồ ghế tương thích hạng vé và số lượng
     renderSeatingGrid();
   }
 
-  // Lắng nghe sự kiện đổi hạng vé (Reset ghế đã chọn)
   ticketClassSelect.addEventListener('change', () => {
     selectedSeats = [];
     updateOrderTotals();
   });
 
-  // Lắng nghe chỉnh sửa số lượng vé
   ticketQuantity.addEventListener('input', () => {
     let val = parseInt(ticketQuantity.value, 10);
     if (isNaN(val) || val < 1) ticketQuantity.value = 1;
@@ -453,7 +408,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
     updateOrderTotals();
   });
 
-  // Lắng nghe sự kiện thay đổi phương thức thanh toán
   paymentMethods.forEach(radio => {
     radio.addEventListener('change', (e) => {
       const value = e.target.value;
@@ -467,7 +421,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
 
   updateOrderTotals();
 
-  // Xử lý submit đặt vé
   const form = document.getElementById('ticketPurchaseForm');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -495,8 +448,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
     }
 
     if (!valid) return;
-
-    // Kiểm tra xem đã chọn đủ số ghế ngồi tương ứng chưa
     const qty = parseInt(ticketQuantity.value, 10);
     if (selectedSeats.length !== qty) {
       if (typeof showToast === 'function') {
@@ -505,7 +456,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
       return;
     }
 
-    // Kiểm tra kho vé
     const globalEvents = JSON.parse(localStorage.getItem('events'));
     const freshEventIndex = globalEvents.findIndex(e => e.code === event.code);
     const freshEvent = globalEvents[freshEventIndex];
@@ -521,7 +471,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
       return;
     }
 
-    // Vô hiệu hóa nút và xử lý thanh toán
+   
     const submitBtn = document.getElementById('btnSubmitPayment');
     submitBtn.disabled = true;
     submitBtn.innerHTML = `
@@ -530,14 +480,11 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
     `;
 
     setTimeout(() => {
-      // Giảm kho
       freshClass.available -= qty;
       localStorage.setItem('events', JSON.stringify(globalEvents));
 
       const globalTickets = JSON.parse(localStorage.getItem('tickets')) || [];
       const paymentMethodVal = Array.from(paymentMethods).find(r => r.checked).value;
-
-      // Lưu vé mới cùng thông tin ghế
       for (let i = 0; i < qty; i++) {
         const ticketId = Math.floor(100000 + Math.random() * 900000);
         const ticketCode = `TICKET-${event.code}-${ticketId}`;
@@ -550,7 +497,7 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
           time: `${event.date} - ${event.time}`,
           location: event.location,
           class: selectedClassName,
-          seat: selectedSeats[i], // Gán mã ghế riêng lẻ
+          seat: selectedSeats[i],
           status: 'unused',
           checkinTime: null,
           username: user.username,
@@ -574,7 +521,6 @@ function renderPaymentPage(container, event, user, preSelectedClass) {
   });
 }
 
-// Hàm hỗ trợ kiểm tra định dạng email
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);

@@ -1,24 +1,12 @@
-// ==========================================
-// LOGIC QUẢN LÝ VÉ, QUÉT VÉ CHECK-IN VÀ LỊCH SỬ DÀNH CHO TRANG MY-TICKETS.HTML
-// ==========================================
-
 document.addEventListener('DOMContentLoaded', () => {
   // Lấy thông tin tài khoản đang đăng nhập từ LocalStorage
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  
-  // 1. KIỂM TRA TRẠNG THÁI ĐĂNG NHẬP
-  // Nếu chưa đăng nhập, hiển thị thông báo và chặn truy cập thông tin
   if (!currentUser) {
     showLoggedOutState();
     return;
   }
-
-  // Nếu đã đăng nhập, tiến hành chạy các tính năng:
-  // - Render danh sách vé cá nhân
   renderUserTickets();
 });
-
-// Hàm hiển thị giao diện khi người dùng chưa đăng nhập tài khoản
 function showLoggedOutState() {
   const ticketRow = document.querySelector('#ticket .row.g-4');
   if (ticketRow) {
@@ -31,18 +19,12 @@ function showLoggedOutState() {
     `;
   }
 }
-
-// Hàm render danh sách vé thuộc sở hữu của người dùng hiện tại
 function renderUserTickets() {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
   const ticketRow = document.querySelector('#ticket .row.g-4');
   if (!ticketRow) return;
-
-  // Lọc lấy danh sách các vé do tài khoản hiện tại sở hữu
   const myTickets = tickets.filter(t => t.username === currentUser.username);
-
-  // Nếu người dùng chưa mua vé nào, hiển thị thông báo mời mua vé
   if (myTickets.length === 0) {
     ticketRow.innerHTML = `
       <div class="col-12 text-center py-5">
@@ -53,20 +35,14 @@ function renderUserTickets() {
     `;
     return;
   }
-
-  // Xóa nội dung tĩnh ban đầu và render các vé động từ LocalStorage
   ticketRow.innerHTML = '';
   myTickets.forEach(t => {
     const isUnused = t.status === 'unused';
     const statusText = isUnused ? 'Chưa sử dụng' : 'Đã sử dụng';
     const statusClass = isUnused ? 'status-unused' : 'status-used';
-    
-    // Gắn màu badge khác nhau dựa trên hạng vé
     let badgeClass = 'bg-primary';
     if (t.class.toLowerCase() === 'standard') badgeClass = 'bg-success';
     if (t.class.toLowerCase() === 'vvip') badgeClass = 'bg-warning text-dark';
-
-    // Sinh ảnh QR code động chứa mã vé để nhân viên soát vé quét bằng API trực tuyến
     const qrData = encodeURIComponent(`TICKET_CODE:${t.code}|EVENT:${t.eventTitle}|OWNER:${t.owner}|CLASS:${t.class}|STATUS:${t.status}`);
     const qrImgSrc = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
 
@@ -98,10 +74,12 @@ function renderUserTickets() {
           </div>
 
           <div class="ticket-actions">
+            <!-- Nút tải vé offline dạng tệp .txt chứa thông tin chi tiết -->
             <button type="button" class="btn btn-primary" onclick="downloadTicket('${t.code}')">
               Tải vé
             </button>
 
+            <!-- Nút in vé mở hộp thoại in của trình duyệt -->
             <button type="button" class="btn btn-outline-primary" onclick="printTicket('${t.code}')">
               In vé
             </button>
@@ -112,12 +90,6 @@ function renderUserTickets() {
     ticketRow.innerHTML += cardHtml;
   });
 }
-
-
-
-
-
-// 6. HÀM XỬ LÝ TẢI VÉ OFFLINE (Tạo file .txt giả lập PDF vé để người dùng lưu trữ)
 function downloadTicket(code) {
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
   const ticket = tickets.find(t => t.code === code);
@@ -147,8 +119,6 @@ cửa để nhân viên check-in.
 Chúc quý khách có một đêm nhạc tuyệt vời!
 =============================================
 `;
-
-    // Tạo file Text Blob từ chuỗi và tự động kích hoạt tải xuống trên trình duyệt
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
@@ -161,14 +131,10 @@ Chúc quý khách có một đêm nhạc tuyệt vời!
     }
   }, 1000);
 }
-
-// 7. HÀM IN VÉ
 function printTicket(code) {
   if (typeof showToast === 'function') {
     showToast(`Đang kết nối máy in để in vé ${code}...`, 'info');
   }
-  
-  // Trì hoãn nhẹ rồi kích hoạt hộp thoại in tiêu chuẩn của trình duyệt
   setTimeout(() => {
     window.print();
   }, 500);

@@ -1,43 +1,27 @@
-// ==========================================
-// LOGIC ĐIỀU KHIỂN TRANG ADMIN-CHECKIN.HTML
-// ==========================================
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Lấy phiên đăng nhập hiện tại từ LocalStorage
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-
-  // 1. PHÂN QUYỀN TRUY CẬP TRANG ADMIN-CHECKIN
   const accessDeniedEl = document.getElementById('access-denied');
   const adminContentEl = document.getElementById('admin-checkin-content');
-
-  // Điều kiện kiểm tra: Phải đăng nhập và có vai trò là 'staff' hoặc 'admin'
   if (!currentUser || (currentUser.role !== 'staff' && currentUser.role !== 'admin')) {
-    // Không có quyền truy cập: Hiện thẻ Access Denied, ẩn nội dung
     if (accessDeniedEl) accessDeniedEl.classList.remove('d-none');
     if (adminContentEl) adminContentEl.classList.add('d-none');
     return;
   }
 
-  // Hợp lệ: Hiện nội dung quản trị, ẩn thẻ báo lỗi
   if (accessDeniedEl) accessDeniedEl.classList.add('d-none');
   if (adminContentEl) adminContentEl.classList.remove('d-none');
-
-  // 2. HIỂN THỊ THÔNG TIN TÀI KHOẢN TRÊN DASHBOARD
   const adminUsernameText = document.getElementById('adminUsernameText');
   const adminRoleText = document.getElementById('adminRoleText');
 
   if (adminUsernameText) adminUsernameText.textContent = currentUser.fullname;
   if (adminRoleText) {
     adminRoleText.textContent = translateRole(currentUser.role);
-    // Thay đổi màu sắc của badge dựa theo vai trò tài khoản
     if (currentUser.role === 'admin') {
-      adminRoleText.className = 'ticket-status status-used'; // Đỏ (gợi ý quyền Admin tối cao)
+      adminRoleText.className = 'ticket-status status-used';
     } else {
-      adminRoleText.className = 'ticket-status status-unused'; // Xanh lá
+      adminRoleText.className = 'ticket-status status-unused';
     }
   }
-
-  // 3. KHỞI TẠO CÁC SỰ KIỆN TƯƠNG TÁC
   updateDashboardStats();
   renderAdminTicketsTable();
   renderAdminEventsTable();
@@ -45,15 +29,59 @@ document.addEventListener('DOMContentLoaded', () => {
   setupManualCheckin();
   setupEventManagement();
 });
-
-// Chuyển ngữ vai trò sang tiếng Việt hiển thị
 function translateRole(role) {
   if (role === 'admin') return 'Quản trị viên (Admin)';
   if (role === 'staff') return 'Nhân viên soát vé (Staff)';
   return 'Khách hàng';
 }
 
-// 4. HÀM CẬP NHẬT THỐNG KÊ DASHBOARD (STATS COUNTER)
+let imageDirectoryHandle = null;
+
+async function getImageDirectoryHandle() {
+  if (imageDirectoryHandle) return imageDirectoryHandle;
+  if (!window.showDirectoryPicker) return null;
+
+  try {
+    imageDirectoryHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+    return imageDirectoryHandle;
+  } catch (err) {
+    console.warn('Directory picker canceled or unsupported:', err);
+    return null;
+  }
+}
+
+async function saveFileToImageFolder(file) {
+  const dir = await getImageDirectoryHandle();
+  if (!dir) return null;
+
+  let targetDir = dir;
+  try {
+    if (dir.name === 'image') {
+      targetDir = await dir.getDirectoryHandle('events', { create: true });
+    } else if (dir.name !== 'events') {
+      try {
+        targetDir = await dir.getDirectoryHandle('events', { create: true });
+      } catch (e) {
+        // keep using selected dir if subdirectory creation not allowed
+      }
+    }
+  } catch (e) {
+    console.warn('Could not resolve events subfolder, using selected directory:', e);
+  }
+
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+  try {
+    const handle = await targetDir.getFileHandle(safeName, { create: true });
+    const writable = await handle.createWritable();
+    await writable.write(file);
+    await writable.close();
+    return `image/events/${safeName}`;
+  } catch (err) {
+    console.error('Could not save image to folder:', err);
+    return null;
+  }
+}
+
 function updateDashboardStats() {
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
 
@@ -69,8 +97,6 @@ function updateDashboardStats() {
   if (checkedInEl) checkedInEl.textContent = checkedIn;
   if (unusedEl) unusedEl.textContent = unused;
 }
-
-// 5. RENDERING DANH SÁCH TOÀN BỘ VÉ CHO ADMIN THEO DÕI
 function renderAdminTicketsTable() {
   const tableBody = document.getElementById('adminTicketTableBody');
   if (!tableBody) return;
@@ -92,10 +118,6 @@ function renderAdminTicketsTable() {
     const statusText = isUnused ? 'Chưa sử dụng' : 'Đã check-in';
     const statusClass = isUnused ? 'status-unused' : 'status-used';
     const checkinTimeText = t.checkinTime ? t.checkinTime : 'Chưa check-in';
-
-    // Nút hành động tương ứng:
-    // - Vé chưa check-in: Nút check-in trực tiếp
-    // - Vé đã check-in: Nút hoàn tác (undo) check-in dành riêng cho quản trị viên
     const actionButton = isUnused
       ? `<button type="button" class="btn btn-sm btn-primary" onclick="adminTriggerCheckin('${t.code}')">Check-in</button>`
       : `<button type="button" class="btn btn-sm btn-outline-danger" onclick="adminUndoCheckin('${t.code}')">Hoàn tác</button>`;
@@ -119,26 +141,19 @@ function renderAdminTicketsTable() {
 }
 
 let html5QrCode = null;
-
-// 6. THIẾT LẬP KHỞI ĐỘNG VÀ QUÉT MÃ QR QUA CAMERA (REAL CAMERA QR SCANNER)
 function setupScanSimulation() {
   const startScanBtn = document.getElementById('startScanBtn');
   const stopScanBtn = document.getElementById('stopScanBtn');
   const readerEl = document.getElementById('admin-reader');
 
   if (!startScanBtn || !stopScanBtn || !readerEl) return;
-
-  // Lắng nghe sự kiện Bắt đầu quét QR qua camera thực
   startScanBtn.addEventListener('click', () => {
-    // 1. Dọn dẹp dòng chữ placeholder ban đầu
     readerEl.innerHTML = '';
 
-    // 2. Khởi tạo máy quét html5QrCode trên thẻ #admin-reader nếu chưa có
     if (!html5QrCode) {
       html5QrCode = new Html5Qrcode("admin-reader");
     }
 
-    // Cấu hình quét: tốc độ 15 FPS, kích thước khung quét tự động co giãn theo khung nhìn
     const config = {
       fps: 15,
       qrbox: (width, height) => {
@@ -148,15 +163,12 @@ function setupScanSimulation() {
       }
     };
 
-    // 3. Khởi chạy camera (facingMode: "environment" ưu tiên camera sau)
     html5QrCode.start(
       { facingMode: "environment" },
       config,
       (decodedText, decodedResult) => {
-        // Callback khi camera giải mã QR thành công
         console.log("Mã quét được:", decodedText);
 
-        // Trích xuất mã vé từ nội dung quét được
         let ticketCode = decodedText;
         if (decodedText.includes('TICKET_CODE:')) {
           const parts = decodedText.split('|');
@@ -166,16 +178,13 @@ function setupScanSimulation() {
           }
         }
 
-        // Tiến hành check-in vé
         verifyAndProcessCheckin(ticketCode);
-
-        // Rung nhẹ máy để báo hiệu quét thành công
         if (navigator.vibrate) {
           navigator.vibrate(200);
         }
       },
       (errorMessage) => {
-        // Bỏ qua lỗi quét liên tục để tránh đầy log
+
       }
     ).then(() => {
       if (typeof showToast === 'function') {
@@ -189,8 +198,6 @@ function setupScanSimulation() {
       }
     });
   });
-
-  // Lắng nghe sự kiện Dừng quét QR
   stopScanBtn.addEventListener('click', () => {
     if (html5QrCode && html5QrCode.isScanning) {
       html5QrCode.stop().then(() => {
@@ -204,8 +211,6 @@ function setupScanSimulation() {
     }
   });
 }
-
-// 7. THIẾT LẬP NHẬP MÃ THỦ CÔNG
 function setupManualCheckin() {
   const form = document.getElementById('manualCheckinForm');
   if (!form) return;
@@ -222,13 +227,11 @@ function setupManualCheckin() {
       return;
     }
 
-    // Tiến hành soát vé
     verifyAndProcessCheckin(enteredCode);
-    input.value = ''; // Reset ô nhập
+    input.value = '';
   });
 }
 
-// 8. HÀM KIỂM TRA VÀ XÁC THỰC VÉ VÀO CỔNG CHÍNH (VERIFY CHECK-IN)
 function verifyAndProcessCheckin(ticketCode) {
   const resultBox = document.getElementById('checkinResultBox');
   if (!resultBox) return;
@@ -236,7 +239,6 @@ function verifyAndProcessCheckin(ticketCode) {
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
   const ticketIndex = tickets.findIndex(t => t.code.toUpperCase() === ticketCode.toUpperCase());
 
-  // TRƯỜNG HỢP 1: Mã vé không tồn tại trong hệ thống LocalStorage
   if (ticketIndex === -1) {
     resultBox.className = 'checkin-result-box danger';
     resultBox.innerHTML = `
@@ -250,8 +252,6 @@ function verifyAndProcessCheckin(ticketCode) {
   }
 
   const ticket = tickets[ticketIndex];
-
-  // TRƯỜNG HỢP 2: Vé hợp lệ nhưng đã được check-in sử dụng từ trước
   if (ticket.status === 'used') {
     resultBox.className = 'checkin-result-box warning';
     resultBox.innerHTML = `
@@ -268,18 +268,12 @@ function verifyAndProcessCheckin(ticketCode) {
     }
     return;
   }
-
-  // TRƯỜNG HỢP 3: Vé hợp lệ và chưa sử dụng -> Check-in thành công
   const now = new Date();
   const formatTime = now.toLocaleString('vi-VN');
 
   ticket.status = 'used';
   ticket.checkinTime = formatTime;
-
-  // Lưu cập nhật trạng thái vé vào LocalStorage
   localStorage.setItem('tickets', JSON.stringify(tickets));
-
-  // Hiển thị kết quả thành công rực rỡ màu xanh lá
   resultBox.className = 'checkin-result-box success';
   resultBox.innerHTML = `
     <p class="checkin-result-title">✅ XÁC THỰC THÀNH CÔNG</p>
@@ -295,18 +289,13 @@ function verifyAndProcessCheckin(ticketCode) {
     showToast(`Thành công: Đã check-in vé ${ticket.code}!`, 'success');
   }
 
-  // Cập nhật lại số liệu thống kê Dashboard và bảng danh sách vé
   updateDashboardStats();
   renderAdminTicketsTable();
 }
-
-// 9. NÚT CHECK-IN TRỰC TIẾP TRÊN BẢNG HÀNH ĐỘNG CỦA ADMIN
 window.adminTriggerCheckin = function (ticketCode) {
   verifyAndProcessCheckin(ticketCode);
 };
 
-// 10. NÚT HOÀN TÁC CHECK-IN DÀNH CHO ADMIN (UNDO CHECK-IN)
-// Thiết lập trạng thái vé từ "Đã check-in" về "Chưa sử dụng" và xóa mốc thời gian soát vé
 window.adminUndoCheckin = function (ticketCode) {
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
   const ticketIndex = tickets.findIndex(t => t.code === ticketCode);
@@ -318,14 +307,12 @@ window.adminUndoCheckin = function (ticketCode) {
   ticket.status = 'unused';
   ticket.checkinTime = null;
 
-  // Lưu lại LocalStorage
   localStorage.setItem('tickets', JSON.stringify(tickets));
 
   if (typeof showToast === 'function') {
     showToast(`Đã hoàn tác check-in cho vé ${ticketCode}`, 'success');
   }
 
-  // Cập nhật lại giao diện và kết quả kiểm tra
   updateDashboardStats();
   renderAdminTicketsTable();
 
@@ -336,7 +323,6 @@ window.adminUndoCheckin = function (ticketCode) {
   }
 };
 
-// 11. RENDERING DANH SÁCH SỰ KIỆN CHO ADMIN
 function renderAdminEventsTable() {
   const tableBody = document.getElementById('adminEventsTableBody');
   if (!tableBody) return;
@@ -353,26 +339,41 @@ function renderAdminEventsTable() {
   }
 
   tableBody.innerHTML = '';
-  events.forEach(evt => {
-    const rowHtml = `
+    // helper to resolve banner src (supports storedImages mapping)
+    function resolveBannerSrc(banner) {
+      try {
+        const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+        if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
+      } catch (e) {
+        // ignore parse errors
+      }
+      return banner;
+    }
+
+    events.forEach(evt => {
+      const categoryText = evt.category ? evt.category : '-';
+      const rowHtml = `
       <tr>
         <td>
-          <img src="${evt.banner}" alt="${evt.title}" width="48" height="48" style="object-fit: cover; border-radius: 6px;">
+          <img src="${resolveBannerSrc(evt.banner)}" alt="${evt.title}" width="48" height="48" style="object-fit: cover; border-radius: 6px;">
         </td>
         <td><strong>${evt.code}</strong></td>
         <td>${evt.title}</td>
         <td>${evt.artist}</td>
+        <td>${categoryText}</td>
         <td>${evt.date} - ${evt.time}</td>
         <td>
-          <button type="button" class="btn btn-sm btn-outline-danger" onclick="adminDeleteEvent(${evt.id})">Xóa</button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="adminEditEvent(${evt.id})">Sửa</button>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="adminDeleteEvent(${evt.id})">Xóa</button>
+          </div>
         </td>
       </tr>
     `;
-    tableBody.innerHTML += rowHtml;
-  });
+      tableBody.innerHTML += rowHtml;
+    });
 }
 
-// 12. THIẾT LẬP LOGIC QUẢN LÝ SỰ KIỆN
 function setupEventManagement() {
   const form = document.getElementById('addEventForm');
   if (form) {
@@ -385,6 +386,7 @@ function setupEventManagement() {
       const dateInput = document.getElementById('evtDate');
       const timeInput = document.getElementById('evtTime');
       const locationInput = document.getElementById('evtLocation');
+      const categoryInput = document.getElementById('evtCategory');
       const bannerInput = document.getElementById('evtBanner');
       const descInput = document.getElementById('evtDescription');
 
@@ -394,26 +396,21 @@ function setupEventManagement() {
 
       const events = JSON.parse(localStorage.getItem('events')) || [];
       const codeVal = codeInput.value.trim().toUpperCase();
-
-      // Kiểm tra xem mã sự kiện đã trùng chưa
-      if (events.some(evt => evt.code === codeVal)) {
+      // prevent duplicate code unless editing the same event
+      const editingId = form.getAttribute('data-edit-id');
+      const duplicate = events.some(evt => evt.code === codeVal && String(evt.id) !== String(editingId || ''));
+      if (duplicate) {
         if (typeof showToast === 'function') {
           showToast('Lỗi: Mã sự kiện đã tồn tại!', 'danger');
         }
         return;
       }
-
-      // Tạo ID ngẫu nhiên hoặc tăng dần
       const newId = events.length > 0 ? Math.max(...events.map(e => e.id)) + 1 : 1;
-
-      // Cấu hình các hạng vé mặc định
       const ticketClasses = [
         { name: 'Standard', price: priceStandard, desc: 'Vé Standard vị trí khán đài tự do', available: 100 },
         { name: 'VIP', price: priceVIP, desc: 'Vé VIP gần sân khấu, tặng nước uống', available: 50 },
         { name: 'VVIP', price: priceVVIP, desc: 'Vé VVIP hàng đầu sát sân khấu, buffet nhẹ', available: 20 }
       ];
-
-      // Tính min price
       const minPriceVal = Math.min(priceStandard, priceVIP, priceVVIP).toLocaleString('vi-VN') + ' VNĐ';
 
       const newEvent = {
@@ -421,6 +418,7 @@ function setupEventManagement() {
         code: codeVal,
         title: titleInput.value.trim(),
         artist: artistInput.value.trim(),
+        category: categoryInput ? categoryInput.value.trim() : '',
         date: dateInput.value.trim(),
         time: timeInput.value.trim(),
         location: locationInput.value.trim(),
@@ -429,34 +427,167 @@ function setupEventManagement() {
         description: descInput.value.trim(),
         ticketClasses: ticketClasses
       };
-
-      events.push(newEvent);
+      // detect edit mode
+      if (editingId) {
+        const idx = events.findIndex(e => e.id === parseInt(editingId, 10));
+        if (idx !== -1) {
+          newEvent.id = parseInt(editingId, 10);
+          events[idx] = newEvent;
+        } else {
+          events.push(newEvent);
+        }
+        form.removeAttribute('data-edit-id');
+      } else {
+        events.push(newEvent);
+      }
       localStorage.setItem('events', JSON.stringify(events));
 
-      // Reset form & render lại bảng
       form.reset();
+      const bannerPreview = document.getElementById('evtBannerPreview');
+      const bannerFileInput = document.getElementById('evtBannerFile');
+      if (bannerPreview) { bannerPreview.src = ''; bannerPreview.style.display = 'none'; }
+      if (bannerFileInput) { bannerFileInput.value = ''; }
+      // clear hidden date picker value
+      const evtDatePickerEl = document.getElementById('evtDatePicker');
+      if (evtDatePickerEl) evtDatePickerEl.value = '';
       renderAdminEventsTable();
+
+      // reset form state and buttons
+      const eventFormTitle = document.getElementById('eventFormTitle');
+      const eventFormSubmitBtn = document.getElementById('eventFormSubmitBtn');
+      const cancelEditBtn = document.getElementById('cancelEditBtn');
+      if (eventFormTitle) eventFormTitle.textContent = 'Thêm sự kiện mới';
+      if (eventFormSubmitBtn) eventFormSubmitBtn.textContent = 'Tạo Sự Kiện';
+      if (cancelEditBtn) cancelEditBtn.classList.add('d-none');
 
       if (typeof showToast === 'function') {
         showToast(`Đã thêm sự kiện "${newEvent.title}" thành công!`, 'success');
       }
     });
   }
-
-  // Lắng nghe các nút chọn ảnh nhanh
   const presetBtns = document.querySelectorAll('.preset-banner-btn');
   presetBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const url = btn.getAttribute('data-url');
       const bannerInput = document.getElementById('evtBanner');
+      const bannerPreview = document.getElementById('evtBannerPreview');
       if (bannerInput) {
         bannerInput.value = url;
       }
+      if (bannerPreview) {
+        bannerPreview.src = url;
+        bannerPreview.style.display = 'inline-block';
+      }
+      const bannerFileInput = document.getElementById('evtBannerFile');
+      if (bannerFileInput) bannerFileInput.value = '';
     });
   });
-}
 
-// 13. NÚT XÓA SỰ KIỆN DÀNH CHO ADMIN
+  const bannerFileInputEl = document.getElementById('evtBannerFile');
+  const bannerPreviewEl = document.getElementById('evtBannerPreview');
+  if (bannerFileInputEl) {
+    bannerFileInputEl.addEventListener('change', async () => {
+      const file = bannerFileInputEl.files && bannerFileInputEl.files[0];
+      if (!file) return;
+
+      const bannerInput = document.getElementById('evtBanner');
+      const objectUrl = URL.createObjectURL(file);
+      if (bannerPreviewEl) {
+        bannerPreviewEl.src = objectUrl;
+        bannerPreviewEl.style.display = 'inline-block';
+      }
+
+      let bannerPath = null;
+      if (window.showDirectoryPicker) {
+        bannerPath = await saveFileToImageFolder(file);
+        if (!bannerPath) {
+          showToast('Không thể lưu ảnh vào thư mục: sử dụng fallback localStorage.', 'warning');
+        }
+      }
+
+      if (!bannerPath) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const dataUrl = e.target.result;
+          const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+          bannerPath = `image/events/${Date.now()}_${safeName}`;
+          try {
+            const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+            imgs[bannerPath] = dataUrl;
+            localStorage.setItem('storedImages', JSON.stringify(imgs));
+          } catch (err) {
+            console.error('Could not store image mapping', err);
+          }
+          if (bannerInput) bannerInput.value = bannerPath;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        if (bannerInput) bannerInput.value = bannerPath;
+      }
+    });
+  }
+
+  // Sync manual date input with hidden date picker and open native picker via button
+  const evtDateBtn = document.getElementById('evtDateBtn');
+  const evtDatePicker = document.getElementById('evtDatePicker');
+  const evtDateInput = document.getElementById('evtDate');
+  function ddmmyyyyToYyyymmdd(s) {
+    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if (!m) return null;
+    const d = m[1].padStart(2, '0');
+    const mo = m[2].padStart(2, '0');
+    const y = m[3];
+    return `${y}-${mo}-${d}`;
+  }
+  function yyyyMMddToDDMMYYYY(s) {
+    if (!s) return '';
+    const parts = s.split('-');
+    if (parts.length !== 3) return '';
+    const y = parts[0], mo = parts[1], d = parts[2];
+    return `${d.padStart(2,'0')}/${mo.padStart(2,'0')}/${y}`;
+  }
+  if (evtDateBtn && evtDatePicker) {
+    evtDateBtn.addEventListener('click', () => {
+      const useShowPicker = typeof evtDatePicker.showPicker === 'function';
+      if (useShowPicker) {
+        evtDatePicker.showPicker();
+        return;
+      }
+
+      const rect = evtDateBtn.getBoundingClientRect();
+      evtDatePicker.style.position = 'absolute';
+      evtDatePicker.style.left = `${rect.left}px`;
+      evtDatePicker.style.top = `${rect.top}px`;
+      evtDatePicker.style.width = `${Math.max(rect.width, 1)}px`;
+      evtDatePicker.style.height = `${Math.max(rect.height, 1)}px`;
+      evtDatePicker.style.opacity = '0';
+      evtDatePicker.style.pointerEvents = 'auto';
+      evtDatePicker.style.zIndex = '9999';
+      document.body.appendChild(evtDatePicker);
+      evtDatePicker.focus();
+      evtDatePicker.click();
+
+      setTimeout(() => {
+        evtDatePicker.style.pointerEvents = 'none';
+        evtDatePicker.style.zIndex = '';
+        evtDatePicker.style.left = '0';
+        evtDatePicker.style.top = '0';
+        evtDatePicker.style.width = '1px';
+        evtDatePicker.style.height = '1px';
+      }, 300);
+    });
+    evtDatePicker.addEventListener('change', () => {
+      if (evtDateInput) evtDateInput.value = yyyyMMddToDDMMYYYY(evtDatePicker.value);
+    });
+  }
+  if (evtDateInput && evtDatePicker) {
+    evtDateInput.addEventListener('blur', () => {
+      const v = evtDateInput.value.trim();
+      const conv = ddmmyyyyToYyyymmdd(v);
+      if (conv) evtDatePicker.value = conv;
+    });
+  }
+}
 window.adminDeleteEvent = function(eventId) {
   if (!confirm('Bạn có chắc chắn muốn xóa sự kiện này không?')) return;
 
@@ -465,6 +596,20 @@ window.adminDeleteEvent = function(eventId) {
   if (eventIndex === -1) return;
 
   const deletedTitle = events[eventIndex].title;
+  // remove stored image mapping if present
+  try {
+    const evtBanner = events[eventIndex].banner;
+    if (evtBanner && evtBanner.startsWith('image/')) {
+      const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+      if (imgs[evtBanner]) {
+        delete imgs[evtBanner];
+        localStorage.setItem('storedImages', JSON.stringify(imgs));
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+
   events.splice(eventIndex, 1);
   localStorage.setItem('events', JSON.stringify(events));
 
@@ -474,3 +619,84 @@ window.adminDeleteEvent = function(eventId) {
     showToast(`Đã xóa sự kiện "${deletedTitle}" thành công!`, 'success');
   }
 };
+
+window.adminEditEvent = function(eventId) {
+  const events = JSON.parse(localStorage.getItem('events')) || [];
+  const evt = events.find(e => e.id === eventId);
+  if (!evt) return;
+
+  const form = document.getElementById('addEventForm');
+  if (!form) return;
+
+  // populate fields
+  document.getElementById('evtCode').value = evt.code || '';
+  document.getElementById('evtTitle').value = evt.title || '';
+  document.getElementById('evtArtist').value = evt.artist || '';
+  document.getElementById('evtDate').value = evt.date || '';
+  document.getElementById('evtTime').value = evt.time || '';
+  document.getElementById('evtLocation').value = evt.location || '';
+  document.getElementById('evtCategory').value = evt.category || '';
+  document.getElementById('evtDescription').value = evt.description || '';
+
+  // ticket classes
+  const standard = evt.ticketClasses && evt.ticketClasses[0] ? evt.ticketClasses[0].price : 0;
+  const vip = evt.ticketClasses && evt.ticketClasses[1] ? evt.ticketClasses[1].price : 0;
+  const vvip = evt.ticketClasses && evt.ticketClasses[2] ? evt.ticketClasses[2].price : 0;
+  document.getElementById('priceStandard').value = standard;
+  document.getElementById('priceVIP').value = vip;
+  document.getElementById('priceVVIP').value = vvip;
+
+  // banner
+  const bannerInput = document.getElementById('evtBanner');
+  const bannerPreview = document.getElementById('evtBannerPreview');
+  if (bannerInput) bannerInput.value = evt.banner || '';
+  if (bannerPreview) {
+    try {
+      const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+      if (evt.banner && evt.banner.startsWith('image/') && imgs[evt.banner]) {
+        bannerPreview.src = imgs[evt.banner];
+        bannerPreview.style.display = 'inline-block';
+      } else if (evt.banner) {
+        bannerPreview.src = evt.banner;
+        bannerPreview.style.display = 'inline-block';
+      } else {
+        bannerPreview.src = '';
+        bannerPreview.style.display = 'none';
+      }
+    } catch (e) {
+      bannerPreview.src = evt.banner || '';
+      bannerPreview.style.display = evt.banner ? 'inline-block' : 'none';
+    }
+  }
+
+  // set edit mode
+  form.setAttribute('data-edit-id', String(evt.id));
+  const eventFormTitle = document.getElementById('eventFormTitle');
+  const eventFormSubmitBtn = document.getElementById('eventFormSubmitBtn');
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
+  if (eventFormTitle) eventFormTitle.textContent = `Sửa sự kiện: ${evt.title}`;
+  if (eventFormSubmitBtn) eventFormSubmitBtn.textContent = 'Lưu thay đổi';
+  if (cancelEditBtn) cancelEditBtn.classList.remove('d-none');
+  // scroll to form
+  eventFormTitle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// handle cancel edit
+document.addEventListener('DOMContentLoaded', () => {
+  const cancelEditBtn = document.getElementById('cancelEditBtn');
+  if (cancelEditBtn) {
+    cancelEditBtn.addEventListener('click', () => {
+      const form = document.getElementById('addEventForm');
+      if (!form) return;
+      form.removeAttribute('data-edit-id');
+      form.reset();
+      const bannerPreview = document.getElementById('evtBannerPreview');
+      if (bannerPreview) { bannerPreview.src = ''; bannerPreview.style.display = 'none'; }
+      const eventFormTitle = document.getElementById('eventFormTitle');
+      const eventFormSubmitBtn = document.getElementById('eventFormSubmitBtn');
+      if (eventFormTitle) eventFormTitle.textContent = 'Thêm sự kiện mới';
+      if (eventFormSubmitBtn) eventFormSubmitBtn.textContent = 'Tạo Sự Kiện';
+      cancelEditBtn.classList.add('d-none');
+    });
+  }
+});
