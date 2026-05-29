@@ -1,12 +1,12 @@
-document.addEventListener('DOMContentLoaded', () => {
+$(document).ready(() => {
   const events = JSON.parse(localStorage.getItem('events'));
   
-  const container = document.getElementById('event-container');
-  if (!container) return;
+  const $container = $('#event-container');
+  if ($container.length === 0) return;
   const params = new URLSearchParams(window.location.search);
   const idStr = params.get('id');
   if (!idStr) {
-    showEventNotFound(container);
+    showEventNotFound($container);
     return;
   }
   let event = null;
@@ -17,20 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
     event = events.find(e => e.code === idStr.toUpperCase());
   }
   if (!event) {
-    showEventNotFound(container);
+    showEventNotFound($container);
     return;
   }
-  renderEventDetails(container, event);
+  renderEventDetails($container, event);
 });
-function showEventNotFound(container) {
-  container.innerHTML = `
+
+function showEventNotFound($container) {
+  $container.html(`
     <div class="text-center py-5">
       <h2 class="text-danger mb-3">Sự kiện không tồn tại</h2>
       <p class="text-muted mb-4">Không tìm thấy thông tin sự kiện được yêu cầu. Vui lòng kiểm tra lại đường dẫn.</p>
       <a href="index.html" class="btn btn-primary">Quay lại trang chủ</a>
     </div>
-  `;
+  `);
 }
+
 function getDefaultCategory(event) {
   if (event.category && event.category.trim()) return event.category;
   if (event.id === 1 || event.code === 'EVT001') return 'Pop';
@@ -38,7 +40,8 @@ function getDefaultCategory(event) {
   if (event.id === 3 || event.code === 'EVT003') return 'EDM/Hiphop';
   return 'Khác';
 }
-function renderEventDetails(container, event) {
+
+function renderEventDetails($container, event) {
   const eventCategory = getDefaultCategory(event);
   document.title = `${event.title} - Chi tiết sự kiện | QRBOX`;
   let badgeClass = 'bg-primary';
@@ -48,7 +51,6 @@ function renderEventDetails(container, event) {
   let ticketClassesHtml = '';
   event.ticketClasses.forEach(tClass => {
     let tClassLower = tClass.name.toLowerCase();
-    
     
     let classCardMod = tClassLower === 'vip' ? 'vip' : (tClassLower === 'vvip' ? 'vvip' : '');
     
@@ -66,16 +68,17 @@ function renderEventDetails(container, event) {
       </div>
     `;
   });
-  // resolve banner from storedImages when needed
+  let imgs = {};
+  try {
+    imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+  } catch (e) {}
+
   function resolveBannerSrc(banner) {
-    try {
-      const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
-      if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
-    } catch (e) {}
+    if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
     return banner;
   }
 
-  container.innerHTML = `
+  $container.html(`
     <div class="event-detail-hero">
       <img src="${resolveBannerSrc(event.banner)}" alt="${event.title}" class="event-detail-banner">
       <div class="event-detail-overlay">
@@ -103,7 +106,6 @@ function renderEventDetails(container, event) {
       </div>
     </div>
 
-    
     <div class="row g-4 mt-2">
       <div class="col-12 col-lg-8">
         <div class="detail-card h-100">
@@ -141,8 +143,9 @@ function renderEventDetails(container, event) {
         </div>
       </div>
     </div>
-  `;
+  `);
 }
+
 function formatCurrency(amount) {
   return amount.toLocaleString('vi-VN') + ' VNĐ';
 }

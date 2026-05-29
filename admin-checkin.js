@@ -35,53 +35,6 @@ function translateRole(role) {
   return 'Khách hàng';
 }
 
-let imageDirectoryHandle = null;
-
-async function getImageDirectoryHandle() {
-  if (imageDirectoryHandle) return imageDirectoryHandle;
-  if (!window.showDirectoryPicker) return null;
-
-  try {
-    imageDirectoryHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
-    return imageDirectoryHandle;
-  } catch (err) {
-    console.warn('Directory picker canceled or unsupported:', err);
-    return null;
-  }
-}
-
-async function saveFileToImageFolder(file) {
-  const dir = await getImageDirectoryHandle();
-  if (!dir) return null;
-
-  let targetDir = dir;
-  try {
-    if (dir.name === 'image') {
-      targetDir = await dir.getDirectoryHandle('events', { create: true });
-    } else if (dir.name !== 'events') {
-      try {
-        targetDir = await dir.getDirectoryHandle('events', { create: true });
-      } catch (e) {
-        // keep using selected dir if subdirectory creation not allowed
-      }
-    }
-  } catch (e) {
-    console.warn('Could not resolve events subfolder, using selected directory:', e);
-  }
-
-  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-  try {
-    const handle = await targetDir.getFileHandle(safeName, { create: true });
-    const writable = await handle.createWritable();
-    await writable.write(file);
-    await writable.close();
-    return `image/events/${safeName}`;
-  } catch (err) {
-    console.error('Could not save image to folder:', err);
-    return null;
-  }
-}
-
 function updateDashboardStats() {
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
 
@@ -339,13 +292,16 @@ function renderAdminEventsTable() {
   }
 
   tableBody.innerHTML = '';
-    // helper to resolve banner src (supports storedImages mapping)
+    let imgs = {};
+    try {
+      imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+    } catch (e) {
+      console.warn('Could not parse storedImages from localStorage', e);
+    }
+    
     function resolveBannerSrc(banner) {
-      try {
-        const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
-        if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
-      } catch (e) {
-        // ignore parse errors
+      if (banner && banner.startsWith('image/') && imgs[banner]) {
+        return imgs[banner];
       }
       return banner;
     }
@@ -483,47 +439,49 @@ function setupEventManagement() {
     });
   });
 
+  // Xử lý upload ảnh từ bộ nhớ thiết bị của người dùng
   const bannerFileInputEl = document.getElementById('evtBannerFile');
   const bannerPreviewEl = document.getElementById('evtBannerPreview');
   if (bannerFileInputEl) {
-    bannerFileInputEl.addEventListener('change', async () => {
+    bannerFileInputEl.addEventListener('change', () => {
       const file = bannerFileInputEl.files && bannerFileInputEl.files[0];
       if (!file) return;
 
       const bannerInput = document.getElementById('evtBanner');
-      const objectUrl = URL.createObjectURL(file);
-      if (bannerPreviewEl) {
-        bannerPreviewEl.src = objectUrl;
-        bannerPreviewEl.style.display = 'inline-block';
-      }
-
-      let bannerPath = null;
-      if (window.showDirectoryPicker) {
-        bannerPath = await saveFileToImageFolder(file);
-        if (!bannerPath) {
-          showToast('Không thể lưu ảnh vào thư mục: sử dụng fallback localStorage.', 'warning');
-        }
-      }
-
-      if (!bannerPath) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const dataUrl = e.target.result;
-          const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-          bannerPath = `image/events/${Date.now()}_${safeName}`;
-          try {
-            const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
-            imgs[bannerPath] = dataUrl;
-            localStorage.setItem('storedImages', JSON.stringify(imgs));
-          } catch (err) {
-            console.error('Could not store image mapping', err);
+      const reader = new FileReader();
+      
+      // Đọc file ảnh và chuyển đổi thành chuỗi Base64 DataURL
+      reader.onload = (e) => {
+        const dataUrl = e.target.result;
+        
+        // Tạo đường dẫn giả lập độc nhất cho ảnh để lưu trữ thông tin
+        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+        const bannerPath = `image/events/${Date.now()}_${safeName}`;
+        
+        try {
+          // Lưu dữ liệu Base64 của ảnh vào localStorage dưới key 'storedImages'
+          const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+          imgs[bannerPath] = dataUrl;
+          localStorage.setItem('storedImages', JSON.stringify(imgs));
+        } catch (err) {
+          console.error('Could not store image mapping', err);
+          if (typeof showToast === 'function') {
+            showToast('Không thể lưu ảnh: Bộ nhớ localStorage đầy!', 'danger');
           }
-          if (bannerInput) bannerInput.value = bannerPath;
-        };
-        reader.readAsDataURL(file);
-      } else {
+        }
+        
+        // Gán đường dẫn giả lập vào input text để lưu cùng thông tin sự kiện
         if (bannerInput) bannerInput.value = bannerPath;
-      }
+        
+        // Hiển thị ảnh xem trước ngay trên giao diện
+        if (bannerPreviewEl) {
+          bannerPreviewEl.src = dataUrl;
+          bannerPreviewEl.style.display = 'inline-block';
+        }
+      };
+      
+      // Kích hoạt tiến trình đọc file
+      reader.readAsDataURL(file);
     });
   }
 

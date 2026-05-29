@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+$(document).ready(() => {
   // Lấy thông tin tài khoản đang đăng nhập từ LocalStorage
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   if (!currentUser) {
@@ -7,35 +7,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   renderUserTickets();
 });
+
 function showLoggedOutState() {
-  const ticketRow = document.querySelector('#ticket .row.g-4');
-  if (ticketRow) {
-    ticketRow.innerHTML = `
+  const $ticketRow = $('#ticket .row.g-4');
+  if ($ticketRow.length > 0) {
+    $ticketRow.html(`
       <div class="col-12 text-center py-5">
         <h3 class="text-warning mb-3">Vui lòng đăng nhập</h3>
         <p class="text-muted mb-4">Bạn cần đăng nhập để xem danh sách vé đã mua của mình.</p>
         <a href="login.html?redirect=my-tickets.html" class="btn btn-primary">Đăng nhập ngay</a>
       </div>
-    `;
+    `);
   }
 }
+
 function renderUserTickets() {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
-  const ticketRow = document.querySelector('#ticket .row.g-4');
-  if (!ticketRow) return;
+  const $ticketRow = $('#ticket .row.g-4');
+  if ($ticketRow.length === 0) return;
   const myTickets = tickets.filter(t => t.username === currentUser.username);
   if (myTickets.length === 0) {
-    ticketRow.innerHTML = `
+    $ticketRow.html(`
       <div class="col-12 text-center py-5">
         <p class="text-muted fs-4">Bạn chưa sở hữu vé nào của QRBOX</p>
         <p class="text-muted">Khám phá các Liveshow và đặt mua những tấm vé đầu tiên nhé!</p>
         <a href="index.html" class="btn btn-primary mt-2">Xem danh sách sự kiện</a>
       </div>
-    `;
+    `);
     return;
   }
-  ticketRow.innerHTML = '';
+  $ticketRow.empty();
   myTickets.forEach(t => {
     const isUnused = t.status === 'unused';
     const statusText = isUnused ? 'Chưa sử dụng' : 'Đã sử dụng';
@@ -87,9 +89,10 @@ function renderUserTickets() {
         </article>
       </div>
     `;
-    ticketRow.innerHTML += cardHtml;
+    $ticketRow.append(cardHtml);
   });
 }
+
 function downloadTicket(code) {
   const tickets = JSON.parse(localStorage.getItem('tickets')) || [];
   const ticket = tickets.find(t => t.code === code);
@@ -131,6 +134,7 @@ Chúc quý khách có một đêm nhạc tuyệt vời!
     }
   }, 1000);
 }
+
 function printTicket(code) {
   if (typeof showToast === 'function') {
     showToast(`Đang kết nối máy in để in vé ${code}...`, 'info');

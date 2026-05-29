@@ -505,14 +505,15 @@ function renderEventsList(events, query = '', category = null) {
 
   
   container.innerHTML = '';
-  // helper to resolve banner src to stored dataURL if mapped under storedImages
+  let imgs = {};
+  try {
+    imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
+  } catch (e) {
+    console.warn('Could not parse storedImages', e);
+  }
+
   function resolveBannerSrc(banner) {
-    try {
-      const imgs = JSON.parse(localStorage.getItem('storedImages') || '{}');
-      if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
-    } catch (e) {
-      // ignore
-    }
+    if (banner && banner.startsWith('image/') && imgs[banner]) return imgs[banner];
     return banner;
   }
 

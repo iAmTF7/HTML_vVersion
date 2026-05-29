@@ -1,37 +1,41 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
+/* ==========================================================================
+   1. ĐỊNH NGHĨA BIẾN MÀU SẮC & BIẾN TOÀN CỤC (ROOT VARIABLES)
+   ========================================================================== */
 :root {
   --bg-primary: #0b0813;
   --bg-secondary: #130f24;
   --bg-tertiary: #1b1633;
   --glass-bg: rgba(20, 15, 38, 0.6);
   --glass-border: rgba(255, 255, 255, 0.08);
-  
-  --primary-color: #6366f1; 
+
+  --primary-color: #6366f1;
   --primary-glow: rgba(99, 102, 241, 0.4);
-  --secondary-color: #ec4899; 
+  --secondary-color: #ec4899;
   --secondary-glow: rgba(236, 72, 153, 0.4);
-  --accent-color: #06b6d4; 
+  --accent-color: #06b6d4;
   --accent-glow: rgba(6, 182, 212, 0.4);
-  
+
   --text-main: #f3f4f6;
   --text-muted: #9ca3af;
   --text-dark: #1f2937;
-  
+
   --success-color: #10b981;
   --warning-color: #f59e0b;
   --danger-color: #ef4444;
 }
 
+/* ==========================================================================
+   2. THIẾT LẬP CHUNG & ĐỊNH DẠNG BODY/LIÊN KẾT (BASE STYLES)
+   ========================================================================== */
 .text-muted {
   color: var(--text-muted) !important;
 }
 
-
 body {
   background-color: var(--bg-primary);
-  background-image: 
+  background-image:
     radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
   background-attachment: fixed;
@@ -52,11 +56,14 @@ a {
   text-decoration: none;
   transition: all 0.2s ease;
 }
+
 a:hover {
   color: var(--secondary-color);
 }
 
-
+/* ==========================================================================
+   3. THANH DIỀU HƯỚNG & MENU ĐẦU TRANG (HEADER & NAVBAR)
+   ========================================================================== */
 .site-navbar {
   position: relative;
   z-index: 1050;
@@ -85,7 +92,9 @@ a:hover {
   border-radius: 8px;
   transition: all 0.3s ease;
 }
-.nav-link:hover, .nav-link.active {
+
+.nav-link:hover,
+.nav-link.active {
   color: var(--text-main) !important;
   background: rgba(255, 255, 255, 0.05);
 }
@@ -93,6 +102,7 @@ a:hover {
 .search-form {
   position: relative;
 }
+
 .search-form .form-control {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--glass-border);
@@ -102,16 +112,19 @@ a:hover {
   padding-right: 100px;
   transition: all 0.3s ease;
 }
+
 .search-form .form-control:focus {
   background: rgba(255, 255, 255, 0.1);
   border-color: var(--primary-color);
   box-shadow: 0 0 15px var(--primary-glow);
   color: var(--text-main);
 }
+
 .search-form .form-control::placeholder {
   color: rgba(255, 255, 255, 0.7);
   opacity: 1;
 }
+
 .search-form .btn {
   position: absolute;
   right: 4px;
@@ -131,32 +144,40 @@ a:hover {
   overflow: hidden;
   padding: 0.5rem 0;
 }
+
 .custom-dropdown .dropdown-item {
   color: var(--text-muted) !important;
   padding: 0.6rem 1.5rem;
   font-weight: 500;
   transition: all 0.2s ease;
 }
-.custom-dropdown .dropdown-item:hover, .custom-dropdown .dropdown-item.active {
+
+.custom-dropdown .dropdown-item:hover,
+.custom-dropdown .dropdown-item.active {
   background: rgba(99, 102, 241, 0.15) !important;
   color: var(--text-main) !important;
 }
+
 .custom-dropdown .dropdown-divider {
   border-color: var(--glass-border) !important;
 }
 
-
+/* ==========================================================================
+   4. CHÂN TRANG (FOOTER SECTION)
+   ========================================================================== */
 .site-footer {
   background-color: var(--bg-secondary);
   border-top: 1px solid var(--glass-border);
   padding: 4rem 0 2rem 0;
   color: var(--text-muted);
 }
+
 .site-footer h2 {
   font-weight: 800;
   color: var(--text-main);
   letter-spacing: 1px;
 }
+
 .site-footer h2 small {
   font-size: 0.6em;
   color: var(--secondary-color);
@@ -164,27 +185,33 @@ a:hover {
   font-weight: 700;
   letter-spacing: 3px;
 }
+
 .site-footer h3 {
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-main);
   margin-bottom: 1.5rem;
 }
+
 .footer-links {
   list-style: none;
   padding: 0;
 }
+
 .footer-links li {
   margin-bottom: 0.8rem;
 }
+
 .footer-links a {
   color: var(--text-muted);
   transition: all 0.2s ease;
 }
+
 .footer-links a:hover {
   color: var(--primary-color);
   padding-left: 5px;
 }
+
 .copyright {
   text-align: center;
   font-size: 0.85rem;
@@ -192,7 +219,9 @@ a:hover {
   color: var(--text-muted);
 }
 
-
+/* ==========================================================================
+   5. NÚT NHẤN (BUTTON STYLES)
+   ========================================================================== */
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-color), #4f46e5);
   border: none;
@@ -200,11 +229,14 @@ a:hover {
   box-shadow: 0 4px 15px var(--primary-glow);
   transition: all 0.3s ease;
 }
-.btn-primary:hover, .btn-primary:focus {
+
+.btn-primary:hover,
+.btn-primary:focus {
   background: linear-gradient(135deg, #4f46e5, #4338ca);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
 }
+
 .btn-primary:active {
   transform: translateY(1px);
 }
@@ -216,17 +248,22 @@ a:hover {
   font-weight: 600;
   transition: all 0.3s ease;
 }
-.btn-outline-primary:hover, .btn-outline-primary:focus {
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus {
   background: var(--primary-color);
   color: #fff;
   box-shadow: 0 4px 15px var(--primary-glow);
   transform: translateY(-2px);
 }
 
-
+/* ==========================================================================
+   6. TIÊU ĐỀ PHÂN KHU (SECTION HEADING)
+   ========================================================================== */
 .section-heading {
   margin-bottom: 3.5rem;
 }
+
 .section-badge {
   background: rgba(236, 72, 153, 0.1);
   color: var(--secondary-color);
@@ -239,6 +276,7 @@ a:hover {
   display: inline-block;
   margin-bottom: 1rem;
 }
+
 .section-heading h1 {
   font-size: 2.8rem;
   font-weight: 800;
@@ -247,6 +285,7 @@ a:hover {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .section-heading p {
   color: var(--text-muted);
   font-size: 1.1rem;
@@ -255,6 +294,9 @@ a:hover {
 }
 
 
+/* ==========================================================================
+   7. THẺ SỰ KIỆN Ở TRANG CHỦ (EVENT CARD STYLES)
+   ========================================================================== */
 .event-card {
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -265,11 +307,13 @@ a:hover {
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   height: 100%;
 }
+
 .event-card:hover {
   transform: translateY(-8px);
   border-color: rgba(99, 102, 241, 0.3);
   box-shadow: 0 15px 35px rgba(99, 102, 241, 0.15), 0 0 1px rgba(99, 102, 241, 0.5);
 }
+
 .event-card-body {
   padding: 2rem;
   position: relative;
@@ -277,6 +321,7 @@ a:hover {
   flex-direction: column;
   height: 100%;
 }
+
 .event-badge {
   position: absolute;
   top: 2rem;
@@ -287,20 +332,23 @@ a:hover {
   border-radius: 30px;
   letter-spacing: 1px;
 }
+
 .event-card h2 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
   color: var(--text-main);
-  padding-right: 5rem; 
+  padding-right: 5rem;
 }
+
 .event-info {
   list-style: none;
   padding: 0;
   margin-bottom: 2rem;
   flex-grow: 1;
 }
+
 .event-info li {
   margin-bottom: 0.8rem;
   font-size: 0.95rem;
@@ -309,23 +357,29 @@ a:hover {
   border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
   padding-bottom: 0.5rem;
 }
+
 .event-info li strong {
   color: var(--text-muted);
   font-weight: 500;
 }
+
 .event-info li span {
   color: var(--accent-color);
   font-weight: 700;
 }
+
 .event-actions {
   display: flex;
   gap: 1rem;
 }
+
 .event-actions .btn {
   flex: 1;
 }
 
-
+/* ==========================================================================
+   8. TRANG CHI TIẾT SỰ KIỆN (EVENT DETAIL PAGE STYLES)
+   ========================================================================== */
 .event-detail-hero {
   position: relative;
   border-radius: 24px;
@@ -334,12 +388,14 @@ a:hover {
   border: 1px solid var(--glass-border);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
+
 .event-detail-banner {
   height: 380px;
   width: 100%;
   object-fit: cover;
   filter: brightness(0.4) contrast(1.1);
 }
+
 .event-detail-overlay {
   position: absolute;
   bottom: 0;
@@ -348,18 +404,21 @@ a:hover {
   padding: 3rem;
   background: linear-gradient(to top, rgba(11, 8, 19, 0.95) 20%, transparent);
 }
+
 .event-detail-header h1 {
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: 1rem;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
+
 .event-detail-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
   margin-bottom: 1rem;
 }
+
 .meta-item {
   display: flex;
   align-items: center;
@@ -370,11 +429,13 @@ a:hover {
   font-size: 0.9rem;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .event-detail-grid {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
 }
+
 .detail-card {
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -383,6 +444,7 @@ a:hover {
   border-radius: 20px;
   padding: 2.5rem;
 }
+
 .detail-card h3 {
   font-size: 1.5rem;
   font-weight: 700;
@@ -391,12 +453,14 @@ a:hover {
   padding-bottom: 0.5rem;
   display: inline-block;
 }
+
 .ticket-options-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 1rem;
 }
+
 .ticket-option-card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -407,17 +471,21 @@ a:hover {
   position: relative;
   overflow: hidden;
 }
+
 .ticket-option-card:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--primary-color);
   transform: translateY(-5px);
 }
+
 .ticket-option-card.vip {
   border-color: rgba(99, 102, 241, 0.3);
 }
+
 .ticket-option-card.vvip {
   border-color: rgba(236, 72, 153, 0.4);
 }
+
 .ticket-option-card.vvip::before {
   content: 'BEST VALUE';
   position: absolute;
@@ -430,40 +498,48 @@ a:hover {
   padding: 0.2rem 2.5rem;
   transform: rotate(45deg);
 }
+
 .ticket-option-title {
   font-size: 1.3rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
+
 .ticket-option-price {
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--accent-color);
   margin-bottom: 1rem;
 }
+
 .ticket-option-desc {
   color: var(--text-muted);
   font-size: 0.85rem;
   margin-bottom: 1.5rem;
 }
+
 .ticket-option-avail {
   font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 1rem;
 }
 
-
+/* ==========================================================================
+   9. TRANG THANH TOÁN (PAYMENT PAGE STYLES)
+   ========================================================================== */
 .payment-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
   align-items: start;
 }
+
 @media (max-width: 991.98px) {
   .payment-grid {
     grid-template-columns: 1fr;
   }
 }
+
 .payment-form-card {
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -472,6 +548,7 @@ a:hover {
   border-radius: 20px;
   padding: 2.5rem;
 }
+
 .payment-summary-card {
   background: rgba(20, 15, 38, 0.8);
   backdrop-filter: blur(10px);
@@ -482,6 +559,7 @@ a:hover {
   position: sticky;
   top: 100px;
 }
+
 .payment-summary-card h3 {
   font-size: 1.3rem;
   font-weight: 700;
@@ -489,12 +567,14 @@ a:hover {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding-bottom: 0.8rem;
 }
+
 .summary-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
   font-size: 0.95rem;
 }
+
 .summary-row.total {
   font-size: 1.25rem;
   font-weight: 800;
@@ -503,6 +583,7 @@ a:hover {
   margin-top: 1rem;
   color: var(--secondary-color);
 }
+
 .form-section-title {
   font-size: 1.2rem;
   font-weight: 600;
@@ -512,6 +593,7 @@ a:hover {
   align-items: center;
   gap: 0.5rem;
 }
+
 .form-section-title span {
   display: flex;
   align-items: center;
@@ -523,22 +605,26 @@ a:hover {
   font-size: 0.85rem;
   font-weight: 700;
 }
+
 .form-group-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
+
 @media (max-width: 575.98px) {
   .form-group-row {
     grid-template-columns: 1fr;
   }
 }
+
 .payment-methods {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   margin-bottom: 1.5rem;
 }
+
 .method-label {
   display: flex;
   align-items: center;
@@ -550,19 +636,23 @@ a:hover {
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .method-label:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: var(--primary-color);
 }
+
 .method-label input {
   width: 18px;
   height: 18px;
   accent-color: var(--primary-color);
 }
+
 .method-details {
   font-size: 0.85rem;
   color: var(--text-muted);
 }
+
 .qr-payment-box {
   display: flex;
   flex-direction: column;
@@ -576,11 +666,13 @@ a:hover {
   margin-left: auto;
   margin-right: auto;
 }
+
 .qr-payment-box img {
   width: 180px;
   height: 180px;
   object-fit: contain;
 }
+
 .qr-payment-box p {
   color: var(--text-dark);
   font-weight: 700;
@@ -591,19 +683,31 @@ a:hover {
 }
 
 
+/* ==========================================================================
+   10. CÁC Ô NHẬP LIỆU FORM CHUNG (FORM INPUT STYLES)
+   ========================================================================== */
 label {
   display: block;
   margin-bottom: 1.2rem;
   width: 100%;
 }
-label > span:first-child, label strong {
+
+label>span:first-child,
+label strong {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
   font-size: 0.9rem;
   color: var(--text-muted);
 }
-input[type="text"], input[type="email"], input[type="tel"], input[type="password"], input[type="url"], select, textarea {
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="url"],
+select,
+textarea {
   width: 100%;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -613,19 +717,25 @@ input[type="text"], input[type="email"], input[type="tel"], input[type="password
   transition: all 0.3s ease;
   font-family: inherit;
 }
-input:focus, select:focus, textarea:focus {
+
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   background: rgba(255, 255, 255, 0.08);
   border-color: var(--primary-color);
   box-shadow: 0 0 10px var(--primary-glow);
 }
+
 input::placeholder {
   color: rgba(255, 255, 255, 0.25);
 }
+
 select option {
   background-color: var(--bg-secondary);
   color: var(--text-main);
 }
+
 input[type="number"] {
   width: 100px;
   background: rgba(255, 255, 255, 0.04);
@@ -636,12 +746,15 @@ input[type="number"] {
   text-align: center;
   font-weight: 600;
 }
+
 input[type="number"]:focus {
   outline: none;
   border-color: var(--primary-color);
 }
 
-
+/* ==========================================================================
+   11. BẢNG ĐĂNG NHẬP / ĐĂNG KÝ (AUTH CARD STYLES)
+   ========================================================================== */
 .auth-card {
   max-width: 480px;
   margin: 0 auto;
@@ -653,12 +766,15 @@ input[type="number"]:focus {
   padding: 3rem 2.5rem;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 }
+
 .auth-card-lg {
   max-width: 600px;
 }
+
 .auth-card form {
   margin-bottom: 2rem;
 }
+
 .remember-row {
   display: flex;
   align-items: center;
@@ -666,38 +782,46 @@ input[type="number"]:focus {
   cursor: pointer;
   margin-bottom: 1.5rem;
 }
+
 .remember-row input {
   width: 18px;
   height: 18px;
   accent-color: var(--primary-color);
 }
+
 .remember-row span {
   font-size: 0.9rem;
   color: var(--text-muted);
 }
+
 .auth-actions {
   display: flex;
   gap: 1rem;
   margin-top: 2rem;
 }
+
 .auth-actions .btn {
   flex: 1;
   padding: 0.75rem;
 }
+
 .auth-links {
   text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-top: 1.5rem;
   font-size: 0.9rem;
 }
+
 .auth-links p {
   margin-bottom: 0.5rem;
 }
 
-
+/* ==========================================================================
+   12. VÉ CỦA TÔI / VÉ ĐIỆN TỬ (TICKET CARD STYLES)
+   ========================================================================== */
 .ticket-card {
   background: radial-gradient(circle at 10% 50%, transparent 12px, var(--glass-bg) 13px),
-              radial-gradient(circle at 90% 50%, transparent 12px, var(--glass-bg) 13px);
+    radial-gradient(circle at 90% 50%, transparent 12px, var(--glass-bg) 13px);
   background-size: 100% 100%;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -710,6 +834,7 @@ input[type="number"]:focus {
   display: flex;
   flex-direction: column;
 }
+
 .ticket-card::before {
   content: '';
   position: absolute;
@@ -720,47 +845,56 @@ input[type="number"]:focus {
   height: 0;
   transform: translateY(-50%);
 }
+
 .ticket-card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
 }
+
 .ticket-status {
   font-size: 0.8rem;
   font-weight: 700;
   padding: 0.25rem 0.75rem;
   border-radius: 30px;
 }
+
 .status-unused {
   background: rgba(16, 185, 129, 0.15);
   color: var(--success-color);
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
+
 .status-used {
   background: rgba(239, 68, 68, 0.15);
   color: var(--danger-color);
   border: 1px solid rgba(239, 68, 68, 0.3);
 }
+
 .ticket-card h2 {
   font-size: 1.35rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
+
 .ticket-info {
   list-style: none;
   padding: 0;
   margin-bottom: 2rem;
   font-size: 0.85rem;
 }
+
 .ticket-info li {
   margin-bottom: 0.5rem;
   display: flex;
   justify-content: space-between;
 }
+
 .ticket-info li strong {
   color: var(--text-muted);
 }
+
 .ticket-card h3 {
   font-size: 0.9rem;
   font-weight: 600;
@@ -769,12 +903,14 @@ input[type="number"]:focus {
   margin-top: auto;
   margin-bottom: 0.8rem;
 }
+
 .ticket-qr {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1.5rem;
 }
+
 .qr-box {
   background: #fff;
   border-radius: 12px;
@@ -788,20 +924,25 @@ input[type="number"]:focus {
   display: inline-block;
   margin: 0 auto;
 }
+
 .qr-canvas-container {
   background: #fff;
   padding: 8px;
   border-radius: 8px;
 }
+
 .ticket-actions {
   display: flex;
   gap: 0.8rem;
 }
+
 .ticket-actions .btn {
   flex: 1;
 }
 
-
+/* ==========================================================================
+   13. KHUNG QUÉT CAMERA BÌNH THƯỜNG (SCANNER CARD STYLES)
+   ========================================================================== */
 .checkin-card {
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -810,12 +951,14 @@ input[type="number"]:focus {
   padding: 2rem;
   height: 100%;
 }
+
 .checkin-card h2 {
   font-size: 1.4rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   color: var(--text-main);
 }
+
 .scanner-box {
   background: rgba(0, 0, 0, 0.4);
   border: 2px dashed var(--primary-color);
@@ -829,11 +972,13 @@ input[type="number"]:focus {
   position: relative;
   overflow: hidden;
 }
+
 .scanner-box p {
   margin: 0;
   color: var(--text-muted);
   font-size: 0.9rem;
 }
+
 .scanner-laser {
   position: absolute;
   top: 0;
@@ -845,11 +990,21 @@ input[type="number"]:focus {
   animation: scanning 2s linear infinite;
   display: none;
 }
+
 @keyframes scanning {
-  0% { top: 0%; }
-  50% { top: 100%; }
-  100% { top: 0%; }
+  0% {
+    top: 0%;
+  }
+
+  50% {
+    top: 100%;
+  }
+
+  100% {
+    top: 0%;
+  }
 }
+
 .scanner-sim-select {
   width: 100%;
   max-width: 280px;
@@ -858,9 +1013,13 @@ input[type="number"]:focus {
 }
 
 
+/* ==========================================================================
+   14. LỊCH SỬ GIAO DỊCH & BẢNG DANH SÁCH (HISTORY TABLE STYLES)
+   ========================================================================== */
 .page-section {
   margin-top: 5rem;
 }
+
 .history-card {
   background: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -868,34 +1027,43 @@ input[type="number"]:focus {
   border-radius: 20px;
   overflow: hidden;
 }
+
 .history-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
 }
-.history-table th, .history-table td {
+
+.history-table th,
+.history-table td {
   padding: 1.2rem 1.5rem;
   font-size: 0.95rem;
 }
+
 .history-table th {
   background: rgba(255, 255, 255, 0.03);
   color: var(--text-main);
   font-weight: 600;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
+
 .history-table td {
   color: var(--text-muted);
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
+
 .history-table tr:last-child td {
   border-bottom: none;
 }
+
 .history-table tr:hover td {
   background: rgba(255, 255, 255, 0.02);
   color: var(--text-main);
 }
 
-
+/* ==========================================================================
+   15. THÔNG BÁO POPUP & FEEDBACK LỖI FORM (TOASTS & VALIDATIONS)
+   ========================================================================== */
 .error-feedback {
   color: var(--danger-color);
   font-size: 0.8rem;
@@ -903,11 +1071,11 @@ input[type="number"]:focus {
   margin-top: 0.3rem;
   display: none;
 }
+
 .is-invalid {
   border-color: var(--danger-color) !important;
   box-shadow: 0 0 8px rgba(239, 68, 68, 0.25) !important;
 }
-
 
 .toast-container-custom {
   position: fixed;
@@ -918,6 +1086,7 @@ input[type="number"]:focus {
   flex-direction: column;
   gap: 0.5rem;
 }
+
 .toast-custom {
   background: rgba(19, 15, 36, 0.95);
   backdrop-filter: blur(10px);
@@ -925,24 +1094,45 @@ input[type="number"]:focus {
   border-radius: 12px;
   padding: 1rem 1.5rem;
   color: var(--text-main);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   gap: 0.8rem;
   min-width: 300px;
   animation: slideInCustom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.toast-custom.success { border-left: 4px solid var(--success-color); }
-.toast-custom.warning { border-left: 4px solid var(--warning-color); }
-.toast-custom.danger { border-left: 4px solid var(--danger-color); }
-.toast-custom.info { border-left: 4px solid var(--primary-color); }
 
-@keyframes slideInCustom {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+.toast-custom.success {
+  border-left: 4px solid var(--success-color);
 }
 
+.toast-custom.warning {
+  border-left: 4px solid var(--warning-color);
+}
 
+.toast-custom.danger {
+  border-left: 4px solid var(--danger-color);
+}
+
+.toast-custom.info {
+  border-left: 4px solid var(--primary-color);
+}
+
+@keyframes slideInCustom {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   16. KHU VỰC QUẢN TRỊ ADMIN / STAFF (ADMIN AREA STYLES)
+   ========================================================================== */
 .admin-access-card {
   max-width: 580px;
   margin: 3rem auto;
@@ -955,28 +1145,33 @@ input[type="number"]:focus {
   text-align: center;
   box-shadow: 0 20px 50px rgba(239, 68, 68, 0.1);
 }
+
 .admin-access-card h2 {
   font-weight: 800;
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   color: var(--text-main);
 }
+
 .admin-access-card p {
   color: var(--text-muted);
   font-size: 1.05rem;
   margin-bottom: 2rem;
 }
+
 .admin-actions {
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
+
 .admin-dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2.5rem;
 }
+
 .admin-card {
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
@@ -986,6 +1181,7 @@ input[type="number"]:focus {
   padding: 2rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
+
 .admin-card h2 {
   font-size: 1.3rem;
   font-weight: 700;
@@ -994,11 +1190,13 @@ input[type="number"]:focus {
   padding-bottom: 0.8rem;
   color: var(--text-main);
 }
+
 .admin-info-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .admin-info-list li {
   display: flex;
   justify-content: space-between;
@@ -1008,21 +1206,25 @@ input[type="number"]:focus {
   padding-bottom: 0.6rem;
   font-size: 0.95rem;
 }
+
 .admin-info-list li:last-child {
   border-bottom: none;
   padding-bottom: 0;
   margin-bottom: 0;
 }
+
 .admin-info-list li strong {
   color: var(--text-muted);
   font-weight: 500;
 }
+
 .admin-stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   text-align: center;
 }
+
 .admin-stat-item {
   display: flex;
   flex-direction: column;
@@ -1034,10 +1236,12 @@ input[type="number"]:focus {
   padding: 1rem 0.5rem;
   transition: all 0.2s ease;
 }
+
 .admin-stat-item:hover {
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--primary-color);
 }
+
 .admin-stat-item span {
   font-size: 2rem;
   font-weight: 800;
@@ -1046,29 +1250,34 @@ input[type="number"]:focus {
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .admin-stat-item:nth-child(2) span {
   background: linear-gradient(135deg, var(--success-color), var(--accent-color));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .admin-stat-item:nth-child(3) span {
   background: linear-gradient(135deg, var(--warning-color), var(--secondary-color));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .admin-stat-item small {
   color: var(--text-muted);
   font-size: 0.8rem;
   margin-top: 0.3rem;
   font-weight: 500;
 }
+
 .admin-muted {
   color: var(--text-muted);
   font-size: 0.9rem;
   margin-bottom: 1.5rem;
 }
+
 .admin-scanner-box {
   background: rgba(0, 0, 0, 0.4);
   border: 2px dashed var(--primary-color);
@@ -1082,29 +1291,34 @@ input[type="number"]:focus {
   position: relative;
   overflow: hidden;
 }
+
 .admin-scanner-box p {
   margin: 0;
   color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 500;
 }
+
 .demo-scan-area {
   margin-top: 1.5rem;
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
+
 .demo-scan-area p {
   color: var(--text-muted);
   font-size: 0.85rem;
   margin-bottom: 0.6rem;
   font-weight: 600;
 }
+
 .demo-ticket-btn {
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   font-size: 0.8rem !important;
   font-weight: 600 !important;
 }
+
 .checkin-result-box {
   padding: 1.5rem;
   border-radius: 12px;
@@ -1117,6 +1331,7 @@ input[type="number"]:focus {
   text-align: center;
   transition: all 0.3s ease;
 }
+
 .checkin-result-box.success {
   background: rgba(16, 185, 129, 0.08);
   border: 1px solid rgba(16, 185, 129, 0.3);
@@ -1124,6 +1339,7 @@ input[type="number"]:focus {
   display: block;
   text-align: start;
 }
+
 .checkin-result-box.warning {
   background: rgba(245, 158, 11, 0.08);
   border: 1px solid rgba(245, 158, 11, 0.3);
@@ -1131,6 +1347,7 @@ input[type="number"]:focus {
   display: block;
   text-align: start;
 }
+
 .checkin-result-box.danger {
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.3);
@@ -1138,37 +1355,47 @@ input[type="number"]:focus {
   display: block;
   text-align: start;
 }
+
 .checkin-result-box p {
   margin-bottom: 0;
 }
+
 .checkin-result-title {
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.5rem !important;
 }
+
 .checkin-result-details {
   font-size: 0.9rem;
   color: var(--text-main);
   line-height: 1.6;
 }
+
 .checkin-result-details strong {
   color: var(--text-muted);
 }
+
 .page-section-sm {
   margin-top: 2rem;
 }
 
 
+/* ==========================================================================
+   17. SƠ ĐỒ CHỌN GHẾ TỰ CHỌN (SEATING SELECTION LAYOUT)
+   ========================================================================== */
 .seat-selection-section {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
   padding: 1.5rem;
 }
+
 .stage-container {
   margin-bottom: 2rem;
   perspective: 300px;
 }
+
 .stage-arc {
   width: 70%;
   margin: 0 auto;
@@ -1184,6 +1411,7 @@ input[type="number"]:focus {
   box-shadow: 0 5px 15px var(--accent-glow);
   text-shadow: 0 0 5px #fff;
 }
+
 .seating-grid {
   display: flex;
   flex-direction: column;
@@ -1192,11 +1420,13 @@ input[type="number"]:focus {
   overflow-x: auto;
   padding: 10px 0;
 }
+
 .seat-row {
   display: flex;
   align-items: center;
   gap: 6px;
 }
+
 .row-label {
   width: 24px;
   text-align: center;
@@ -1204,6 +1434,7 @@ input[type="number"]:focus {
   color: var(--text-muted);
   font-size: 0.85rem;
 }
+
 .seat {
   width: 32px;
   height: 32px;
@@ -1220,18 +1451,21 @@ input[type="number"]:focus {
   transition: all 0.2s ease;
   user-select: none;
 }
+
 .seat:hover {
   background: rgba(99, 102, 241, 0.1);
   border-color: var(--primary-color);
   box-shadow: 0 0 8px var(--primary-glow);
   transform: translateY(-1px);
 }
+
 .seat.selected {
   background: var(--secondary-color) !important;
   border-color: var(--secondary-color) !important;
   color: #fff !important;
   box-shadow: 0 0 12px var(--secondary-glow);
 }
+
 .seat.occupied {
   background: rgba(239, 68, 68, 0.15) !important;
   border-color: rgba(239, 68, 68, 0.25) !important;
@@ -1240,9 +1474,11 @@ input[type="number"]:focus {
   pointer-events: none;
   text-decoration: line-through;
 }
+
 .seating-legend {
   margin-top: 1.5rem;
 }
+
 .legend-item {
   display: flex;
   align-items: center;
@@ -1250,20 +1486,24 @@ input[type="number"]:focus {
   font-size: 0.85rem;
   color: var(--text-muted);
 }
+
 .seat-sample {
   width: 16px;
   height: 16px;
   border-radius: 4px;
   display: inline-block;
 }
+
 .seat-sample.available {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.05);
 }
+
 .seat-sample.selected {
   background: var(--secondary-color);
   box-shadow: 0 0 6px var(--secondary-glow);
 }
+
 .seat-sample.occupied {
   background: rgba(239, 68, 68, 0.2);
   border: 1px solid rgba(239, 68, 68, 0.3);
@@ -1276,30 +1516,39 @@ input[type="number"]:focus {
   flex-direction: column;
   height: 100%;
 }
+
 .event-card-img-container {
   width: 100%;
   height: 200px;
   overflow: hidden;
   position: relative;
 }
+
 .event-card-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
+
 .event-card:hover .event-card-img {
   transform: scale(1.08);
 }
+
+/* --- CSS NHÓM NÚT CHỌN BANNER CÓ SẴN (PRESETS) --- */
+/* Nút kích thước siêu nhỏ (extra small) dùng cho danh sách banner mẫu */
 .btn-xs {
   padding: 0.2rem 0.4rem;
   font-size: 0.75rem;
   border-radius: 4px;
 }
+
+/* Style cho nút banner mẫu, viền mờ và chữ nhạt, đổi màu khi di chuột qua */
 .preset-banner-btn {
   border-color: rgba(255, 255, 255, 0.2);
   color: var(--text-muted);
 }
+
 .preset-banner-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   color: var(--text-main);
